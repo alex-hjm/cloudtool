@@ -1,3 +1,9 @@
+/**
+ * @file exports.h
+ * @author hjm (hjmalex@163.com)
+ * @version 1.0
+ * @date 2022-05-08
+ */
 #ifndef CT_BASE_EXPORTS_H
 #define CT_BASE_EXPORTS_H
 
