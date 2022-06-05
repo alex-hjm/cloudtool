@@ -105,6 +105,24 @@ namespace ct
       topLevelItem(index.row)->takeChild(index.col);
   }
 
+  QTreeWidgetItem* CustomTree::item(const Index& index)
+  {
+    if (!indexIsValid(index)) return nullptr;
+    if (index.col == -1)
+      return topLevelItem(index.row);
+    else
+      return topLevelItem(index.row)->child(index.col);
+  }
+
+  Index CustomTree::index(const QString& text)
+  {
+    for (int i = 0; i < topLevelItemCount(); i++)
+      for (int j = 0; j < topLevelItem(i)->childCount(); j++)
+        if (topLevelItem(i)->child(j)->text(0) == text) return Index(i, j);
+    return Index(-1, -1);
+  }
+
+
   void CustomTree::setItemChecked(const Index& index, bool checked)
   {
     if (!indexIsValid(index)) return;

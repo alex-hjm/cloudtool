@@ -90,6 +90,16 @@ namespace ct
     void removeItem(const Index& index);
 
     /**
+     * @brief 返回该索引的项目
+     */
+    QTreeWidgetItem *item(const Index &index);
+
+    /**
+     * @brief 返回该项目名称的索引
+     */
+    Index index(const QString &text);
+
+    /**
      * @brief 设置项目是否勾选
      */
     void setItemChecked(const Index& index, bool checked);
@@ -109,7 +119,7 @@ namespace ct
      * @brief 项目点击事件
      */
     void itemClickedEvent(QTreeWidgetItem*, int i = 0);
-    
+
   private:
     QIcon m_parent_icon;
     QIcon m_child_icon;
