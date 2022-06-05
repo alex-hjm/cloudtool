@@ -11,6 +11,6 @@
 
 namespace ct
 {
-    void CT_EXPORT HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
+	void CT_EXPORT HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
 } // namespace ct
 #endif // CT_BASE_COMMON_H
