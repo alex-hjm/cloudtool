@@ -9,6 +9,7 @@
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
+#include <pcl/console/time.h>
 
 #include <QFileInfo>
 #include <QString>
@@ -28,6 +29,7 @@ namespace ct
 {
   typedef pcl::RGB RGB;
   typedef pcl::Indices Indices;
+  typedef pcl::console::TicToc TicToc;
   typedef pcl::PointXYZRGBNormal PointXYZRGBN;
 
   struct Box
