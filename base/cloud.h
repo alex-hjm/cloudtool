@@ -46,23 +46,23 @@ namespace ct
   {
   public:
     Cloud() : m_id(CLOUD_DEFAULT_ID),
-              m_box_rgb(255, 255, 255),
-              m_normals_rgb(255, 255, 255),
-              m_type(CLOUD_TYPE_XYZ),
-              m_point_size(1),
-              m_opacity(1.0),
-              m_resolution(0.0) {}
+      m_box_rgb(255, 255, 255),
+      m_normals_rgb(255, 255, 255),
+      m_type(CLOUD_TYPE_XYZ),
+      m_point_size(1),
+      m_opacity(1.0),
+      m_resolution(0.0) {}
 
-    Cloud(const Cloud &cloud, const Indices &indices)
-        : pcl::PointCloud<PointXYZRGBN>(cloud, indices) {}
+    Cloud(const Cloud& cloud, const Indices& indices)
+      : pcl::PointCloud<PointXYZRGBN>(cloud, indices) {}
 
-    Cloud &operator+=(const Cloud &rhs)
+    Cloud& operator+=(const Cloud& rhs)
     {
       concatenate((*this), rhs);
       return (*this);
     }
 
-    Cloud operator+(const Cloud &rhs) { return (Cloud(*this) += rhs); }
+    Cloud operator+(const Cloud& rhs) { return (Cloud(*this) += rhs); }
 
     using Ptr = std::shared_ptr<Cloud>;
     using ConstPtr = std::shared_ptr<const Cloud>;
@@ -152,17 +152,17 @@ namespace ct
     /**
      * @brief 设置点云ID
      */
-    void setId(const QString &id) { m_id = id; }
+    void setId(const QString& id) { m_id = id; }
 
     /**
      * @brief 设置点云包围盒
      */
-    void setBox(const Box &box) { m_box = box; }
+    void setBox(const Box& box) { m_box = box; }
 
     /**
      * @brief 设置点云文件信息
      */
-    void setInfo(const QFileInfo &info) { m_info = info; }
+    void setInfo(const QFileInfo& info) { m_info = info; }
 
     /**
      * @brief 设置点云点大小
@@ -177,7 +177,7 @@ namespace ct
     /**
      * @brief 设置点云点颜色 (aixs)
      */
-    void setCloudColor(const QString &aixs);
+    void setCloudColor(const QString& aixs);
 
     /**
      * @brief 设置包围盒颜色
