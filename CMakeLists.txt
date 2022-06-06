@@ -57,3 +57,4 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 
 add_subdirectory(base) 
 add_subdirectory(modules)
+add_subdirectory(cloudtool)
