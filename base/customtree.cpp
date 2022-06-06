@@ -70,11 +70,11 @@ namespace ct
     {
       QTreeWidgetItem* parent = new QTreeWidgetItem(this);
       QTreeWidgetItem* child = new QTreeWidgetItem(this);
-      if (!m_parent_icon.isNull()) parent->setIcon(0, m_parent_icon);
       parent->setText(0, parent_id);
+      parent->setIcon(0, m_parent_icon);
       parent->setCheckState(0, Qt::Checked);
-      if (!m_child_icon.isNull()) child->setIcon(0, m_child_icon);
       child->setText(0, child_id);
+      child->setIcon(0, m_child_icon);
       child->setCheckState(0, Qt::Checked);
       parent->addChild(child);
       addTopLevelItem(parent);
@@ -84,7 +84,7 @@ namespace ct
     else  // child
     {
       QTreeWidgetItem* child = new QTreeWidgetItem(this);
-      if (!m_child_icon.isNull()) child->setIcon(0, m_child_icon);
+      child->setIcon(0, m_child_icon);
       child->setText(0, child_id);
       child->setCheckState(0, Qt::Checked);
       if ((index.col > -1) && (index.col < topLevelItem(index.row)->childCount()))

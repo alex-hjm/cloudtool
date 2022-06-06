@@ -284,14 +284,13 @@ namespace ct
       this->setSelectionMode(QAbstractItemView::SingleSelection);
   }
 
-
   void CloudTree::loadCloudResult(bool success, const Cloud::Ptr& cloud, float time)
   {
     if (!success)
       m_console->print(LOG_ERROR, "failed to save the file!");
     else
     {
-      m_console->print(LOG_INFO, "load the file [path: " + cloud->info().path() + "] successfully,take time " +
+      m_console->print(LOG_INFO, "load the file [path: " + cloud->info().filePath() + "] successfully,take time " +
                        QString::number(time) + " ms.");
       appendCloud(cloud);
     }
