@@ -1,5 +1,11 @@
-#ifndef ABOUT_H
-#define ABOUT_H
+/**
+ * @file about.h
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-09
+ */
+#ifndef CT_HELP_ABOUT_H
+#define CT_HELP_ABOUT_H
 
 #include <QDialog>
 
@@ -17,4 +23,4 @@ private:
   Ui::About* ui;
 };
 
-#endif  // ABOUT_H
+#endif  // CT_HELP_ABOUT_H

@@ -1,5 +1,11 @@
-#ifndef SHORTCUTKEY_H
-#define SHORTCUTKEY_H
+/**
+ * @file shortcutkey.h
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-09
+ */
+#ifndef CT_HELP_SHORTCUTKEY_H
+#define CT_HELP_SHORTCUTKEY_H
 
 #include <QDialog>
 
@@ -17,4 +23,4 @@ private:
   Ui::ShortcutKey* ui;
 };
 
-#endif  // SHORTCUTKEY_H
+#endif  // CT_HELP_SHORTCUTKEY_H
