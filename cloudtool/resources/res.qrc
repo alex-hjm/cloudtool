@@ -488,12 +488,6 @@
         <file>icon/zoom-out-y.svg</file>
         <file>icon/zoom-pixels.svg</file>
         <file>icon/zoom-previous.svg</file>
-        <file>clouds/boxes.ply</file>
-        <file>clouds/chef.pcd</file>
-        <file>clouds/milk.pcd</file>
-        <file>clouds/pig.pcd</file>
-        <file>clouds/plant.ply</file>
-        <file>clouds/rabbit.pcd</file>
-        <file>clouds/rs1.pcd</file>
+        <file>logo/logo.png</file>
     </qresource>
 </RCC>
