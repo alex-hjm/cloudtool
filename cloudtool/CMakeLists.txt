@@ -1,10 +1,14 @@
 set(Srcs 
         main.cpp
         mainwindow.cpp
+        help/about.cpp
+        help/shortcutkey.cpp
         )
 
 set(MOC_Hdrs 
-        mainwindow.h 
+        mainwindow.h
+        help/about.h
+        help/shortcutkey.h 
         )
 
 set(UIs 
