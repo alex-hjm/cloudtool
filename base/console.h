@@ -13,24 +13,24 @@
 
 namespace ct
 {
-  enum log_level
-  {
-    LOG_INFO,
-    LOG_ERROR,
-    LOG_WARNING
-  };
+    enum log_level
+    {
+        LOG_INFO,
+        LOG_ERROR,
+        LOG_WARNING
+    };
 
-  class CT_EXPORT Console : public QTextBrowser
-  {
-    Q_OBJECT
-  public:
-    explicit Console(QWidget* parent = nullptr) : QTextBrowser(parent) {}
+    class CT_EXPORT Console : public QTextBrowser
+    {
+        Q_OBJECT
+    public:
+        explicit Console(QWidget *parent = nullptr) : QTextBrowser(parent) {}
 
-    /**
-     * @brief 打印日志
-     */
-    void print(log_level level, const QString& message);
-  };
+        /**
+         * @brief 打印日志
+         */
+        void print(log_level level, const QString &message);
+    };
 
 } // namespace ct
 #endif

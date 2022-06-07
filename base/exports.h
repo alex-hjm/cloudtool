@@ -10,9 +10,9 @@
 #include <QtCore/qglobal.h>
 
 #if defined(CT_LIBRARY)
-#  define CT_EXPORT Q_DECL_EXPORT
+#define CT_EXPORT Q_DECL_EXPORT
 #else
-#  define CT_EXPORT Q_DECL_IMPORT
+#define CT_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif // CT_BASE_EXPORTS_H

@@ -16,31 +16,30 @@ namespace ct
     {
         Q_OBJECT
     public:
-        explicit FileIO(QObject* parent = nullptr) : QObject(parent) {}
+        explicit FileIO(QObject *parent = nullptr) : QObject(parent) {}
 
     signals:
         /**
          * @brief 加载点云文件的结果
          */
-        void loadCloudResult(bool success, const Cloud::Ptr& cloud, float time);
+        void loadCloudResult(bool success, const Cloud::Ptr &cloud, float time);
 
         /**
          * @brief 保存点云文件的结果
          */
-        void saveCloudResult(bool success, const QString& filename, float time);
+        void saveCloudResult(bool success, const QString &filename, float time);
 
     public slots:
         /**
          * @brief 加载点云文件
          */
-        void loadPointCloud(const QString& filename);
+        void loadPointCloud(const QString &filename);
 
         /**
          * @brief 保存点云文件
          */
-        void savePointCloud(const Cloud::Ptr& cloud, const QString& filename, bool isBinary);
+        void savePointCloud(const Cloud::Ptr &cloud, const QString &filename, bool isBinary);
     };
 }
-
 
 #endif
