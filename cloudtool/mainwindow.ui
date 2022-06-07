@@ -110,12 +110,12 @@
     <property name="title">
      <string>View</string>
     </property>
-    <addaction name="actionTopview"/>
-    <addaction name="actionFrontview"/>
-    <addaction name="actionLeftSideview"/>
-    <addaction name="actionBackview"/>
-    <addaction name="actionRightSideview"/>
-    <addaction name="actionBottomview"/>
+    <addaction name="actionTopView"/>
+    <addaction name="actionFrontView"/>
+    <addaction name="actionLeftSideView"/>
+    <addaction name="actionBackView"/>
+    <addaction name="actionRightSideView"/>
+    <addaction name="actionBottomView"/>
     <addaction name="actionResetcamera"/>
     <addaction name="actionShowFPS"/>
     <addaction name="actionShowAxes"/>
@@ -597,12 +597,12 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionTopview"/>
-   <addaction name="actionBottomview"/>
-   <addaction name="actionFrontview"/>
-   <addaction name="actionBackview"/>
-   <addaction name="actionLeftSideview"/>
-   <addaction name="actionRightSideview"/>
+   <addaction name="actionTopView"/>
+   <addaction name="actionBottomView"/>
+   <addaction name="actionFrontView"/>
+   <addaction name="actionBackView"/>
+   <addaction name="actionLeftSideView"/>
+   <addaction name="actionRightSideView"/>
    <addaction name="actionResetcamera"/>
    <addaction name="actionScreenShot"/>
   </widget>
@@ -769,58 +769,76 @@
     <string>KeyPoint</string>
    </property>
   </action>
-  <action name="actionTopview">
+  <action name="actionTopView">
    <property name="icon">
     <iconset resource="resources/res.qrc">
      <normaloff>:/res/icon/view_top.svg</normaloff>:/res/icon/view_top.svg</iconset>
    </property>
    <property name="text">
-    <string>Topview</string>
+    <string>TopView</string>
+   </property>
+   <property name="toolTip">
+    <string>TopView</string>
    </property>
   </action>
-  <action name="actionFrontview">
+  <action name="actionFrontView">
    <property name="icon">
     <iconset resource="resources/res.qrc">
      <normaloff>:/res/icon/view_front.svg</normaloff>:/res/icon/view_front.svg</iconset>
    </property>
    <property name="text">
-    <string>Frontview</string>
+    <string>FrontView</string>
+   </property>
+   <property name="toolTip">
+    <string>FrontView</string>
    </property>
   </action>
-  <action name="actionLeftSideview">
+  <action name="actionLeftSideView">
    <property name="icon">
     <iconset resource="resources/res.qrc">
      <normaloff>:/res/icon/view_leftside.svg</normaloff>:/res/icon/view_leftside.svg</iconset>
    </property>
    <property name="text">
-    <string>LeftSideview</string>
+    <string>LeftSideView</string>
+   </property>
+   <property name="toolTip">
+    <string>LeftSideView</string>
    </property>
   </action>
-  <action name="actionBackview">
+  <action name="actionBackView">
    <property name="icon">
     <iconset resource="resources/res.qrc">
      <normaloff>:/res/icon/view_back.svg</normaloff>:/res/icon/view_back.svg</iconset>
    </property>
    <property name="text">
-    <string>Backview</string>
+    <string>BackView</string>
+   </property>
+   <property name="toolTip">
+    <string>BackView</string>
    </property>
   </action>
-  <action name="actionRightSideview">
+  <action name="actionRightSideView">
    <property name="icon">
     <iconset resource="resources/res.qrc">
      <normaloff>:/res/icon/view_rightside.svg</normaloff>:/res/icon/view_rightside.svg</iconset>
    </property>
    <property name="text">
-    <string>RightSideview</string>
+    <string>RightSideView</string>
+   </property>
+   <property name="toolTip">
+    <string>RightSideView</string>
    </property>
   </action>
-  <action name="actionBottomview">
+  <action name="actionBottomView">
    <property name="icon">
     <iconset resource="resources/res.qrc">
      <normaloff>:/res/icon/view_bottom.svg</normaloff>:/res/icon/view_bottom.svg</iconset>
    </property>
    <property name="text">
-    <string>Bottomview</string>
+    <string>BottomView</string>
+   </property>
+   <property name="toolTip">
+    <string>BottomView</string>
    </property>
   </action>
   <action name="actionResetcamera">

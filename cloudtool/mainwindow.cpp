@@ -1,11 +1,26 @@
 #include "mainwindow.h"
 
+//#include "edit/boundingbox.h"
+//#include "edit/color.h"
+//#include "edit/coordinate.h"
+//#include "edit/normals.h"
+//#include "edit/scale.h"
+//#include "edit/transformation.h"
+#include "help/about.h"
+#include "help/shortcutkey.h"
+//#include "tools/filters.h"
+//#include "tools/keypoints.h"
+
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
 
 #include "ui_mainwindow.h"
+
+#define PARENT_ICON_PATH  ":/res/icon/document-open.svg"
+#define CHILD_ICON_PATH   ":/res/icon/view-calendar.svg"
+
 
 MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent),
@@ -34,12 +49,13 @@ MainWindow::MainWindow(QWidget* parent)
   ui->cloudtree->setConsole(ui->console);
   ui->cloudtree->setPropertiesTable(ui->cloudtable);
   ui->cloudtree->setProgressBar(ui->progress_bar);
-  ui->cloudtree->setParentIcon(QIcon(":/res/icon/document-open.svg"));
-  ui->cloudtree->setChildIcon(QIcon(":/res/icon/view-calendar.svg"));
+  ui->cloudtree->setParentIcon(QIcon(PARENT_ICON_PATH));
+  ui->cloudtree->setChildIcon(QIcon(CHILD_ICON_PATH));
 
   // toolbar
   // file
   connect(ui->actionOpen, &QAction::triggered, ui->cloudtree, &ct::CloudTree::addCloud);
+  connect(ui->actionSample, &QAction::triggered, ui->cloudtree, &ct::CloudTree::addSampleCloud);
   connect(ui->actionSave, &QAction::triggered, ui->cloudtree, &ct::CloudTree::saveSelectedClouds);
   connect(ui->actionClose, &QAction::triggered, ui->cloudtree, &ct::CloudTree::removeSelectedClouds);
   connect(ui->actionCloseAll, &QAction::triggered, ui->cloudtree, &ct::CloudTree::removeAllClouds);
@@ -49,7 +65,18 @@ MainWindow::MainWindow(QWidget* parent)
 
   // edit
 
+
   // view
+  connect(ui->actionResetcamera, &QAction::triggered, ui->cloudview, &ct::CloudView::resetCamera);
+  connect(ui->actionTopView, &QAction::triggered, ui->cloudview, &ct::CloudView::setTopView);
+  connect(ui->actionFrontView, &QAction::triggered, ui->cloudview, &ct::CloudView::setFrontView);
+  connect(ui->actionLeftSideView, &QAction::triggered, ui->cloudview, &ct::CloudView::setLeftSideView);
+  connect(ui->actionBackView, &QAction::triggered, ui->cloudview, &ct::CloudView::setBackView);
+  connect(ui->actionRightSideView, &QAction::triggered, ui->cloudview, &ct::CloudView::setRightSideView);
+  connect(ui->actionBottomView, &QAction::triggered, ui->cloudview, &ct::CloudView::setBottomView);
+  connect(ui->actionShowAxes, &QAction::triggered, ui->cloudview, &ct::CloudView::setShowAxes);
+  connect(ui->actionShowFPS, &QAction::triggered, ui->cloudview, &ct::CloudView::setShowFPS);
+  connect(ui->actionShowId, &QAction::triggered, ui->cloudview, &ct::CloudView::setShowId);
 
   // tools
 
@@ -61,8 +88,12 @@ MainWindow::MainWindow(QWidget* parent)
   connect(ui->actionChinese, &QAction::triggered, [=] { changeLanguage(1); });
 
   // help
+  About* about = new About(this);
+  ShortcutKey* shortcutKey = new ShortcutKey(this);
+  connect(ui->actionAbout, &QAction::triggered, about, &QDialog::show);
+  connect(ui->actionShortcutKey, &QAction::triggered, shortcutKey, &QDialog::show);
 
-  changeTheme(1);
+  this->changeTheme(1);
   ui->progress_bar->close();
   ui->console->print(ct::LOG_INFO, "CloudTool started!");
 }
@@ -100,7 +131,8 @@ void MainWindow::changeTheme(int index)
 
 void MainWindow::changeLanguage(int index)
 {
-  switch (index) {
+  switch (index)
+  {
     case 0:
       if (translator != nullptr) {
         qApp->removeTranslator(translator);

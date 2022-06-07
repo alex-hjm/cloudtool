@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QTranslator>
 
+#include "base/customdock.h"
+#include "base/customdialog.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -21,14 +24,14 @@ public:
   template <class T>
   void createLeftDock(const QString& label)
   {
-    pca::createDock<T>(this, label, Qt::LeftDockWidgetArea, ui->console,
+    ct::createDock<T>(this, label, Qt::LeftDockWidgetArea, ui->console,
                        ui->cloudview, ui->cloudtree, ui->PropertiesDock);
   }
 
   template <class T>
   void createRightDock(const QString& label)
   {
-    pca::createDock<T>(this, label, Qt::RightDockWidgetArea,
+    ct::createDock<T>(this, label, Qt::RightDockWidgetArea,
                        ui->cloudview, ui->cloudtree, ui->console);
   }
 
@@ -37,7 +40,7 @@ public:
   {
     typedef void (MainWindow::* SignalType)(const QPoint&);
     SignalType signal = &MainWindow::posChanged;
-    pca::createDialog<T, SignalType>(this, signal, label, ui->centralWidget->pos(),
+    ct::createDialog<T, SignalType>(this, signal, label, ui->centralWidget->pos(),
                                      ui->cloudview, ui->cloudtree, ui->console);
   }
 
