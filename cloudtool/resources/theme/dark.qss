@@ -1,0 +1,636 @@
+﻿QMainWindow {
+font: 10pt "微软雅黑";
+	background-color:rgb(120,120,120);
+	border: 1px solid darkgray;
+    border-radius: 6px;
+}
+QTreeView{
+font: 9pt "微软雅黑";
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    background: darkgray;
+    color:white;
+}
+QTreeView::item:selected {
+    background-color: rgb(70,70,70);
+    color: white;
+}
+QTreeView::item:hover {
+background: lightgray;
+color: white;
+}
+QTreeView::branch::hover{
+    background: lightgray;
+    color: white;
+} 
+QTreeView::branch::selected{
+background-color:rgb(70,70,70);
+color: white;
+} 
+
+QToolBar{
+font: 9pt "微软雅黑";
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    background: lightgray;	
+}
+
+QHeaderView::section{
+text-align: center;
+background: lightgray;
+border-style: solid;
+color:balck
+}
+QTableWidget{
+font: 9pt "微软雅黑";
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    background: darkgray;
+	color:white
+}
+QTableWidget::item:selected {
+background-color: rgb(70,70,70);
+	color: #FFFFFF;
+}
+QTabWidget::tab-bar {
+    alignment: center;
+}
+QGraphicsView{
+font: 9pt "微软雅黑";
+    border-radius: 6px;
+    background-color: darkgray;
+
+}
+
+QListWidget{
+font: 9pt "微软雅黑";
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    background: white;
+}
+QTextBrowser{
+    font: 9pt "微软雅黑";
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    background: darkgray;
+    color:white
+}
+QDockWidget{
+font: 10pt "微软雅黑";
+}
+QComboBox{
+font: 9pt "微软雅黑";
+    text-align: center;
+	border-style: solid;
+    border-radius: 6px;
+	background: darkgray;
+    color:white
+}
+QMessageBox{
+font: 9pt "微软雅黑";
+    text-align: center;
+    border-style: solid;
+    border-radius: 6px;
+    background: darkgray;
+    color:white
+}
+QComboBox::drop-down {
+    width: 18px;
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+QComboBox::down-arrow { 
+     image: url(:/icon/resource/icon/down.svg);
+} 
+QComboBox::down-arrow:on {
+    top: 1px;
+    left: 1px;
+}
+QComboBox QAbstractItemView {
+    border: 1px solid darkgray;
+    border-radius: 6px;
+    background: white;
+}
+QDockWidget::title {
+    text-align: center;
+    background: lightgray;
+	border-style: solid;
+	border-width: 2px;
+    border-radius: 6px;
+}
+QTextEdit {
+font: 9pt "微软雅黑";
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(70,70,70);
+	background: darkgray;
+    color:white
+}
+QPlainTextEdit {
+font: 9pt "微软雅黑";
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(70,70,70);
+	background: darkgray;
+    color:white
+}
+QToolButton {
+font: 9pt "微软雅黑";
+	border-style: solid;
+	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-right-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(217, 217, 217), stop:1 rgb(227, 227, 227));
+	border-left-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(227, 227, 227), stop:1 rgb(217, 217, 217));
+	border-bottom-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-width: 1px;
+	border-radius: 6px;
+	color: rgb(0,0,0);
+	padding: 2px;
+	background: darkgray;
+    color:white
+}
+QToolButton:hover{
+	border-style: solid;
+	border-top-color: white;
+	border-right-color: white;
+	border-left-color: white;
+	border-bottom-color: white;
+	border-width: 2px;
+	border-radius: 5px;
+	color: white;
+	padding: 2px;
+}
+QToolButton:pressed{
+	border-style: solid;
+	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-right-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(217, 217, 217), stop:1 rgb(227, 227, 227));
+	border-left-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(227, 227, 227), stop:1 rgb(217, 217, 217));
+	border-bottom-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-width: 1px;
+	border-radius: 5px;
+	color: rgb(0,0,0);
+	padding: 2px;
+	background-color: rgb(255,255,255);
+}
+QPushButton{
+font: 9pt "微软雅黑";
+	border-style: solid;
+	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-right-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(217, 217, 217), stop:1 rgb(227, 227, 227));
+	border-left-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(227, 227, 227), stop:1 rgb(217, 217, 217));
+	border-bottom-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-width: 1px;
+	border-radius: 5px;
+	color: rgb(0,0,0);
+	padding: 2px;
+	background-color: darkgray;
+    color:white
+}
+QPushButton::default{
+	border-style: solid;
+	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-right-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(217, 217, 217), stop:1 rgb(227, 227, 227));
+	border-left-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(227, 227, 227), stop:1 rgb(217, 217, 217));
+	border-bottom-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-width: 1px;
+	border-radius: 5px;
+	color: rgb(0,0,0);
+	padding: 2px;
+	background-color: rgb(255,255,255);
+}
+QPushButton:hover{
+	border-style: solid;
+	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(195, 195, 195), stop:1 rgb(222, 222, 222));
+	border-right-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(197, 197, 197), stop:1 rgb(227, 227, 227));
+	border-left-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(227, 227, 227), stop:1 rgb(197, 197, 197));
+	border-bottom-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(195, 195, 195), stop:1 rgb(222, 222, 222));
+	border-width: 1px;
+	border-radius: 5px;
+	color: rgb(0,0,0);
+	padding: 2px;
+	background-color: rgb(255,255,255);
+}
+QPushButton:pressed{
+	border-style: solid;
+	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-right-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(217, 217, 217), stop:1 rgb(227, 227, 227));
+	border-left-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(227, 227, 227), stop:1 rgb(217, 217, 217));
+	border-bottom-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-width: 1px;
+	border-radius: 5px;
+	color: rgb(0,0,0);
+	padding: 2px;
+	background-color: rgb(142,142,142);
+}
+QPushButton:disabled{
+	border-style: solid;
+	border-top-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-right-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(217, 217, 217), stop:1 rgb(227, 227, 227));
+	border-left-color: qlineargradient(spread:pad, x1:0, y1:0.5, x2:1, y2:0.5, stop:0 rgb(227, 227, 227), stop:1 rgb(217, 217, 217));
+	border-bottom-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgb(215, 215, 215), stop:1 rgb(222, 222, 222));
+	border-width: 1px;
+	border-radius: 5px;
+	color: #808086;
+	padding: 2px;
+	background-color: rgb(142,142,142);
+}
+QLineEdit {
+font: 9pt "微软雅黑";
+	border-width: 1px; border-radius: 4px;
+	border-style: solid;
+	border-color: rgb(70,70,70);
+    background-color: darkgray;
+    color:white
+}
+QLabel {
+font: 9pt "微软雅黑";
+	color: white;
+}
+QLCDNumber {
+font: 9pt "微软雅黑";
+	color: white;
+}
+QProgressBar {
+font: 9pt "微软雅黑";
+	text-align: center;
+	color: rgb(240, 240, 240);
+	border-width: 1px; 
+	border-radius: 10px;
+	border-color: rgb(230, 230, 230);
+	border-style: solid;
+	background-color:rgb(207,207,207);
+}
+QProgressBar::chunk {
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(49, 147, 250, 255), stop:1 rgba(34, 142, 255, 255));
+	border-radius: 10px;
+}
+QMenuBar {
+font: 10pt "微软雅黑";
+	background-color:darkgray
+}
+QMenuBar::item {
+font: 10pt "微软雅黑";
+	color: #000000;
+  	spacing: 3px;
+  	padding: 1px 4px;
+	color: white;
+}
+
+QMenuBar::item:selected {
+  	background-color: rgb(70,70,70);
+	color: white;
+}
+QMenu{
+font: 10pt "微软雅黑";
+}
+QMenu::item:selected {
+	border-style: solid;
+	border-top-color: transparent;
+	border-right-color: transparent;
+	border-left-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(0, 113, 255, 255), stop:1 rgba(91, 171, 252, 255));
+	border-bottom-color: transparent;
+	border-left-width: 3px;
+	color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(0, 113, 255, 255), stop:1 rgba(91, 171, 252, 255));
+	padding-left:13px;
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-right:10px;
+}
+QMenu::item {
+font: 10pt "微软雅黑";
+	border-style: solid;
+	border-top-color: transparent;
+	border-right-color: transparent;
+	border-left-color: transparent;
+	border-bottom-color: transparent;
+	border-bottom-width: 1px;
+	color: #000000;
+	padding-left:10px;
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-right:10px;
+        background-color:darkgray;
+        color: white;
+}
+QMenu::icon{
+   	padding-left:13px;
+}
+QMenu::icon:checked:{
+    image: url(:/icon/resource/icon/dialog-ok-apply.svg);
+}
+QTabWidget {
+font: 10pt "微软雅黑";
+	color:rgb(0,0,0);
+	background-color:darkgray;
+}
+QTabWidget::pane {
+		border-color: rgb(223,223,223);
+		background-color:rgb(226,226,226);
+		border-style: solid;
+		border-width: 2px;
+    	border-radius: 6px;
+		background-color:darkgray;
+}
+QTabBar {
+font: 10pt "微软雅黑";
+background-color:darkgray;
+color: white;
+}
+QTabBar::tab:first {
+	border-style: solid;
+	border-left-width:1px;
+	border-right-width:0px;
+	border-top-width:1px;
+	border-bottom-width:1px;
+	border-top-color: rgb(209,209,209);
+	border-left-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(209, 209, 209, 209), stop:1 rgba(229, 229, 229, 229));
+	border-bottom-color: rgb(229,229,229);
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	color: #000000;
+	padding: 3px;
+	margin-left:0px;
+	background-color: darkgray
+}
+QTabBar::tab:last {
+	border-style: solid;
+	border-width:1px;
+	border-top-color: rgb(209,209,209);
+	border-left-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(209, 209, 209, 209), stop:1 rgba(229, 229, 229, 229));
+	border-right-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(209, 209, 209, 209), stop:1 rgba(229, 229, 229, 229));
+	border-bottom-color: rgb(229,229,229);
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	color: #000000;
+	padding: 3px;
+	margin-left:0px;
+	background-color: darkgray
+}
+QTabBar::tab {
+font: 10pt "微软雅黑";
+	border-style: solid;
+	border-top-width:1px;
+	border-bottom-width:1px;
+	border-left-width:1px;
+	border-top-color: rgb(209,209,209);
+	border-left-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(209, 209, 209, 209), stop:1 rgba(229, 229, 229, 229));
+	border-bottom-color: rgb(229,229,229);
+	color: #000000;
+	padding: 3px;
+	margin-left:0px;
+	background-color: darkgray
+}
+QTabBar::tab:selected, QTabBar::tab:last:selected, QTabBar::tab:hover {
+  	border-style: solid;
+  	border-left-width:1px;
+	border-right-color: transparent;
+	border-top-color: rgb(209,209,209);
+	border-left-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(209, 209, 209, 209), stop:1 rgba(229, 229, 229, 229));
+	border-bottom-color: rgb(229,229,229);
+	color: #FFFFFF;
+	padding: 3px;
+	margin-left:0px;
+	background-color: rgb(70,70,70);
+}
+
+QTabBar::tab:selected, QTabBar::tab:first:selected, QTabBar::tab:hover {
+  	border-style: solid;
+  	border-left-width:1px;
+  	border-bottom-width:1px;
+  	border-top-width:1px;
+	border-right-color: transparent;
+	border-top-color: rgb(209,209,209);
+	border-left-color: qlineargradient(spread:pad, x1:0.5, y1:1, x2:0.5, y2:0, stop:0 rgba(209, 209, 209, 209), stop:1 rgba(229, 229, 229, 229));
+	border-bottom-color: rgb(229,229,229);
+	color: #FFFFFF;
+	padding: 3px;
+	margin-left:0px;
+	background-color: rgb(70,70,70);
+}
+
+QCheckBox {
+font: 9pt "微软雅黑";
+	color: white;
+	padding: 2px;
+}
+QCheckBox:disabled {
+	color: #808086;
+	padding: 2px;
+}
+
+QCheckBox:hover {
+	border-radius:4px;
+	border-style:solid;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+	padding-top: 1px;
+	border-width:1px;
+	border-color: transparent;
+}
+QCheckBox::indicator:checked {
+
+	height: 10px;
+	width: 10px;
+	border-style:solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	color: #000000;
+	background-color: rgb(70,70,70);
+}
+QCheckBox::indicator:unchecked {
+
+	height: 10px;
+	width: 10px;
+	border-style:solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	color: #000000;
+}
+QRadioButton {
+font: 9pt "微软雅黑";
+	color: white;
+	padding: 1px;
+}
+QRadioButton::indicator:checked {
+	height: 10px;
+	width: 10px;
+	border-style:solid;
+	border-radius:5px;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	color: #a9b7c6;
+	background-color: rgb(70,70,70);
+}
+QRadioButton::indicator:!checked {
+	height: 10px;
+	width: 10px;
+	border-style:solid;
+	border-radius:5px;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+	color: #a9b7c6;
+	background-color: transparent;
+}
+QStatusBar {
+font: 10pt "微软雅黑";
+	color: white;
+}
+QSpinBox {
+font: 9pt "微软雅黑";
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+    border-radius: 6px;
+	background-color: darkgray;
+	color: white;
+}
+QDoubleSpinBox {
+font: 9pt "微软雅黑";
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+    border-radius: 6px;
+	background-color: darkgray;
+	color: white;
+}
+QSpinBox::up-button,QSpinBox::down-button
+{
+	width:0px;
+}
+QDoubleSpinBox::up-button,QDoubleSpinBox::down-button
+{
+	width:0px;
+}
+QTimeEdit {
+font: 9pt "微软雅黑";
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+}
+QDateTimeEdit {
+font: 9pt "微软雅黑";
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+}
+QDateEdit {
+font: 9pt "微软雅黑";
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(70,70,70);
+}
+
+QToolBox {
+font: 9pt "微软雅黑";
+	color: #a9b7c6;
+	background-color:#000000;
+}
+QToolBox::tab {
+	color: #a9b7c6;
+	background-color:#000000;
+}
+QToolBox::tab:selected {
+	color: #FFFFFF;
+	background-color:#000000;
+}
+QScrollArea {
+font: 9pt "微软雅黑";
+	color: #FFFFFF;
+	background-color:#000000;
+}
+QSlider::groove:horizontal {
+	height: 5px;
+	background-color: rgb(70,70,70);
+}
+QSlider::groove:vertical {
+	width: 5px;
+	background-color: rgb(70,70,70);
+}
+QSlider::handle:horizontal {
+	background: rgb(253,253,253);
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(207,207,207);
+	width: 12px;
+	margin: -5px 0;
+	border-radius: 7px;
+}
+QSlider::handle:vertical {
+	background: rgb(253,253,253);
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(207,207,207);
+	height: 12px;
+	margin: 0 -5px;
+	border-radius: 7px;
+}
+QSlider::add-page:horizontal {
+    background: rgb(181,181,181);
+}
+QSlider::add-page:vertical {
+    background: rgb(181,181,181);
+}
+QSlider::sub-page:horizontal {
+    background-color: rgb(70,70,70);
+}
+QSlider::sub-page:vertical {
+    background-color: rgb(70,70,70);
+}
+QScrollArea {
+    color: #FFFFFF;
+    background-color:#222b2e;
+}
+
+QScrollBar:horizontal {
+	max-height: 10px;
+	border: 1px transparent grey;
+	margin: 0px 20px 0px 20px;
+	background: transparent;
+}
+QScrollBar:vertical {
+	max-width: 10px;
+	border: 1px transparent grey;
+	margin: 20px 0px 20px 0px;
+	background: transparent;
+}
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+	background: rgb(70,70,70);
+	border-style: transparent;
+	border-radius: 4px;
+	min-height: 25px;
+}
+QScrollBar::handle:horizontal:hover, QScrollBar::handle:vertical:hover {
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #467dd1, stop:0.5 #3b88fc, stop:1 #467dd1);
+}
+QScrollBar::add-line, QScrollBar::sub-line {
+    border: 2px transparent grey;
+    border-radius: 4px;
+    subcontrol-origin: margin;
+    background: #b9b9b9;
+}
+QScrollBar::add-line:horizontal {
+    width: 20px;
+    subcontrol-position: right;
+}
+QScrollBar::add-line:vertical {
+    height: 20px;
+    subcontrol-position: bottom;
+}
+QScrollBar::sub-line:horizontal {
+    width: 20px;
+    subcontrol-position: left;
+}
+QScrollBar::sub-line:vertical {
+    height: 20px;
+    subcontrol-position: top;
+}
+QScrollBar::add-line:vertical:pressed, QScrollBar::add-line:horizontal:pressed, QScrollBar::sub-line:horizontal:pressed, QScrollBar::sub-line:vertical:pressed {
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #467dd1, stop:0.5 #3b88fc, stop:1 #467dd1);
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal, QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}
+

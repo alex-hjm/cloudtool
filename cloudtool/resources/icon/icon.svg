@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="500.0px"
+   height="500.0px"
+   viewBox="0 0 500.0 500.0"
+   version="1.1"
+   id="SVGRoot"
+   sodipodi:docname="icon.svg"
+   inkscape:version="1.0.2 (1.0.2+r75+1)">
+  <defs
+     id="defs15316">
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10643"
+       id="linearGradient10645"
+       x1="57.183849"
+       y1="157.02621"
+       x2="127.92819"
+       y2="92.750893"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(6.6473199,0,0,6.6473199,-447.54682,-623.50719)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient10643">
+      <stop
+         style="stop-color:#808080;stop-opacity:1;"
+         offset="0"
+         id="stop10639" />
+      <stop
+         style="stop-color:#808080;stop-opacity:0;"
+         offset="1"
+         id="stop10641" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10667"
+       osb:paint="gradient">
+      <stop
+         style="stop-color:#000000;stop-opacity:0.48673886;"
+         offset="0"
+         id="stop10663" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop10665" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10667"
+       id="linearGradient15429"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(6.4264344,0,0,6.4264344,-416.00766,-586.08998)"
+       x1="73.168793"
+       y1="133.00481"
+       x2="137.27287"
+       y2="133.00481" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="343.76278"
+     inkscape:cy="349.94898"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     inkscape:window-width="1402"
+     inkscape:window-height="1039"
+     inkscape:window-x="120"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid15325" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata15319">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="图层 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:url(#linearGradient10645);fill-opacity:1;fill-rule:evenodd;stroke-width:2.46616;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path46"
+       cx="252.88901"
+       cy="253.82269"
+       r="248.70262" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:354.989px;line-height:1.25;font-family:sans-serif;fill:#ffffff;fill-opacity:1;stroke:url(#linearGradient15429);stroke-width:3.09113;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       x="35.162708"
+       y="398.93942"
+       id="text6512"><tspan
+         id="tspan6510"
+         x="35.162708"
+         y="398.93942"
+         style="fill:#ffffff;stroke:url(#linearGradient15429);stroke-width:3.09113;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+         sodipodi:role="line">CT</tspan></text>
+  </g>
+</svg>

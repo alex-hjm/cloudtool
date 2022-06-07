@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
+   height="16"
+   version="1.1"
+   id="svg14"
+   sodipodi:docname="screenshoot.svg"
+   inkscape:version="1.0.2 (1.0.2+r75+1)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="771"
+     inkscape:window-height="480"
+     id="namedview10"
+     showgrid="false"
+     inkscape:zoom="8.9714173"
+     inkscape:cx="1.8011787"
+     inkscape:cy="8.2000641"
+     inkscape:window-x="814"
+     inkscape:window-y="282"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg14"
+     inkscape:document-rotation="0" />
+  <defs
+     id="defs18" />
+  <metadata
+     id="metadata2">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     fill="#363636"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="g12"
+     transform="matrix(0.86017489,0,0,0.86036053,1.1186009,1.1171158)">
+    <path
+       d="M 3,1 C 1.892,1 1,1.892 1,3 V 5 H 2 V 3 C 2,2.446 2.446,2 3,2 H 5 V 1 Z m 8,0 v 1 h 2 c 0.554,0 1,0.446 1,1 v 2 h 1 V 3 C 15,1.892 14.108,1 13,1 Z M 1,11 v 2 c 0,1.108 0.892,2 2,2 H 5 V 14 H 3 C 2.446,14 2,13.554 2,13 v -2 z m 13,0 v 2 c 0,0.554 -0.446,1 -1,1 h -2 v 1 h 2 c 1.108,0 2,-0.892 2,-2 v -2 z"
+       id="path4" />
+    <path
+       d="M 5,5 C 3.892,5 3,5.892 3,7 v 3 c 0,1.108 0.892,2 2,2 h 6 c 1.108,0 2,-0.892 2,-2 V 7 C 13,5.892 12.108,5 11,5 Z m 0,1 h 6 c 0.554,0 1,0.446 1,1 v 3 c 0,0.554 -0.446,1 -1,1 H 5 C 4.446,11 4,10.554 4,10 V 7 C 4,6.446 4.446,6 5,6 Z"
+       id="path6" />
+    <path
+       d="M 9.5,7 A 1.5,1.5 0 0 0 8,8.5 1.5,1.5 0 0 0 9.5,10 1.5,1.5 0 0 0 11,8.5 1.5,1.5 0 0 0 9.5,7 Z M 9.488281,8 A 0.5,0.5 0 0 1 9.5,8 0.5,0.5 0 0 1 10,8.5 0.5,0.5 0 0 1 9.5,9 0.5,0.5 0 0 1 9,8.5 0.5,0.5 0 0 1 9.48828,8 Z"
+       id="path8" />
+    <rect
+       x="9"
+       y="3"
+       width="2"
+       height="1"
+       rx="0"
+       ry="0"
+       id="rect10" />
+  </g>
+</svg>

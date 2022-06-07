@@ -1,0 +1,18 @@
+QMainWindow {font: 10pt "微软雅黑";}
+QMenu{font: 10pt "微软雅黑";}
+QMenuBar{font: 10pt "微软雅黑";}
+QToolBar{font: 10pt "微软雅黑";}
+QTabBar{font: 10pt "微软雅黑";}
+QStatusBar{font: 10pt "微软雅黑";}
+QTabWidget{font: 10pt "微软雅黑";}
+QDockWidget{font: 10pt "微软雅黑";}
+QPushButton{font: 9pt "微软雅黑";}
+QRadioButton{font: 9pt "微软雅黑";}
+QCheckBox{font: 9pt "微软雅黑";}
+QTreeWidget{font: 9pt "微软雅黑";}
+QTableWidget{font: 9pt "微软雅黑";}
+QStackedWidget{font: 9pt "微软雅黑";}
+QFrame{font: 9pt "微软雅黑";}
+QTextBrowser{font: 9pt "微软雅黑";}
+
+
