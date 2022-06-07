@@ -1,7 +1,7 @@
 /**
  * @file customtree.cpp
  * @author hjm (hjmalex@163.com)
- * @version 1.0
+ * @version 3.0
  * @date 2022-05-08
  */
 #include "base/customtree.h"
@@ -69,7 +69,7 @@ namespace ct
     if (index.row <= -1 || index.row > topLevelItemCount())  // parent item
     {
       QTreeWidgetItem* parent = new QTreeWidgetItem(this);
-      QTreeWidgetItem* child = new QTreeWidgetItem(this);
+      QTreeWidgetItem* child = new QTreeWidgetItem(parent);
       parent->setText(0, parent_id);
       parent->setIcon(0, m_parent_icon);
       parent->setCheckState(0, Qt::Checked);
@@ -83,15 +83,16 @@ namespace ct
     }
     else  // child
     {
-      QTreeWidgetItem* child = new QTreeWidgetItem(this);
+      QTreeWidgetItem* parent = topLevelItem(index.row);
+      QTreeWidgetItem* child = new QTreeWidgetItem(parent);
       child->setIcon(0, m_child_icon);
       child->setText(0, child_id);
       child->setCheckState(0, Qt::Checked);
       if ((index.col > -1) && (index.col < topLevelItem(index.row)->childCount()))
-        topLevelItem(index.row)->insertChild(0, child);
+        parent->insertChild(0, child);
       else
-        topLevelItem(index.row)->addChild(child);
-      expandItem(topLevelItem(index.row));
+        parent->addChild(child);
+      expandItem(parent);
       if (selected) setCurrentItem(child);
     }
   }

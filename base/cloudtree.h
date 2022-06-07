@@ -1,7 +1,7 @@
 /**
  * @file cloudtree.h
  * @author hjm (hjmalex@163.com)
- * @version 1.0
+ * @version 3.0
  * @date 2022-05-08
  */
 #ifndef CT_BASE_CLOUDTREE_H
@@ -18,6 +18,8 @@
 #include "base/console.h"
 #include "base/customtree.h"
 #include "base/fileio.h"
+
+#define SAMPLE_PATH   "../../../data/rabbit.pcd"
 
 namespace ct
 {
@@ -53,6 +55,11 @@ namespace ct
      * @brief 添加点云
      */
     void addCloud();
+
+    /**
+     * @brief 添加实例点云
+     */
+    void addSampleCloud() { this->loadPointCloud(SAMPLE_PATH); }
 
     /**
      * @brief 更新点云
@@ -251,6 +258,7 @@ namespace ct
     void mousePressEvent(QMouseEvent* event) override;
 
   private:
+    QString m_path;
     QThread m_thread;
     FileIO* m_fileio;
     QMenu* m_tree_menu;

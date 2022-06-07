@@ -1,7 +1,7 @@
 /**
  * @file cloudtree.cpp
  * @author hjm (hjmalex@163.com)
- * @version 1.0
+ * @version 3.0
  * @date 2022-05-08
  */
 #include "base/cloudtree.h"
@@ -18,15 +18,18 @@
 
 #define CLONE_PREFIX  "clone-"
 #define MERGE_PREFIX  "merge-"
+#define INIT_PATH     "../../../data"
 
 namespace ct
 {
   CloudTree::CloudTree(QWidget* parent)
     : CustomTree(parent),
+    m_path(INIT_PATH),
     m_thread(this),
     m_tree_menu(nullptr),
     m_progress_bar(nullptr),
     m_table(nullptr),
+    m_console(nullptr),
     m_cloudview(nullptr)
   {
     // register meta type
@@ -56,7 +59,7 @@ namespace ct
   void CloudTree::addCloud()
   {
     QString filter = "all(*.*);;ply(*.ply);;pcd(*.pcd)";
-    QStringList filePathList = QFileDialog::getOpenFileNames(this, tr("Open pointcloud file"), "", filter);
+    QStringList filePathList = QFileDialog::getOpenFileNames(this, tr("Open pointcloud file"), m_path, filter);
     if (filePathList.isEmpty()) return;
     if (m_progress_bar != nullptr) m_progress_bar->show();
     for (auto& i : filePathList) emit loadPointCloud(i);
@@ -150,13 +153,9 @@ namespace ct
       return;
     }
     Cloud::Ptr merged_cloud(new Cloud);
-    QString id;
-    for (auto& i : clouds)
-    {
-      *merged_cloud += *i;
-      id += i->id();
-    }
-    merged_cloud->setId(MERGE_PREFIX + id);
+    for (auto& i : clouds) *merged_cloud += *i;
+    merged_cloud->setId(MERGE_PREFIX + clouds.front()->id());
+    merged_cloud->setInfo(clouds.front()->info());
     merged_cloud->update();
     appendCloud(merged_cloud);
   }
@@ -292,6 +291,7 @@ namespace ct
     {
       m_console->print(LOG_INFO, "load the file [path: " + cloud->info().filePath() + "] successfully,take time " +
                        QString::number(time) + " ms.");
+      m_path=cloud->info().path();
       appendCloud(cloud);
     }
     if (m_progress_bar != nullptr) m_progress_bar->close();

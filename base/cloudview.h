@@ -1,7 +1,7 @@
 /**
  * @file cloudview.h
  * @author hjm (hjmalex@163.com)
- * @version 1.0
+ * @version 3.0
  * @date 2022-05-08
  */
 #ifndef CT_BASE_CLOUDVIEW_H
@@ -558,7 +558,7 @@ namespace ct
     /**
      * @brief 设置为俯视图
      */
-    void setTopview()
+    void setTopView()
     {
       m_viewer->setCameraPosition(0, 0, 0, 0, -1, 0, 0, 0, -1);
       m_viewer->getRenderWindow()->Render();
@@ -567,7 +567,7 @@ namespace ct
     /**
      * @brief 设置为正视图
      */
-    void setFrontview()
+    void setFrontView()
     {
       m_viewer->setCameraPosition(0, 0, 0, 0, 0, -1, 0, 1, 0);
       m_viewer->getRenderWindow()->Render();
@@ -576,7 +576,7 @@ namespace ct
     /**
      * @brief 设置为左视图
      */
-    void setLeftSideview()
+    void setLeftSideView()
     {
       m_viewer->setCameraPosition(0, 0, 0, 1, 0, 0, 0, 1, 0);
       m_viewer->getRenderWindow()->Render();
@@ -585,7 +585,7 @@ namespace ct
     /**
      * @brief 设置为后视图
      */
-    void setBackview()
+    void setBackView()
     {
       m_viewer->setCameraPosition(0, 0, 0, 0, 0, 1, 0, 1, 0);
       m_viewer->getRenderWindow()->Render();
@@ -594,7 +594,7 @@ namespace ct
     /**
      * @brief 设置为右视图
      */
-    void setRightSideview()
+    void setRightSideView()
     {
       m_viewer->setCameraPosition(0, 0, 0, -1, 0, 0, 0, 1, 0);
       m_viewer->getRenderWindow()->Render();
@@ -603,7 +603,7 @@ namespace ct
     /**
      * @brief 设置为仰视图
      */
-    void setBottomview()
+    void setBottomView()
     {
       m_viewer->setCameraPosition(0, 0, 0, 0, 1, 0, 0, 0, 1);
       m_viewer->getRenderWindow()->Render();
