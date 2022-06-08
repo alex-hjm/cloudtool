@@ -117,7 +117,7 @@ namespace ct
                 m_cloud_vec[index.row].push_back(cloud);
         }
         // add treewidget item
-        addItem(index, cloud->info().path(), cloud->id(), selected);
+        addItem(index, cloud->info().absolutePath(), cloud->id(), selected);
         m_cloudview->addPointCloud(cloud);
         m_cloudview->resetCamera();
     }
