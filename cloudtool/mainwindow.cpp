@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-//#include "edit/boundingbox.h"
+#include "edit/boundingbox.h"
 //#include "edit/color.h"
 //#include "edit/coordinate.h"
 //#include "edit/normals.h"
@@ -77,6 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionShowId, &QAction::triggered, ui->cloudview, &ct::CloudView::setShowId);
 
     // tools
+    connect(ui->actionBoundingBox, &QAction::triggered, [=] { this->createLeftDock<BoundingBox>("BoundingBox"); });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });

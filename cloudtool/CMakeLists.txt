@@ -3,12 +3,14 @@ set(Srcs
         mainwindow.cpp
         help/about.cpp
         help/shortcutkey.cpp
+        edit/boundingbox.cpp
         )
 
 set(MOC_Hdrs 
         mainwindow.h
         help/about.h
         help/shortcutkey.h 
+        edit/boundingbox.h
         )
 
 set(UIs 
@@ -27,7 +29,7 @@ qt5_add_resources(QRC_Srcs ${QRCs})
 
 add_executable(cloudtool  ${Srcs} ${MOC_Hdrs} ${UIs} ${QRC_Srcs})
 
-target_link_libraries(cloudtool PRIVATE ct_base Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
+target_link_libraries(cloudtool PRIVATE ct_base ct_modules Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
 
 install(TARGETS cloudtool
         CONFIGURATIONS Debug

@@ -27,15 +27,15 @@ public:
     template <class T>
     void createLeftDock(const QString &label)
     {
-        ct::createDock<T>(this, label, Qt::LeftDockWidgetArea, ui->console,
-                          ui->cloudview, ui->cloudtree, ui->PropertiesDock);
+        ct::createDock<T>(this, label, Qt::LeftDockWidgetArea, ui->cloudview,
+                          ui->cloudtree, ui->console, ui->PropertiesDock);
     }
 
     template <class T>
     void createRightDock(const QString &label)
     {
-        ct::createDock<T>(this, label, Qt::RightDockWidgetArea,
-                          ui->cloudview, ui->cloudtree, ui->console);
+        ct::createDock<T>(this, label, Qt::RightDockWidgetArea, ui->cloudview,
+                          ui->cloudtree, ui->console);
     }
 
     template <class T>
