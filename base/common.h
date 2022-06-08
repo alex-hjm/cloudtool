@@ -9,6 +9,8 @@
 
 #include "base/exports.h"
 
+#include <pcl/common/eigen.h>
+
 namespace ct
 {
 	void CT_EXPORT HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
