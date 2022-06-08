@@ -7,6 +7,7 @@
 #include "base/cloud.h"
 
 #include <pcl/common/common.h>
+#include <pcl/common/eigen.h>
 #include <pcl/common/transforms.h>
 #include <pcl/search/kdtree.h>
 
@@ -124,7 +125,10 @@ namespace ct
             pcl::getMinMax3D(*this, min, max);
             Eigen::Vector3f center = 0.5f * (min.getVector3fMap() + max.getVector3fMap());
             Eigen::Vector3f whd = max.getVector3fMap() - min.getVector3fMap();
-            Eigen::Affine3f affine = pcl::getTransformation(center[0], center[1], center[2], 0, 0, 0);
+            Eigen::Affine3f affine = m_box.pose;
+            float roll, pitch, yaw;
+            pcl::getEulerAngles(affine, roll, pitch, yaw);
+            affine = pcl::getTransformation(center[0], center[1], center[2], roll, pitch, yaw);
             m_box = {whd(0), whd(1), whd(2), affine, center, Eigen::Quaternionf(Eigen::Matrix3f::Identity())};
         }
         if (resolution_flag)
