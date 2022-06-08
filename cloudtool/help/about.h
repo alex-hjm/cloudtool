@@ -9,18 +9,21 @@
 
 #include <QDialog>
 
-namespace Ui { class About; }
+namespace Ui
+{
+    class About;
+}
 
 class About : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit About(QWidget* parent = nullptr);
-  ~About();
+    explicit About(QWidget *parent = nullptr);
+    ~About();
 
 private:
-  Ui::About* ui;
+    Ui::About *ui;
 };
 
-#endif  // CT_HELP_ABOUT_H
+#endif // CT_HELP_ABOUT_H

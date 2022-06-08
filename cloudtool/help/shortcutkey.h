@@ -9,18 +9,21 @@
 
 #include <QDialog>
 
-namespace Ui { class ShortcutKey; }
+namespace Ui
+{
+    class ShortcutKey;
+}
 
 class ShortcutKey : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit ShortcutKey(QWidget* parent = nullptr);
-  ~ShortcutKey();
+    explicit ShortcutKey(QWidget *parent = nullptr);
+    ~ShortcutKey();
 
 private:
-  Ui::ShortcutKey* ui;
+    Ui::ShortcutKey *ui;
 };
 
-#endif  // CT_HELP_SHORTCUTKEY_H
+#endif // CT_HELP_SHORTCUTKEY_H
