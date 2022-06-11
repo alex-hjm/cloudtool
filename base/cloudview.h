@@ -20,9 +20,11 @@ namespace ct
 
     struct Coord
     {
-        QString id = "reference";
-        double scale = 1.0;
-        Eigen::Affine3f pose = Eigen::Affine3f::Identity();
+        QString id;
+        double scale;
+        Eigen::Affine3f pose;
+        Coord() :id("reference"), scale(1.0), pose(Eigen::Affine3f::Identity()) {}
+        Coord(QString id_, double scale_, Eigen::Affine3f pose_) :id(id_), scale(scale_), pose(pose_) {}
     };
 
     struct PointXY

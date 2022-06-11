@@ -22,15 +22,15 @@
 
 namespace ct
 {
-    CloudTree::CloudTree(QWidget *parent)
+    CloudTree::CloudTree(QWidget* parent)
         : CustomTree(parent),
-          m_path(INIT_PATH),
-          m_thread(this),
-          m_tree_menu(nullptr),
-          m_progress_bar(nullptr),
-          m_table(nullptr),
-          m_console(nullptr),
-          m_cloudview(nullptr)
+        m_path(INIT_PATH),
+        m_thread(this),
+        m_tree_menu(nullptr),
+        m_progress_bar(nullptr),
+        m_table(nullptr),
+        m_console(nullptr),
+        m_cloudview(nullptr)
     {
         // register meta type
         qRegisterMetaType<Cloud::Ptr>("Cloud::Ptr &");
@@ -64,11 +64,11 @@ namespace ct
             return;
         if (m_progress_bar != nullptr)
             m_progress_bar->show();
-        for (auto &i : filePathList)
+        for (auto& i : filePathList)
             emit loadPointCloud(i);
     }
 
-    void CloudTree::insertCloud(const Index &index, const Cloud::Ptr &cloud, bool selected)
+    void CloudTree::insertCloud(const Index& index, const Cloud::Ptr& cloud, bool selected)
     {
         // check cloud id
         if (cloud == nullptr)
@@ -84,21 +84,16 @@ namespace ct
                 {
                     if (res == cloud->id() || m_cloudview->contains(res))
                     {
-                        m_console->print(LOG_WARNING, "The id " + res + " already exists!");
+                        m_console->print(LOG_ERROR, "The id " + res + " already exists!");
                         return;
                     }
                     cloud->setId(res);
                 }
                 else
                 {
-                    m_console->print(LOG_WARNING, "Add pointcloud canceled.");
+                    m_console->print(LOG_ERROR, "Add pointcloud canceled.");
                     return;
                 }
-            }
-            else
-            {
-                m_console->print(LOG_WARNING, "Add pointcloud canceled.");
-                return;
             }
         }
 
@@ -122,21 +117,15 @@ namespace ct
         m_cloudview->resetCamera();
     }
 
-    void CloudTree::updateCloud(const Cloud::Ptr &cloud, const Cloud::Ptr &new_cloud, bool update_name)
+    void CloudTree::updateCloud(const Cloud::Ptr& cloud, const Cloud::Ptr& new_cloud, bool update_name)
     {
-        if (cloud == nullptr || new_cloud == nullptr)
-        {
-            m_console->print(LOG_ERROR, "Update cloud failed.");
-            return;
-        }
+        if (cloud == nullptr || new_cloud == nullptr) return;
         cloud->swap(*new_cloud);
         cloud->update();
         Index i = index(cloud->id());
-        if (update_name)
-            renameCloud(i, new_cloud->id());
+        if (update_name) renameCloud(i, new_cloud->id());
         m_cloudview->addPointCloud(cloud);
-        if (item(i)->isSelected())
-            m_cloudview->addBox(cloud);
+        if (item(i)->isSelected()) m_cloudview->addBox(cloud);
     }
 
     void CloudTree::removeAllClouds()
@@ -160,7 +149,7 @@ namespace ct
             return;
         }
         Cloud::Ptr merged_cloud(new Cloud);
-        for (auto &i : clouds)
+        for (auto& i : clouds)
             *merged_cloud += *i;
         merged_cloud->setId(MERGE_PREFIX + clouds.front()->id());
         merged_cloud->setInfo(clouds.front()->info());
@@ -170,7 +159,7 @@ namespace ct
 
     void CloudTree::renameSelectedClouds()
     {
-        for (auto &index : getSelectedIndexs())
+        for (auto& index : getSelectedIndexs())
         {
             Cloud::Ptr cloud = getCloud(index);
             bool ok = false;
@@ -179,13 +168,13 @@ namespace ct
                 renameCloud(index, name);
             else
             {
-                m_console->print(LOG_WARNING, "rename pointcloud canceled.");
+                m_console->print(LOG_WARNING, "Rename pointcloud canceled.");
                 return;
             }
         }
     }
 
-    void CloudTree::setCloudChecked(const Cloud::Ptr &cloud, bool checked)
+    void CloudTree::setCloudChecked(const Cloud::Ptr& cloud, bool checked)
     {
         if (cloud == nullptr)
             return;
@@ -208,7 +197,7 @@ namespace ct
         }
     }
 
-    void CloudTree::setCloudSelected(const Cloud::Ptr &cloud, bool selected)
+    void CloudTree::setCloudSelected(const Cloud::Ptr& cloud, bool selected)
     {
         if (cloud == nullptr)
             return;
@@ -216,7 +205,7 @@ namespace ct
         item(i)->setSelected(selected);
     }
 
-    void CloudTree::removeCloud(const Index &index)
+    void CloudTree::removeCloud(const Index& index)
     {
         Cloud::Ptr cloud = getCloud(index);
         emit removedCloudId(cloud->id());
@@ -230,7 +219,7 @@ namespace ct
             m_cloud_vec[index.row].erase(m_cloud_vec[index.row].begin() + index.col);
     }
 
-    void CloudTree::saveCloud(const Index &index)
+    void CloudTree::saveCloud(const Index& index)
     {
         Cloud::Ptr cloud = getCloud(index);
         QString filter = "ply(*.ply);;pcd(*.pcd)";
@@ -253,14 +242,14 @@ namespace ct
         emit savePointCloud(cloud, filepath, k);
     }
 
-    void CloudTree::cloneCloud(const Index &index)
+    void CloudTree::cloneCloud(const Index& index)
     {
         Cloud::Ptr clone_cloud = getCloud(index)->makeShared();
         clone_cloud->setId(CLONE_PREFIX + clone_cloud->id());
         appendCloud(clone_cloud);
     }
 
-    void CloudTree::renameCloud(const Index &index, const QString &name)
+    void CloudTree::renameCloud(const Index& index, const QString& name)
     {
         Cloud::Ptr cloud = getCloud(index);
         if (m_cloudview->contains(name))
@@ -280,7 +269,7 @@ namespace ct
         if (enable)
         {
             m_cloudview->setAcceptDrops(true);
-            connect(m_cloudview, &CloudView::dropFilePath, [=](const QStringList &filepath)
+            connect(m_cloudview, &CloudView::dropFilePath, [=](const QStringList& filepath)
                     {for (auto& i : filepath) emit loadPointCloud(i); });
         }
         else
@@ -298,14 +287,13 @@ namespace ct
             this->setSelectionMode(QAbstractItemView::SingleSelection);
     }
 
-    void CloudTree::loadCloudResult(bool success, const Cloud::Ptr &cloud, float time)
+    void CloudTree::loadCloudResult(bool success, const Cloud::Ptr& cloud, float time)
     {
         if (!success)
-            m_console->print(LOG_ERROR, "failed to save the file!");
+            m_console->print(LOG_ERROR, "Failed to save the file!");
         else
         {
-            m_console->print(LOG_INFO, "load the file [path: " + cloud->info().filePath() + "] successfully,take time " +
-                                           QString::number(time) + " ms.");
+            m_console->print(LOG_INFO, LOG_STATU_PROCESS_DONE("Load the file [path: " + cloud->info().absoluteFilePath() + " ]", time));
             m_path = cloud->info().path();
             appendCloud(cloud);
         }
@@ -313,23 +301,22 @@ namespace ct
             m_progress_bar->close();
     }
 
-    void CloudTree::saveCloudResult(bool success, const QString &path, float time)
+    void CloudTree::saveCloudResult(bool success, const QString& path, float time)
     {
         if (!success)
             m_console->print(LOG_ERROR, "Save the file failed !");
         else
         {
-            m_console->print(LOG_INFO, "Save the file [path: " + path + "] successfully,take time " +
-                                           QString::number(time) + " ms.");
+            m_console->print(LOG_INFO, LOG_STATU_PROCESS_DONE("Save the file [path: " + path + " ]", time));
         }
         if (m_progress_bar != nullptr)
             m_progress_bar->close();
     }
 
-    void CloudTree::itemClickedEvent(QTreeWidgetItem *item, int)
+    void CloudTree::itemClickedEvent(QTreeWidgetItem* item, int)
     {
         std::vector<Index> index = getClickedIndexs(item);
-        for (auto &i : index)
+        for (auto& i : index)
         {
             Cloud::Ptr cloud = getCloud(i);
             if (item->checkState(0) == Qt::Checked)
@@ -351,7 +338,7 @@ namespace ct
         // update box
         std::vector<Index> all = getAllIndexs();
         std::vector<Index> indexs = getSelectedIndexs();
-        for (auto &i : all)
+        for (auto& i : all)
         {
             std::vector<Index>::const_iterator it = std::find(indexs.begin(), indexs.end(), i);
             Cloud::Ptr cloud = getCloud(i);
@@ -382,27 +369,29 @@ namespace ct
             m_cloudview->showCloudId(update_cloud->id());
 
             // point_size
-            QSpinBox *point_size = new QSpinBox;
+            QSpinBox* point_size = new QSpinBox;
             point_size->setRange(1, 99);
             point_size->setValue(update_cloud->pointSize());
             connect(point_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [=](int value)
                     {
-                update_cloud->setPointSize(value);
-                m_cloudview->setPointCloudSize(update_cloud->id(), value); });
+                        update_cloud->setPointSize(value);
+                        m_cloudview->setPointCloudSize(update_cloud->id(), value);
+                    });
 
             // opacity
-            QDoubleSpinBox *opacity = new QDoubleSpinBox;
+            QDoubleSpinBox* opacity = new QDoubleSpinBox;
             opacity->setSingleStep(0.1);
             opacity->setRange(0, 1);
             opacity->setValue(update_cloud->opacity());
             connect(opacity, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=](double value)
                     {
-                update_cloud->setOpacity(value);
-                m_cloudview->setPointCloudOpacity(update_cloud->id(), value); });
+                        update_cloud->setOpacity(value);
+                        m_cloudview->setPointCloudOpacity(update_cloud->id(), value);
+                    });
 
             // has normals
-            QCheckBox *show_normals = new QCheckBox;
-            QDoubleSpinBox *scale = new QDoubleSpinBox;
+            QCheckBox* show_normals = new QCheckBox;
+            QDoubleSpinBox* scale = new QDoubleSpinBox;
             scale->setSingleStep(0.01);
             scale->setRange(0, 9999);
             scale->setValue(0.01);
@@ -412,18 +401,20 @@ namespace ct
                 show_normals->setEnabled(false);
             connect(scale, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=](double value)
                     {
-                if (update_cloud->hasNormals() && show_normals->isChecked())
-                  m_cloudview->addPointCloudNormals(update_cloud, 1, value); });
+                        if (update_cloud->hasNormals() && show_normals->isChecked())
+                            m_cloudview->addPointCloudNormals(update_cloud, 1, value);
+                    });
             connect(show_normals, &QCheckBox::stateChanged, [=](int state)
                     {
-                if (state) m_cloudview->addPointCloudNormals(update_cloud, 1, scale->value());
-                else m_cloudview->removeShape(update_cloud->normalId()); });
+                        if (state) m_cloudview->addPointCloudNormals(update_cloud, 1, scale->value());
+                        else m_cloudview->removeShape(update_cloud->normalId());
+                    });
 
-            QHBoxLayout *layout = new QHBoxLayout;
+            QHBoxLayout* layout = new QHBoxLayout;
             layout->addWidget(show_normals);
             layout->addWidget(scale);
             layout->addStretch();
-            QWidget *normals = new QWidget;
+            QWidget* normals = new QWidget;
             normals->setLayout(layout);
             normals->layout()->setMargin(0);
             m_table->setCellWidget(4, 1, point_size);
@@ -436,31 +427,25 @@ namespace ct
         m_table->setItem(3, 1, new QTableWidgetItem(resolution));
     }
 
-    void CloudTree::mousePressEvent(QMouseEvent *event)
+    void CloudTree::mousePressEvent(QMouseEvent* event)
     {
         QModelIndex indexSelect = indexAt(event->pos());
         if (event->button() == Qt::RightButton && indexSelect.row() != -1)
         {
-            QTreeWidgetItem *item = this->itemFromIndex(indexSelect);
+            QTreeWidgetItem* item = this->itemFromIndex(indexSelect);
             if (item->isSelected())
             {
                 if (m_tree_menu == nullptr)
                 {
                     QMenu menu(this);
-                    menu.addAction("clear", [=]
-                                   { removeSelectedClouds(); });
-                    menu.addAction("save", [=]
-                                   { saveSelectedClouds(); });
+                    menu.addAction("clear", [=] { removeSelectedClouds(); });
+                    menu.addAction("save", [=] { saveSelectedClouds(); });
                     if (item->checkState(0) == Qt::Checked)
-                        menu.addAction("hide", [=]
-                                       { for (auto& i : getSelectedClouds()) setCloudChecked(i, false); });
+                        menu.addAction("hide", [=] { for (auto& i : getSelectedClouds()) setCloudChecked(i, false); });
                     else if (item->checkState(0) == Qt::Unchecked)
-                        menu.addAction("show", [=]
-                                       { for (auto& i : getSelectedClouds()) setCloudChecked(i, true); });
-                    menu.addAction("clone", [=]
-                                   { cloneSelectedClouds(); });
-                    menu.addAction("rename", [=]
-                                   { renameSelectedClouds(); });
+                        menu.addAction("show", [=] { for (auto& i : getSelectedClouds()) setCloudChecked(i, true); });
+                    menu.addAction("clone", [=] { cloneSelectedClouds(); });
+                    menu.addAction("rename", [=] { renameSelectedClouds(); });
                     menu.exec(event->globalPos());
                 }
                 else

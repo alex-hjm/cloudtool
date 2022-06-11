@@ -15,6 +15,9 @@
 #define BOX_TYPE_WIREFRAME  (1)
 #define BOX_TYPE_SURFACE    (2)
 
+#define CT_BoundingBox_AABB "Axis-Aligned Bounding Box"
+#define CT_BoundingBox_OBB  "Oriented Bounding Box"
+
 BoundingBox::BoundingBox(QWidget* parent)
     : CustomDock(parent), ui(new Ui::BoundingBox), m_box_type(BOX_TYPE_WIREFRAME)
 {
@@ -64,7 +67,7 @@ void BoundingBox::preview()
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
     if (selected_clouds.empty())
     {
-        m_console->print(ct::LOG_WARNING, "please select a pointcloud!");
+        m_console->print(ct::LOG_WARNING, LOG_STATU_NO_POINTCLOUD);
         return;
     }
     this->adjustEnable(false);
@@ -76,14 +79,14 @@ void BoundingBox::preview()
             box = ct::Features::boundingBoxAABB(i);
             m_cloudview->addCube(box, i->boxId());
             m_cloudview->setShapeColor(i->boxId(), QColorConstants::Red);
-            m_cloudview->showInfo("Axis-Aligned Bounding Box", 1);
+            m_cloudview->showInfo(CT_BoundingBox_AABB, 1);
         }
         else
         {
             box = ct::Features::boundingBoxOBB(i);
             m_cloudview->addCube(box, i->boxId());
             m_cloudview->setShapeColor(i->boxId(), QColorConstants::Green);
-            m_cloudview->showInfo("Oriented Bounding Box", 1);
+            m_cloudview->showInfo(CT_BoundingBox_OBB, 1);
         }
         m_cloudview->setShapeRepersentation(i->boxId(), m_box_type);
         switch (m_box_type)
@@ -103,9 +106,10 @@ void BoundingBox::preview()
         ui->dspin_rx->setValue(pcl::rad2deg(roll));
         ui->dspin_ry->setValue(pcl::rad2deg(pitch));
         ui->dspin_rz->setValue(pcl::rad2deg(yaw));
-        m_boxs_map[i->id()] = box;
+        m_box_map[i->id()] = box;
     }
     this->adjustEnable(true);
+    m_console->print(ct::LOG_INFO, LOG_STATU_PREVIEW_DONE(CT_BoundingBox));
 }
 
 void BoundingBox::apply()
@@ -113,11 +117,11 @@ void BoundingBox::apply()
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
     if (selected_clouds.empty())
     {
-        m_console->print(ct::LOG_WARNING, "please select a pointcloud!");
+        m_console->print(ct::LOG_WARNING, LOG_STATU_NO_POINTCLOUD);
         return;
     }
     for (auto& cloud : selected_clouds)
-        if (m_boxs_map.find(cloud->id()) == m_boxs_map.end())
+        if (m_box_map.find(cloud->id()) == m_box_map.end())
         {
             this->preview();
             break;
@@ -125,16 +129,16 @@ void BoundingBox::apply()
     m_cloudview->clearInfo();
     for (auto& cloud : selected_clouds)
     {
-        cloud->setBox(m_boxs_map.find(cloud->id())->second);
+        cloud->setBox(m_box_map.find(cloud->id())->second);
         m_cloudview->addBox(cloud);
     }
-    m_console->print(ct::LOG_INFO, "the bounding boxs apply done!");
     this->adjustEnable(false);
+    m_console->print(ct::LOG_INFO, LOG_STATU_APPLY_DONE(CT_BoundingBox));
 }
 
 void BoundingBox::reset()
 {
-    m_boxs_map.clear();
+    m_box_map.clear();
     m_cloudview->clearInfo();
     for (auto& cloud : m_cloudtree->getSelectedClouds())
     {
@@ -183,6 +187,6 @@ void BoundingBox::adjustBox(float r, float p, float y)
             m_cloudview->setShapeOpacity(cloud->boxId(), 0.5);
             break;
         }
-        m_boxs_map[cloud->id()] = box;
+        m_box_map[cloud->id()] = box;
     }
 }
