@@ -13,21 +13,21 @@
 
 #include <QFileInfo>
 #include <QString>
+#include <QColor>
 
 #include "base/exports.h"
 
-#define CLOUD_DEFAULT_ID "cloud"
-#define BOX_DEFAULT_ID "-box"
-#define NORMALS_DEFAULT_ID "-normals"
+#define CLOUD_DEFAULT_ID        "cloud"
+#define BOX_DEFAULT_ID          "-box"
+#define NORMALS_DEFAULT_ID      "-normals"
 
-#define CLOUD_TYPE_XYZ "XYZ"
-#define CLOUD_TYPE_XYZRGB "XYZRGB"
-#define CLOUD_TYPE_XYZN "XYZNormal"
-#define CLOUD_TYPE_XYZRGBN "XYZRGBNormal"
+#define CLOUD_TYPE_XYZ          "XYZ"
+#define CLOUD_TYPE_XYZRGB       "XYZRGB"
+#define CLOUD_TYPE_XYZN         "XYZNormal"
+#define CLOUD_TYPE_XYZRGBN      "XYZRGBNormal"
 
 namespace ct
 {
-    typedef pcl::RGB RGB;
     typedef pcl::Indices Indices;
     typedef pcl::console::TicToc TicToc;
     typedef pcl::PointXYZRGBNormal PointXYZRGBN;
@@ -46,23 +46,24 @@ namespace ct
     {
     public:
         Cloud() : m_id(CLOUD_DEFAULT_ID),
-                  m_box_rgb(255, 255, 255),
-                  m_normals_rgb(255, 255, 255),
-                  m_type(CLOUD_TYPE_XYZ),
-                  m_point_size(1),
-                  m_opacity(1.0),
-                  m_resolution(0.0) {}
+            m_type(CLOUD_TYPE_XYZ),
+            m_point_size(1),
+            m_opacity(1.0),
+            m_resolution(0.0),
+            m_box_rgb(QColorConstants::White),
+            m_normals_rgb(QColorConstants::White)
+        {}
 
-        Cloud(const Cloud &cloud, const Indices &indices)
+        Cloud(const Cloud& cloud, const Indices& indices)
             : pcl::PointCloud<PointXYZRGBN>(cloud, indices) {}
 
-        Cloud &operator+=(const Cloud &rhs)
+        Cloud& operator+=(const Cloud& rhs)
         {
             concatenate((*this), rhs);
             return (*this);
         }
 
-        Cloud operator+(const Cloud &rhs) { return (Cloud(*this) += rhs); }
+        Cloud operator+(const Cloud& rhs) { return (Cloud(*this) += rhs); }
 
         using Ptr = std::shared_ptr<Cloud>;
         using ConstPtr = std::shared_ptr<const Cloud>;
@@ -92,12 +93,12 @@ namespace ct
         /**
          * @brief 点云包围盒颜色
          */
-        RGB boxColor() const { return m_box_rgb; }
+        QColor boxColor() const { return m_box_rgb; }
 
         /**
          * @brief 点云法线颜色
          */
-        RGB normalColor() const { return m_normals_rgb; }
+        QColor normalColor() const { return m_normals_rgb; }
 
         /**
          * @brief 点云中心
@@ -152,17 +153,17 @@ namespace ct
         /**
          * @brief 设置点云ID
          */
-        void setId(const QString &id) { m_id = id; }
+        void setId(const QString& id) { m_id = id; }
 
         /**
          * @brief 设置点云包围盒
          */
-        void setBox(const Box &box) { m_box = box; }
+        void setBox(const Box& box) { m_box = box; }
 
         /**
          * @brief 设置点云文件信息
          */
-        void setInfo(const QFileInfo &info) { m_info = info; }
+        void setInfo(const QFileInfo& info) { m_info = info; }
 
         /**
          * @brief 设置点云点大小
@@ -172,22 +173,22 @@ namespace ct
         /**
          * @brief 设置点云点颜色 (rgb)
          */
-        void setCloudColor(int r, int g, int b);
+        void setCloudColor(const QColor& rgb);
 
         /**
          * @brief 设置点云点颜色 (aixs)
          */
-        void setCloudColor(const QString &aixs);
+        void setCloudColor(const QString& aixs);
 
         /**
          * @brief 设置包围盒颜色
          */
-        void setBoxColor(int r, int g, int b) { m_box_rgb.rgb = ((int)r) << 16 | ((int)g) << 8 | ((int)b); }
+        void setBoxColor(const QColor& rgb) { m_box_rgb = rgb; }
 
         /**
          * @brief 设置法线颜色
          */
-        void setNormalColor(int r, int g, int b) { m_normals_rgb.rgb = ((int)r) << 16 | ((int)g) << 8 | ((int)b); }
+        void setNormalColor(const QColor& rgb) { m_normals_rgb = rgb; }
 
         /**
          * @brief 设置点云透明度
@@ -211,8 +212,8 @@ namespace ct
     private:
         Box m_box;
         QString m_id;
-        RGB m_box_rgb;
-        RGB m_normals_rgb;
+        QColor m_box_rgb;
+        QColor m_normals_rgb;
         QString m_type;
         QFileInfo m_info;
         int m_point_size;

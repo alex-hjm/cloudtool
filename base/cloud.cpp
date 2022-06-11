@@ -15,15 +15,14 @@
 
 namespace ct
 {
-    void Cloud::setCloudColor(int r, int g, int b)
+    void Cloud::setCloudColor(const QColor& rgb)
     {
-        std::uint32_t rgb =
-            ((std::uint32_t)r << 16 | (std::uint32_t)g << 8 | (std::uint32_t)b);
-        for (auto &i : points)
-            i.rgb = *reinterpret_cast<float *>(&rgb);
+        std::uint32_t rgb_ =
+            ((std::uint32_t)rgb.red() << 16 | (std::uint32_t)rgb.green() << 8 | (std::uint32_t)rgb.blue());
+        for (auto& i : points) i.rgb = *reinterpret_cast<float*>(&rgb_);
     }
 
-    void Cloud::setCloudColor(const QString &aixs)
+    void Cloud::setCloudColor(const QString& aixs)
     {
         float max = -FLT_MAX, min = FLT_MAX;
         float fRed = 0.f, fGreen = 0.f, fBlue = 0.f;
@@ -35,7 +34,7 @@ namespace ct
         {
             max = max_pt.x;
             min = min_pt.x;
-            for (auto &i : points)
+            for (auto& i : points)
             {
                 float hue = (max - i.x) / static_cast<float>(max - min);
                 hue *= range;
@@ -50,7 +49,7 @@ namespace ct
         {
             max = max_pt.y;
             min = min_pt.y;
-            for (auto &i : points)
+            for (auto& i : points)
             {
                 float hue = (max - i.y) / static_cast<float>(max - min);
                 hue *= range;
@@ -65,7 +64,7 @@ namespace ct
         {
             max = max_pt.z;
             min = min_pt.z;
-            for (auto &i : points)
+            for (auto& i : points)
             {
                 float hue = (max - i.z) / static_cast<float>(max - min);
                 hue *= range;
@@ -129,7 +128,7 @@ namespace ct
             float roll, pitch, yaw;
             pcl::getEulerAngles(affine, roll, pitch, yaw);
             affine = pcl::getTransformation(center[0], center[1], center[2], roll, pitch, yaw);
-            m_box = {whd(0), whd(1), whd(2), affine, center, Eigen::Quaternionf(Eigen::Matrix3f::Identity())};
+            m_box = { whd(0), whd(1), whd(2), affine, center, Eigen::Quaternionf(Eigen::Matrix3f::Identity()) };
         }
         if (resolution_flag)
         {

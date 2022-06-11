@@ -10,6 +10,7 @@
 #include "base/exports.h"
 
 #include <pcl/common/eigen.h>
+#include <pcl/common/angles.h>
 
 namespace ct
 {

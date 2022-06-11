@@ -22,34 +22,34 @@ namespace ct
     {
         Q_OBJECT
     public:
-        explicit CustomDock(QWidget *parent = nullptr) : QDockWidget(parent) {}
+        explicit CustomDock(QWidget* parent = nullptr) : QDockWidget(parent) {}
 
         ~CustomDock() {}
 
-        void setCloudView(CloudView *cloudview) { m_cloudview = cloudview; }
+        void setCloudView(CloudView* cloudview) { m_cloudview = cloudview; }
 
-        void setCloudTree(CloudTree *cloudtree) { m_cloudtree = cloudtree; }
+        void setCloudTree(CloudTree* cloudtree) { m_cloudtree = cloudtree; }
 
-        void setConsole(Console *console) { m_console = console; }
+        void setConsole(Console* console) { m_console = console; }
 
         virtual void init() {}
 
         virtual void reset() {}
 
     protected:
-        void closeEvent(QCloseEvent *event)
+        void closeEvent(QCloseEvent* event)
         {
             reset();
             return QDockWidget::closeEvent(event);
         }
 
     public:
-        CloudView *m_cloudview;
-        CloudTree *m_cloudtree;
-        Console *m_console;
+        CloudView* m_cloudview;
+        CloudTree* m_cloudtree;
+        Console* m_console;
     };
 
-    static std::unordered_map<QString, CustomDock *> registed_docks;
+    static std::unordered_map<QString, CustomDock*> registed_docks;
     static std::unordered_map<QString, bool> docks_visible;
 
     /**
@@ -60,12 +60,11 @@ namespace ct
      * @param dock 合并的停靠窗口
      */
     template <class T>
-    void createDock(QMainWindow *parent, const QString &label, Qt::DockWidgetArea area,
-                    CloudView *cloudview = nullptr, CloudTree *cloudtree = nullptr,
-                    Console *console = nullptr, QDockWidget *dock = nullptr)
+    void createDock(QMainWindow* parent, const QString& label, Qt::DockWidgetArea area,
+                    CloudView* cloudview = nullptr, CloudTree* cloudtree = nullptr,
+                    Console* console = nullptr, QDockWidget* dock = nullptr)
     {
-        if (parent == nullptr)
-            return;
+        if (parent == nullptr) return;
         if (registed_docks.find(label) == registed_docks.end()) // register dock
             registed_docks[label] = nullptr;
         if (registed_docks.find(label)->second == nullptr) // create new dock
@@ -81,9 +80,11 @@ namespace ct
             registed_docks[label]->init();
             QObject::connect(registed_docks[label], &QDockWidget::visibilityChanged, [=](bool state)
                              { docks_visible[label] = !state; });
+            QObject::connect(registed_docks[label], &QDockWidget::destroyed, [=]
+                             { registed_docks[label] = nullptr; });
             parent->addDockWidget(area, registed_docks[label]);
             if (dock == nullptr)
-                for (auto &dock : registed_docks)
+                for (auto& dock : registed_docks)
                 {
                     if (dock.first != label && dock.second != nullptr)
                     {
@@ -98,8 +99,7 @@ namespace ct
         }
         else // update dock
         {
-            if (docks_visible.find(label) == docks_visible.end())
-                return;
+            if (docks_visible.find(label) == docks_visible.end()) return;
             if (docks_visible.find(label)->second)
                 registed_docks[label]->raise();
             else
