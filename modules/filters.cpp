@@ -107,9 +107,9 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::CropBox(const Eigen::Vector4f &min_pt,
-                          const Eigen::Vector4f &max_pt,
-                          const Eigen::Affine3f &transform)
+    void Filters::CropBox(const Eigen::Vector4f& min_pt,
+                          const Eigen::Vector4f& max_pt,
+                          const Eigen::Affine3f& transform)
     {
         pcl::console::TicToc time;
         time.tic();
@@ -128,7 +128,7 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::CropHull(const std::vector<pcl::Vertices> &polygons, int dim,
+    void Filters::CropHull(const std::vector<pcl::Vertices>& polygons, int dim,
                            bool crop_outside)
     {
         pcl::console::TicToc time;
@@ -148,7 +148,7 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::FrustumCulling(const Eigen::Matrix4f &camera_pose, float hfov,
+    void Filters::FrustumCulling(const Eigen::Matrix4f& camera_pose, float hfov,
                                  float vfov, float np_dist, float fp_dist)
     {
         pcl::console::TicToc time;
@@ -283,7 +283,7 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::PassThrough(const std::string &field_name, float limit_min,
+    void Filters::PassThrough(const std::string& field_name, float limit_min,
                               float limit_max)
     {
         pcl::console::TicToc time;
@@ -301,7 +301,7 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::PlaneClipper3D(const Eigen::Vector4f &plane_params)
+    void Filters::PlaneClipper3D(const Eigen::Vector4f& plane_params)
     {
         pcl::console::TicToc time;
         time.tic();
@@ -321,7 +321,7 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::ProjectInliers(int type, const pcl::ModelCoefficients::Ptr &model,
+    void Filters::ProjectInliers(int type, const pcl::ModelCoefficients::Ptr& model,
                                  bool va)
     {
         pcl::console::TicToc time;

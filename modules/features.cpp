@@ -34,7 +34,7 @@
 namespace ct
 {
 
-    Box Features::boundingBoxAABB(const Cloud::Ptr &cloud)
+    Box Features::boundingBoxAABB(const Cloud::Ptr& cloud)
     {
         PointXYZRGBN min, max;
         pcl::getMinMax3D(*cloud, min, max);
@@ -44,20 +44,18 @@ namespace ct
         whd = max.getVector3fMap() - min.getVector3fMap();
         Eigen::Affine3f affine = pcl::getTransformation(
             cloud_center[0], cloud_center[1], cloud_center[2], 0, 0, 0);
-        return {whd(0), whd(1), whd(2), affine, cloud_center,
-                Eigen::Quaternionf(Eigen::Matrix3f::Identity())};
+        return { whd(0), whd(1), whd(2), affine, cloud_center,
+                Eigen::Quaternionf(Eigen::Matrix3f::Identity()) };
     }
 
-    Box Features::boundingBoxOBB(const Cloud::Ptr &cloud)
+    Box Features::boundingBoxOBB(const Cloud::Ptr& cloud)
     {
         Eigen::Vector4f pcaCentroid;
         pcl::compute3DCentroid(*cloud, pcaCentroid);
         Eigen::Matrix3f covariance;
         pcl::computeCovarianceMatrixNormalized(*cloud, pcaCentroid, covariance);
-        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3f> eigen_solver(
-            covariance, Eigen::ComputeEigenvectors);
-        Eigen::Matrix3f eigenVectorsPCA =
-            eigen_solver.eigenvectors();                                               // feature vector
+        Eigen::SelfAdjointEigenSolver<Eigen::Matrix3f> eigen_solver(covariance, Eigen::ComputeEigenvectors);
+        Eigen::Matrix3f eigenVectorsPCA = eigen_solver.eigenvectors();                 // feature vector
         eigenVectorsPCA.col(2) = eigenVectorsPCA.col(0).cross(eigenVectorsPCA.col(1)); // Correct the verticality between main directions
         eigenVectorsPCA.col(0) = eigenVectorsPCA.col(1).cross(eigenVectorsPCA.col(2));
         eigenVectorsPCA.col(1) = eigenVectorsPCA.col(2).cross(eigenVectorsPCA.col(0));
@@ -75,12 +73,12 @@ namespace ct
         Eigen::Vector3f whd = max.getVector3fMap() - min.getVector3fMap();
         Eigen::Affine3f transform_inv_aff(transform_inv);
         pcl::transformPoint(cloud_center, tcloud_center, transform_inv_aff);
-        return {whd(0), whd(1), whd(2), transform_inv_aff, tcloud_center,
-                Eigen::Quaternionf(transform_inv.block<3, 3>(0, 0))};
+        return { whd(0), whd(1), whd(2), transform_inv_aff, tcloud_center,
+                Eigen::Quaternionf(transform_inv.block<3, 3>(0, 0)) };
     }
 
-    Box Features::boundingBoxAdjust(const Cloud::Ptr &cloud,
-                                    const Eigen::Affine3f &t)
+    Box Features::boundingBoxAdjust(const Cloud::Ptr& cloud,
+                                    const Eigen::Affine3f& t)
     {
         Eigen::Matrix4f transform = Eigen::Matrix4f::Identity();
         transform = t.matrix();
@@ -95,8 +93,8 @@ namespace ct
         Eigen::Vector3f whd = max.getVector3fMap() - min.getVector3fMap();
         Eigen::Affine3f transform_inv_aff(transform_inv);
         pcl::transformPoint(cloud_center, tcloud_center, transform_inv_aff);
-        return {whd(0), whd(1), whd(2), transform_inv_aff,
-                tcloud_center, Eigen::Quaternionf(transform_inv.block<3, 3>(0, 0))};
+        return { whd(0), whd(1), whd(2), transform_inv_aff,
+                tcloud_center, Eigen::Quaternionf(transform_inv.block<3, 3>(0, 0)) };
     }
 
     void Features::ShapeContext3DEstimation(double min_radius, double radius)
@@ -166,7 +164,7 @@ namespace ct
     }
 
     void Features::CRHEstimation(float vpx, float vpy, float vpz,
-                                 Eigen::Vector4f &centroid)
+                                 Eigen::Vector4f& centroid)
     {
         pcl::console::TicToc time;
         time.tic();
@@ -213,8 +211,8 @@ namespace ct
         emit featureResult(feature, time.toc());
     }
 
-    void Features::DifferenceOfNormalsEstimation(const Cloud::Ptr &small_normal,
-                                                 const Cloud::Ptr &large_normal)
+    void Features::DifferenceOfNormalsEstimation(const Cloud::Ptr& small_normal,
+                                                 const Cloud::Ptr& large_normal)
     {
         pcl::console::TicToc time;
         time.tic();
@@ -293,7 +291,7 @@ namespace ct
         emit featureResult(feature, time.toc());
     }
 
-    void Features::GASDEstimation(const Eigen::Vector3f &dir, int shgs,
+    void Features::GASDEstimation(const Eigen::Vector3f& dir, int shgs,
                                   const int shs, int interp)
     {
         pcl::console::TicToc time;
@@ -315,7 +313,7 @@ namespace ct
         emit featureResult(feature, time.toc());
     }
 
-    void Features::GASDColorEstimation(const Eigen::Vector3f &dir, int shgs,
+    void Features::GASDColorEstimation(const Eigen::Vector3f& dir, int shgs,
                                        const int shs, int interp, int chgs,
                                        const int chs, int cinterp)
     {
@@ -418,7 +416,7 @@ namespace ct
         emit featureResult(feature, time.toc());
     }
 
-    void Features::SHOTEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr &lrf,
+    void Features::SHOTEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& lrf,
                                   float radius)
     {
         pcl::console::TicToc time;
@@ -440,7 +438,7 @@ namespace ct
         emit featureResult(feature, time.toc());
     }
 
-    void Features::SHOTColorEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr &lrf,
+    void Features::SHOTColorEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& lrf,
                                        float radius)
     {
         pcl::console::TicToc time;
@@ -481,7 +479,7 @@ namespace ct
         emit lrfResult(feature, time.toc());
     }
 
-    void Features::UniqueShapeContext(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr &lrf,
+    void Features::UniqueShapeContext(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& lrf,
                                       double min_radius, double pt_radius, double loc_radius)
     {
         pcl::console::TicToc time;
@@ -504,8 +502,8 @@ namespace ct
         emit featureResult(feature, time.toc());
     }
 
-    void Features::VFHEstimation(float vpx, float vpy, float vpz, bool use_n, const Eigen::Vector3f &normal,
-                                 bool use_c, const Eigen::Vector3f &centroid,
+    void Features::VFHEstimation(float vpx, float vpy, float vpz, bool use_n, const Eigen::Vector3f& normal,
+                                 bool use_c, const Eigen::Vector3f& centroid,
                                  bool normalize_bin, bool normalize_dst, bool fill_size)
     {
         pcl::console::TicToc time;

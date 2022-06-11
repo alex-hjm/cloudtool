@@ -26,14 +26,15 @@ namespace ct
     {
         Q_OBJECT
     public:
-        explicit Filters(QObject *parent = nullptr)
+        explicit Filters(QObject* parent = nullptr)
             : QObject(parent),
-              cloud_(),
-              negative_(false),
-              keep_organized_(false),
-              value_(std::numeric_limits<float>::quiet_NaN()) {}
+            cloud_(),
+            negative_(false),
+            keep_organized_(false),
+            value_(std::numeric_limits<float>::quiet_NaN())
+        {}
 
-        void setInputCloud(const Cloud::Ptr &cloud) { cloud_ = cloud; }
+        void setInputCloud(const Cloud::Ptr& cloud) { cloud_ = cloud; }
 
         /**
          * @brief 设置是应用点过滤的常规条件，还是应用倒置条件
@@ -65,7 +66,7 @@ namespace ct
         /**
          * @brief 点云滤波的结果
          */
-        void filterResult(const Cloud::Ptr &cloud, float time);
+        void filterResult(const Cloud::Ptr& cloud, float time);
 
     public slots:
 
@@ -105,8 +106,8 @@ namespace ct
          * @param rotation 设置框的旋转值
          * @param transform 设置过滤前应应用于云的转换
          */
-        void CropBox(const Eigen::Vector4f &min_pt, const Eigen::Vector4f &max_pt,
-                     const Eigen::Affine3f &transform);
+        void CropBox(const Eigen::Vector4f& min_pt, const Eigen::Vector4f& max_pt,
+                     const Eigen::Affine3f& transform);
 
         /**
          * @brief 过滤位于 3D 闭合曲面或 2D 闭合多边形内部或外部的点
@@ -114,7 +115,7 @@ namespace ct
          * @param dim 设置要使用的船体的维度
          * @param crop_outside 移除船体外部的点（默认）或船体内部的点
          */
-        void CropHull(const std::vector<pcl::Vertices> &polygons, int dim,
+        void CropHull(const std::vector<pcl::Vertices>& polygons, int dim,
                       bool crop_outside);
 
         /**
@@ -125,7 +126,7 @@ namespace ct
          * @param np_dist 设置近平面距离
          * @param fp_dist 设置远平面距离
          */
-        void FrustumCulling(const Eigen::Matrix4f &camera_pose, float hfov,
+        void FrustumCulling(const Eigen::Matrix4f& camera_pose, float hfov,
                             float vfov, float np_dist, float fp_dist);
 
         /**
@@ -179,14 +180,14 @@ namespace ct
          * @param limit_max 为过滤数据的字段设置数值限制
          * @param negative  是否返回指定的限制间隔之外的数据
          */
-        void PassThrough(const std::string &field_name, float limit_min,
+        void PassThrough(const std::string& field_name, float limit_min,
                          float limit_max);
 
         /**
          * @brief 3D 平面剪裁器
          * @param plane_params 设置新的平面参数
          */
-        void PlaneClipper3D(const Eigen::Vector4f &plane_params);
+        void PlaneClipper3D(const Eigen::Vector4f& plane_params);
 
         /**
          * @brief 投影滤波器
@@ -194,7 +195,7 @@ namespace ct
          * @param model 提供指向模型系数的指针
          * @param va 设置是返回所有数据，还是只返回投影的内点。
          */
-        void ProjectInliers(int type, const pcl::ModelCoefficients::Ptr &model, bool va);
+        void ProjectInliers(int type, const pcl::ModelCoefficients::Ptr& model, bool va);
 
         /**
          * @brief 离群点滤波

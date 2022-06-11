@@ -36,15 +36,16 @@ namespace ct
         Q_OBJECT
 
     public:
-        explicit Features(QObject *parent = nullptr)
-            : QObject(parent), cloud_(), surface_(), k_(0), radius_(0) {}
+        explicit Features(QObject* parent = nullptr)
+            : QObject(parent), cloud_(), surface_(), k_(0), radius_(0)
+        {}
 
-        void setInputCloud(const Cloud::Ptr &cloud) { cloud_ = cloud; }
+        void setInputCloud(const Cloud::Ptr& cloud) { cloud_ = cloud; }
 
         /**
          * @brief 提供指向数据集的指针以添加其他信息以估计输入数据集中每个点的特征
          */
-        void setSearchSurface(const Cloud::Ptr &surface) { surface_ = surface; }
+        void setSearchSurface(const Cloud::Ptr& surface) { surface_ = surface; }
 
         /**
          * @brief 设置用于特征估计的 k 最近邻的数量
@@ -67,70 +68,70 @@ namespace ct
         /**
          * @brief 估计法线结果
          */
-        void normalsResult(const Cloud::Ptr &cloud, float time);
+        void normalsResult(const Cloud::Ptr& cloud, float time);
 
         /**
          * @brief 边界估计结果
          */
-        void boundaryResult(const pcl::PointCloud<pcl::Boundary>::Ptr &cloud,
+        void boundaryResult(const pcl::PointCloud<pcl::Boundary>::Ptr& cloud,
                             float time);
 
         /**
          * @brief 法线差异结果
          */
-        void donResult(const Cloud::Ptr &cloud, float time);
+        void donResult(const Cloud::Ptr& cloud, float time);
 
         /**
          * @brief 本地参考帧估计结果
          */
-        void lrfResult(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr &cloud,
+        void lrfResult(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& cloud,
                        float time);
 
         /**
          * @brief 特征估计结果
          */
-        void featureResult(const SCFeature::Ptr &feature, float time);
+        void featureResult(const SCFeature::Ptr& feature, float time);
 
-        void featureResult(const CRHFeature::Ptr &feature, float time);
+        void featureResult(const CRHFeature::Ptr& feature, float time);
 
-        void featureResult(const VFHFeature::Ptr &feature, float time);
+        void featureResult(const VFHFeature::Ptr& feature, float time);
 
-        void featureResult(const ESFFeature::Ptr &feature, float time);
+        void featureResult(const ESFFeature::Ptr& feature, float time);
 
-        void featureResult(const FPFHFeature::Ptr &feature, float time);
+        void featureResult(const FPFHFeature::Ptr& feature, float time);
 
-        void featureResult(const GASDFeature::Ptr &feature, float time);
+        void featureResult(const GASDFeature::Ptr& feature, float time);
 
-        void featureResult(const GASDCFeature::Ptr &feature, float time);
+        void featureResult(const GASDCFeature::Ptr& feature, float time);
 
-        void featureResult(const GRSDFeature::Ptr &feature, float time);
+        void featureResult(const GRSDFeature::Ptr& feature, float time);
 
-        void featureResult(const RSDFeature::Ptr &feature, float time);
+        void featureResult(const RSDFeature::Ptr& feature, float time);
 
-        void featureResult(const PFHFeature::Ptr &feature, float time);
+        void featureResult(const PFHFeature::Ptr& feature, float time);
 
-        void featureResult(const SHOTFeature::Ptr &feature, float time);
+        void featureResult(const SHOTFeature::Ptr& feature, float time);
 
-        void featureResult(const SHOTCFeature::Ptr &feature, float time);
+        void featureResult(const SHOTCFeature::Ptr& feature, float time);
 
-        void featureResult(const USCFeature::Ptr &feature, float time);
+        void featureResult(const USCFeature::Ptr& feature, float time);
 
     public slots:
 
         /**
          * @brief 计算AABB包围盒
          */
-        static Box boundingBoxAABB(const Cloud::Ptr &);
+        static Box boundingBoxAABB(const Cloud::Ptr&);
 
         /**
          * @brief 计算OBB包围盒
          */
-        static Box boundingBoxOBB(const Cloud::Ptr &);
+        static Box boundingBoxOBB(const Cloud::Ptr&);
 
         /**
          * @brief 计算自定义包围盒
          */
-        static Box boundingBoxAdjust(const Cloud::Ptr &, const Eigen::Affine3f &t);
+        static Box boundingBoxAdjust(const Cloud::Ptr&, const Eigen::Affine3f& t);
 
         /**
          * @brief 实现 3D 形状上下文描述符
@@ -170,7 +171,7 @@ namespace ct
          * @param vpx vpy vpz 设置视点
          */
         void CRHEstimation(float vpx, float vpy, float vpz,
-                           Eigen::Vector4f &centroid);
+                           Eigen::Vector4f& centroid);
 
         /**
          * @brief 估计包含 XYZ 数据和法线的给定点云数据集的聚类视点特征直方图 (CVFH)
@@ -191,8 +192,8 @@ namespace ct
          * @param small_normal 为 DoN 运算符设置使用较小搜索半径（比例）计算的法线
          * @param large_normal 为 DoN 运算符设置使用较大搜索半径（比例）计算的法线
          */
-        void DifferenceOfNormalsEstimation(const Cloud::Ptr &small_normal,
-                                           const Cloud::Ptr &large_normal);
+        void DifferenceOfNormalsEstimation(const Cloud::Ptr& small_normal,
+                                           const Cloud::Ptr& large_normal);
 
         /**
          * @brief 估计包含点的给定点云数据集的形状函数描述符集
@@ -224,7 +225,7 @@ namespace ct
          * @param shs 设置形状直方图大小
          * @param interp 设置形状直方图插值方法 0-NONE 1-TRILINEAR 2-QUADRILINEAR
          */
-        void GASDEstimation(const Eigen::Vector3f &dir, int shgs, const int shs,
+        void GASDEstimation(const Eigen::Vector3f& dir, int shgs, const int shs,
                             int interp);
 
         /**
@@ -238,7 +239,7 @@ namespace ct
          * @param chs 设置颜色直方图大小
          * @param cinterp 设置颜色直方图插值方法 0-NONE 1-TRILINEAR 2-QUADRILINEAR
          */
-        void GASDColorEstimation(const Eigen::Vector3f &dir, int shgs, const int shs,
+        void GASDColorEstimation(const Eigen::Vector3f& dir, int shgs, const int shs,
                                  int interp, int chgs, const int chs, int cinterp);
 
         /**
@@ -273,7 +274,7 @@ namespace ct
          * @param lrf 提供指向包含 XYZ 数据集的本地参考帧的输入数据集的指针
          * @param radius 如果用户未设置帧，则设置用于局部参考帧估计的半径
          */
-        void SHOTEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr &lrf,
+        void SHOTEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& lrf,
                             float radius);
 
         /**
@@ -282,7 +283,7 @@ namespace ct
          * @param lrf 提供指向包含 XYZ 数据集的本地参考帧的输入数据集的指针
          * @param radius 如果用户未设置帧，则设置用于局部参考帧估计的半径
          */
-        void SHOTColorEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr &lrf,
+        void SHOTColorEstimation(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& lrf,
                                  float radius);
 
         /**
@@ -297,7 +298,7 @@ namespace ct
          * @param pt_radius 此半径用于计算局部点密度密度 = 此半径内的点数
          * @param loc_radius 设置本地射频半径值
          */
-        void UniqueShapeContext(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr &lrf,
+        void UniqueShapeContext(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& lrf,
                                 double min_radius, double pt_radius,
                                 double loc_radius);
 
@@ -313,8 +314,8 @@ namespace ct
          * @param fill_size 设置填充大小组件
          */
         void VFHEstimation(float vpx, float vpy, float vpz, bool use_n,
-                           const Eigen::Vector3f &normal, bool use_c,
-                           const Eigen::Vector3f &centroid, bool normalize_bin,
+                           const Eigen::Vector3f& normal, bool use_c,
+                           const Eigen::Vector3f& centroid, bool normalize_bin,
                            bool normalize_dst, bool fill_size);
     };
 } // namespace ct
