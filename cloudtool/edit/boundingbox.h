@@ -19,7 +19,7 @@ class BoundingBox : public ct::CustomDock
     Q_OBJECT
 
 public:
-    explicit BoundingBox(QWidget *parent = nullptr);
+    explicit BoundingBox(QWidget* parent = nullptr);
     ~BoundingBox();
 
     void preview();
@@ -34,7 +34,7 @@ public slots:
     void adjustBox(float r, float p, float y);
 
 private:
-    Ui::BoundingBox *ui;
+    Ui::BoundingBox* ui;
     int m_box_type;
     std::unordered_map<QString, ct::Box> m_boxs_map;
 };

@@ -1,9 +1,15 @@
-#ifndef COLORS_H
-#define COLORS_H
+/**
+ * @file color.h
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-12
+ */
+#ifndef CT_EDIT_COLORS_H
+#define CT_EDIT_COLORS_H
 
 #include <QColorDialog>
 
-#include "pca/customdock.h"
+#include "base/customdock.h"
 
 const QColor colors[5][10] = {
     {QColor("#ffffff"), QColor("#e5e5e7"), QColor("#cccccc"), QColor("#9a9a9a"),
@@ -24,35 +30,36 @@ const QColor colors[5][10] = {
 
     {QColor("#9e1068"), QColor("#a8171b"), QColor("#ad4e00"), QColor("#ad8b00"),
      QColor("#5b8c00"), QColor("#006075"), QColor("#006d75"), QColor("#0050b3"),
-     QColor("#10239e"), QColor("#391085")}};
+     QColor("#10239e"), QColor("#391085")} };
 
-namespace Ui {
-class Color;
+namespace Ui
+{
+    class Color;
 }
 
-class Color : public pca::CustomDock {
-  Q_OBJECT
+class Color : public ct::CustomDock
+{
+    Q_OBJECT
 
- public:
-  explicit Color(QWidget *parent = nullptr);
-  ~Color();
+public:
+    explicit Color(QWidget* parent = nullptr);
+    ~Color();
 
-  virtual void init();
-  void apply();
-  virtual void reset();
+    void apply();
+    virtual void reset();
 
- signals:
-  void rgb(int r, int g, int b);
-  void fieldName(const QString &field);
+signals:
+    void rgb(const QColor& rgb);
+    void field(const QString& field);
 
- private:
-  bool checkValid();
+public slots:
+    void setColor(const QColor& rgb);
+    void setColor(const QString& field);
 
- private:
-  Ui::Color *ui;
-  QString field_name;
-  int red, green, blue;
-  std::vector<pca::Cloud::Ptr> selected_clouds;
+private:
+    Ui::Color* ui;
+    QString m_field;
+    QColor m_rgb;
 };
 
-#endif  // COLORS_H
+#endif // CT_EDIT_COLORS_H

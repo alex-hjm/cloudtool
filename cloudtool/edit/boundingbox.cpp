@@ -15,37 +15,40 @@
 #define BOX_TYPE_WIREFRAME  (1)
 #define BOX_TYPE_SURFACE    (2)
 
-BoundingBox::BoundingBox(QWidget *parent)
+BoundingBox::BoundingBox(QWidget* parent)
     : CustomDock(parent), ui(new Ui::BoundingBox), m_box_type(BOX_TYPE_WIREFRAME)
 {
     ui->setupUi(this);
     connect(ui->btn_apply, &QPushButton::clicked, this, &BoundingBox::apply);
     connect(ui->btn_reset, &QPushButton::clicked, this, &BoundingBox::reset);
     connect(ui->btn_preview, &QPushButton::clicked, this, &BoundingBox::preview);
-    connect(ui->check_points, &QCheckBox::clicked, [=](bool state)
+    connect(ui->check_points, &QCheckBox::clicked, [=](bool checked)
             {
-                if (state)
+                if (checked)
                 {
                     m_box_type = BOX_TYPE_POINTS;
                     ui->check_wireframe->setChecked(false);
                     ui->check_surface->setChecked(false);
-                } });
-    connect(ui->check_wireframe, &QCheckBox::clicked, [=](bool state)
+                }
+            });
+    connect(ui->check_wireframe, &QCheckBox::clicked, [=](bool checked)
             {
-                if (state)
+                if (checked)
                 {
                     m_box_type = BOX_TYPE_WIREFRAME;
                     ui->check_points->setChecked(false);
                     ui->check_surface->setChecked(false);
-                } });
-    connect(ui->check_surface, &QCheckBox::clicked, [=](bool state)
+                }
+            });
+    connect(ui->check_surface, &QCheckBox::clicked, [=](bool checked)
             {
-                if (state)
+                if (checked)
                 {
                     m_box_type = BOX_TYPE_SURFACE;
                     ui->check_points->setChecked(false);
                     ui->check_wireframe->setChecked(false);
-                } });
+                }
+            });
     connect(ui->dspin_rx, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=](double value)
             { emit eulerAngles(value, ui->dspin_ry->value(), ui->dspin_rz->value()); });
     connect(ui->dspin_ry, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=](double value)
@@ -65,21 +68,21 @@ void BoundingBox::preview()
         return;
     }
     this->adjustEnable(false);
-    for (auto &i : selected_clouds)
+    for (auto& i : selected_clouds)
     {
         ct::Box box;
         if (ui->rbtn_aabb->isChecked())
         {
             box = ct::Features::boundingBoxAABB(i);
             m_cloudview->addCube(box, i->boxId());
-            m_cloudview->setShapeColor(i->boxId(), 255, 0, 0);
+            m_cloudview->setShapeColor(i->boxId(), QColorConstants::Red);
             m_cloudview->showInfo("Axis-Aligned Bounding Box", 1);
         }
         else
         {
             box = ct::Features::boundingBoxOBB(i);
             m_cloudview->addCube(box, i->boxId());
-            m_cloudview->setShapeColor(i->boxId(), 0, 255, 0);
+            m_cloudview->setShapeColor(i->boxId(), QColorConstants::Green);
             m_cloudview->showInfo("Oriented Bounding Box", 1);
         }
         m_cloudview->setShapeRepersentation(i->boxId(), m_box_type);
@@ -97,9 +100,9 @@ void BoundingBox::preview()
         }
         float roll, pitch, yaw;
         pcl::getEulerAngles(box.pose, roll, pitch, yaw);
-        ui->dspin_rx->setValue(roll / M_PI * 360);
-        ui->dspin_ry->setValue(pitch / M_PI * 360);
-        ui->dspin_rz->setValue(yaw / M_PI * 360);
+        ui->dspin_rx->setValue(pcl::rad2deg(roll));
+        ui->dspin_ry->setValue(pcl::rad2deg(pitch));
+        ui->dspin_rz->setValue(pcl::rad2deg(yaw));
         m_boxs_map[i->id()] = box;
     }
     this->adjustEnable(true);
@@ -113,14 +116,14 @@ void BoundingBox::apply()
         m_console->print(ct::LOG_WARNING, "please select a pointcloud!");
         return;
     }
-    for (auto &cloud : selected_clouds)
+    for (auto& cloud : selected_clouds)
         if (m_boxs_map.find(cloud->id()) == m_boxs_map.end())
         {
             this->preview();
             break;
         }
     m_cloudview->clearInfo();
-    for (auto &cloud : selected_clouds)
+    for (auto& cloud : selected_clouds)
     {
         cloud->setBox(m_boxs_map.find(cloud->id())->second);
         m_cloudview->addBox(cloud);
@@ -133,7 +136,7 @@ void BoundingBox::reset()
 {
     m_boxs_map.clear();
     m_cloudview->clearInfo();
-    for (auto &cloud : m_cloudtree->getSelectedClouds())
+    for (auto& cloud : m_cloudtree->getSelectedClouds())
     {
         m_cloudview->addBox(cloud);
     }
@@ -160,13 +163,13 @@ void BoundingBox::adjustEnable(bool state)
 
 void BoundingBox::adjustBox(float r, float p, float y)
 {
-    for (auto &cloud : m_cloudtree->getSelectedClouds())
+    for (auto& cloud : m_cloudtree->getSelectedClouds())
     {
         Eigen::Affine3f affine = pcl::getTransformation(cloud->center()[0], cloud->center()[1], cloud->center()[2],
-                                                       r / 360 * M_PI, p / 360 * M_PI, y / 360 * M_PI);
+                                                        pcl::deg2rad(r), pcl::deg2rad(p), pcl::deg2rad(y));
         ct::Box box = ct::Features::boundingBoxAdjust(cloud, affine.inverse());
         m_cloudview->addCube(box, cloud->boxId());
-        m_cloudview->setShapeColor(cloud->boxId(), 0, 0, 255);
+        m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::Blue);
         m_cloudview->setShapeRepersentation(cloud->boxId(), m_box_type);
         switch (m_box_type)
         {
