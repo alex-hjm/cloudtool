@@ -14,7 +14,7 @@
 
 namespace ct
 {
-    void FileIO::loadPointCloud(const QString &filename)
+    void FileIO::loadPointCloud(const QString& filename)
     {
         TicToc time;
         time.tic();
@@ -50,7 +50,7 @@ namespace ct
         emit loadCloudResult(true, cloud, time.toc());
     }
 
-    void FileIO::savePointCloud(const Cloud::Ptr &cloud, const QString &filename, bool isBinary)
+    void FileIO::savePointCloud(const Cloud::Ptr& cloud, const QString& filename, bool isBinary)
     {
         TicToc time;
         time.tic();

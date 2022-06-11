@@ -11,7 +11,7 @@
 
 namespace ct
 {
-    void Console::print(log_level level, const QString &message)
+    void Console::print(log_level level, const QString& message)
     {
         QString currenttime = QDateTime::currentDateTime().toString("hh:mm:ss");
         QString level_color;

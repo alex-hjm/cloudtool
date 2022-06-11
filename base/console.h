@@ -24,12 +24,12 @@ namespace ct
     {
         Q_OBJECT
     public:
-        explicit Console(QWidget *parent = nullptr) : QTextBrowser(parent) {}
+        explicit Console(QWidget* parent = nullptr) : QTextBrowser(parent) {}
 
         /**
          * @brief 打印日志
          */
-        void print(log_level level, const QString &message);
+        void print(log_level level, const QString& message);
     };
 
 } // namespace ct

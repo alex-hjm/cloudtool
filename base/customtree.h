@@ -25,11 +25,11 @@ namespace ct
     {
         Index() {}
         Index(int r, int c) : row(r), col(c) {}
-        bool operator==(const Index &index) const
+        bool operator==(const Index& index) const
         {
             return (this->row == index.row) && (this->col == index.col);
         }
-        bool operator!=(const Index &index) const
+        bool operator!=(const Index& index) const
         {
             return !(*this == index);
         }
@@ -41,17 +41,17 @@ namespace ct
     {
         Q_OBJECT
     public:
-        explicit CustomTree(QWidget *parent = nullptr);
+        explicit CustomTree(QWidget* parent = nullptr);
 
         /**
          * @brief 设置父类项目的图标
          */
-        void setParentIcon(const QIcon &icon) { m_parent_icon = icon; }
+        void setParentIcon(const QIcon& icon) { m_parent_icon = icon; }
 
         /**
          * @brief 设置子类项目的图标
          */
-        void setChildIcon(const QIcon &icon) { m_child_icon = icon; }
+        void setChildIcon(const QIcon& icon) { m_child_icon = icon; }
 
     protected:
         /**
@@ -67,7 +67,7 @@ namespace ct
         /**
          * @brief 获取点击项目的索引
          */
-        std::vector<Index> getClickedIndexs(QTreeWidgetItem *item);
+        std::vector<Index> getClickedIndexs(QTreeWidgetItem* item);
 
         /**
          * @brief 获取所有项目的索引
@@ -77,37 +77,37 @@ namespace ct
         /**
          * @brief 返回索引是否有效
          */
-        bool indexIsValid(const Index &index);
+        bool indexIsValid(const Index& index);
 
         /**
          * @brief 添加项目
          */
-        void addItem(const Index &index, const QString &parent_id, const QString &child_id, bool selected = false);
+        void addItem(const Index& index, const QString& parent_id, const QString& child_id, bool selected = false);
 
         /**
          * @brief 移除项目
          */
-        void removeItem(const Index &index);
+        void removeItem(const Index& index);
 
         /**
          * @brief 返回该索引的项目
          */
-        QTreeWidgetItem *item(const Index &index);
+        QTreeWidgetItem* item(const Index& index);
 
         /**
          * @brief 返回该项目名称的索引
          */
-        Index index(const QString &text);
+        Index index(const QString& text);
 
         /**
          * @brief 设置项目是否勾选
          */
-        void setItemChecked(const Index &index, bool checked);
+        void setItemChecked(const Index& index, bool checked);
 
         /**
          * @brief 按照规则排序索引
          */
-        std::vector<Index> getSortedIndexs(sort_type type, const std::vector<Index> &indexs);
+        std::vector<Index> getSortedIndexs(sort_type type, const std::vector<Index>& indexs);
 
     private slots:
         /**
@@ -118,7 +118,7 @@ namespace ct
         /**
          * @brief 项目点击事件
          */
-        void itemClickedEvent(QTreeWidgetItem *, int i = 0);
+        void itemClickedEvent(QTreeWidgetItem*, int i = 0);
 
     private:
         QIcon m_parent_icon;

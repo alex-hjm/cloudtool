@@ -8,7 +8,7 @@
 
 namespace ct
 {
-    CustomTree::CustomTree(QWidget *parent) : QTreeWidget(parent)
+    CustomTree::CustomTree(QWidget* parent) : QTreeWidget(parent)
     {
         this->setSelectionMode(QAbstractItemView::ExtendedSelection);
         connect(this, &CustomTree::itemSelectionChanged, this, &CustomTree::itemSelectionChangedEvent);
@@ -19,7 +19,7 @@ namespace ct
     {
         std::vector<Index> indexs;
         auto items = selectedItems();
-        for (auto &i : items)
+        for (auto& i : items)
             if (i->parent() != nullptr)
                 indexs.push_back(Index(indexOfTopLevelItem(i->parent()), i->parent()->indexOfChild(i)));
         return indexs;
@@ -30,7 +30,7 @@ namespace ct
         std::vector<Index> indexs;
         for (int i = 0; i < topLevelItemCount(); i++)
         {
-            QTreeWidgetItem *parent = topLevelItem(i);
+            QTreeWidgetItem* parent = topLevelItem(i);
             for (int j = 0; j < parent->childCount(); j++)
                 if (parent->child(j)->checkState(0) == Qt::Checked)
                     indexs.push_back(Index(i, j));
@@ -38,7 +38,7 @@ namespace ct
         return indexs;
     }
 
-    std::vector<Index> CustomTree::getClickedIndexs(QTreeWidgetItem *item)
+    std::vector<Index> CustomTree::getClickedIndexs(QTreeWidgetItem* item)
     {
         std::vector<Index> indexs;
         if (item->parent() == nullptr)
@@ -58,18 +58,18 @@ namespace ct
         return indexs;
     }
 
-    bool CustomTree::indexIsValid(const Index &index)
+    bool CustomTree::indexIsValid(const Index& index)
     {
         return (index.row > -1) && (index.row < topLevelItemCount()) &&
-               (index.col > -1) && (index.col < topLevelItem(index.row)->childCount());
+            (index.col > -1) && (index.col < topLevelItem(index.row)->childCount());
     }
 
-    void CustomTree::addItem(const Index &index, const QString &parent_id, const QString &child_id, bool selected)
+    void CustomTree::addItem(const Index& index, const QString& parent_id, const QString& child_id, bool selected)
     {
         if (index.row <= -1 || index.row > topLevelItemCount()) // parent item
         {
-            QTreeWidgetItem *parent = new QTreeWidgetItem(this);
-            QTreeWidgetItem *child = new QTreeWidgetItem(parent);
+            QTreeWidgetItem* parent = new QTreeWidgetItem(this);
+            QTreeWidgetItem* child = new QTreeWidgetItem(parent);
             parent->setText(0, parent_id);
             parent->setIcon(0, m_parent_icon);
             parent->setCheckState(0, Qt::Checked);
@@ -84,8 +84,8 @@ namespace ct
         }
         else // child
         {
-            QTreeWidgetItem *parent = topLevelItem(index.row);
-            QTreeWidgetItem *child = new QTreeWidgetItem(parent);
+            QTreeWidgetItem* parent = topLevelItem(index.row);
+            QTreeWidgetItem* child = new QTreeWidgetItem(parent);
             child->setIcon(0, m_child_icon);
             child->setText(0, child_id);
             child->setCheckState(0, Qt::Checked);
@@ -99,7 +99,7 @@ namespace ct
         }
     }
 
-    void CustomTree::removeItem(const Index &index)
+    void CustomTree::removeItem(const Index& index)
     {
         if (!indexIsValid(index))
             return;
@@ -109,7 +109,7 @@ namespace ct
             topLevelItem(index.row)->takeChild(index.col);
     }
 
-    QTreeWidgetItem *CustomTree::item(const Index &index)
+    QTreeWidgetItem* CustomTree::item(const Index& index)
     {
         if (!indexIsValid(index))
             return nullptr;
@@ -119,7 +119,7 @@ namespace ct
             return topLevelItem(index.row)->child(index.col);
     }
 
-    Index CustomTree::index(const QString &text)
+    Index CustomTree::index(const QString& text)
     {
         for (int i = 0; i < topLevelItemCount(); i++)
             for (int j = 0; j < topLevelItem(i)->childCount(); j++)
@@ -128,11 +128,11 @@ namespace ct
         return Index(-1, -1);
     }
 
-    void CustomTree::setItemChecked(const Index &index, bool checked)
+    void CustomTree::setItemChecked(const Index& index, bool checked)
     {
         if (!indexIsValid(index))
             return;
-        QTreeWidgetItem *item = topLevelItem(index.row)->child(index.col);
+        QTreeWidgetItem* item = topLevelItem(index.row)->child(index.col);
         if (checked)
             item->setCheckState(0, Qt::Checked);
         else
@@ -140,23 +140,23 @@ namespace ct
         itemClickedEvent(item);
     }
 
-    std::vector<Index> CustomTree::getSortedIndexs(sort_type type, const std::vector<Index> &indexs)
+    std::vector<Index> CustomTree::getSortedIndexs(sort_type type, const std::vector<Index>& indexs)
     {
         std::vector<Index> res;
         switch (type)
         {
         case ASCENDING:
             res = indexs;
-            std::sort(res.begin(), res.end(), [](Index &a, Index &b) -> bool
+            std::sort(res.begin(), res.end(), [](Index& a, Index& b) -> bool
                       { return (a.row < b.row) || (a.row == b.row && a.col < b.col) ? true : false; });
             break;
         case DESCENDING:
             res = indexs;
-            std::sort(res.begin(), res.end(), [](Index &a, Index &b) -> bool
+            std::sort(res.begin(), res.end(), [](Index& a, Index& b) -> bool
                       { return (a.row > b.row) || (a.row == b.row && a.col > b.col) ? true : false; });
             break;
         case PARENTFIRST:
-            for (auto &i : indexs)
+            for (auto& i : indexs)
             {
                 if (i.col != -1)
                 {
@@ -165,14 +165,14 @@ namespace ct
                 }
                 else
                 {
-                    QTreeWidgetItem *parent = topLevelItem(i.row);
+                    QTreeWidgetItem* parent = topLevelItem(i.row);
                     for (int j = 0; j < parent->childCount(); j++)
                         res.push_back(Index(i.row, j));
                 }
             }
             break;
         case CHILDFIRST:
-            for (auto &i : indexs)
+            for (auto& i : indexs)
                 if (i.col != -1)
                     res.push_back(i);
             break;
@@ -183,7 +183,7 @@ namespace ct
     void CustomTree::itemSelectionChangedEvent()
     {
         auto items = selectedItems();
-        for (auto &item : items)
+        for (auto& item : items)
         {
             if (item->parent() == nullptr)
                 for (int i = 0; i < item->childCount(); i++)
@@ -200,7 +200,7 @@ namespace ct
         }
     }
 
-    void CustomTree::itemClickedEvent(QTreeWidgetItem *item, int)
+    void CustomTree::itemClickedEvent(QTreeWidgetItem* item, int)
     {
         if (item->parent() == nullptr)
         {
@@ -214,7 +214,7 @@ namespace ct
         }
         else
         {
-            QTreeWidgetItem *parent = item->parent();
+            QTreeWidgetItem* parent = item->parent();
             if (item->checkState(0) == Qt::Checked)
             {
                 int i, cout = parent->childCount();

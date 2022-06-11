@@ -27,29 +27,29 @@ namespace ct
     {
         Q_OBJECT
     public:
-        explicit CloudTree(QWidget *parent = nullptr);
+        explicit CloudTree(QWidget* parent = nullptr);
 
         ~CloudTree() override;
 
         /**
          * @brief 设置点云视图
          */
-        void setCloudView(CloudView *cloudview) { m_cloudview = cloudview; }
+        void setCloudView(CloudView* cloudview) { m_cloudview = cloudview; }
 
         /**
          * @brief 设置属性显示窗口
          */
-        void setPropertiesTable(QTableWidget *table) { m_table = table; }
+        void setPropertiesTable(QTableWidget* table) { m_table = table; }
 
         /**
          * @brief 设置输出窗口
          */
-        void setConsole(Console *console) { m_console = console; }
+        void setConsole(Console* console) { m_console = console; }
 
         /**
          * @brief 设置处理进度条
          */
-        void setProgressBar(QProgressBar *progress_bar) { m_progress_bar = progress_bar; }
+        void setProgressBar(QProgressBar* progress_bar) { m_progress_bar = progress_bar; }
 
         /**
          * @brief 添加点云
@@ -64,12 +64,12 @@ namespace ct
         /**
          * @brief 更新点云
          */
-        void updateCloud(const Cloud::Ptr &cloud, const Cloud::Ptr &new_cloud, bool update_name = false);
+        void updateCloud(const Cloud::Ptr& cloud, const Cloud::Ptr& new_cloud, bool update_name = false);
 
         /**
          * @brief 追加点云到同一层
          */
-        void appendCloud(const Cloud::Ptr &cloud, const Cloud::Ptr &new_cloud, bool selected = false)
+        void appendCloud(const Cloud::Ptr& cloud, const Cloud::Ptr& new_cloud, bool selected = false)
         {
             Index index(index(cloud->id()).row, -1);
             insertCloud(index, new_cloud, selected);
@@ -78,7 +78,7 @@ namespace ct
         /**
          * @brief 追加点云到新一层
          */
-        void appendCloud(const Cloud::Ptr &new_cloud, bool selected = false)
+        void appendCloud(const Cloud::Ptr& new_cloud, bool selected = false)
         {
             insertCloud(Index(-1, -1), new_cloud, selected);
         }
@@ -89,7 +89,7 @@ namespace ct
         std::vector<Cloud::Ptr> getSelectedClouds()
         {
             std::vector<Cloud::Ptr> clouds;
-            for (auto &index : getSelectedIndexs())
+            for (auto& index : getSelectedIndexs())
                 clouds.push_back(getCloud(index));
             return clouds;
         }
@@ -100,7 +100,7 @@ namespace ct
         std::vector<Cloud::Ptr> getCheckedClouds()
         {
             std::vector<Cloud::Ptr> clouds;
-            for (auto &index : getCheckedIndexs())
+            for (auto& index : getCheckedIndexs())
                 clouds.push_back(getCloud(index));
             return clouds;
         }
@@ -111,7 +111,7 @@ namespace ct
         std::vector<Cloud::Ptr> getAllClouds()
         {
             std::vector<Cloud::Ptr> clouds;
-            for (auto &index : getAllIndexs())
+            for (auto& index : getAllIndexs())
                 clouds.push_back(getCloud(index));
             return clouds;
         }
@@ -121,7 +121,7 @@ namespace ct
          */
         void removeSelectedClouds()
         {
-            for (auto &index : getSortedIndexs(DESCENDING, getSelectedIndexs()))
+            for (auto& index : getSortedIndexs(DESCENDING, getSelectedIndexs()))
                 removeCloud(index);
         }
 
@@ -135,7 +135,7 @@ namespace ct
          */
         void saveSelectedClouds()
         {
-            for (auto &index : getSelectedIndexs())
+            for (auto& index : getSelectedIndexs())
                 saveCloud(index);
         }
 
@@ -144,7 +144,7 @@ namespace ct
          */
         void saveAllClouds()
         {
-            for (auto &index : getAllIndexs())
+            for (auto& index : getAllIndexs())
                 saveCloud(index);
         }
 
@@ -163,50 +163,50 @@ namespace ct
          */
         void cloneSelectedClouds()
         {
-            for (auto &index : getSelectedIndexs())
+            for (auto& index : getSelectedIndexs())
                 cloneCloud(index);
         }
 
         /**
          * @brief 设置勾选点云
          */
-        void setCloudChecked(const Cloud::Ptr &cloud, bool checked = true);
+        void setCloudChecked(const Cloud::Ptr& cloud, bool checked = true);
 
         /**
          * @brief 设置选中点云
          */
-        void setCloudSelected(const Cloud::Ptr &cloud, bool selected = true);
+        void setCloudSelected(const Cloud::Ptr& cloud, bool selected = true);
 
     protected:
         /**
          * @brief 插入点云
          */
-        void insertCloud(const Index &index, const Cloud::Ptr &cloud, bool selected = false);
+        void insertCloud(const Index& index, const Cloud::Ptr& cloud, bool selected = false);
 
         /**
          * @brief 移除该索引的点云
          */
-        void removeCloud(const Index &index);
+        void removeCloud(const Index& index);
 
         /**
          * @brief 保存该索引的点云
          */
-        void saveCloud(const Index &index);
+        void saveCloud(const Index& index);
 
         /**
          * @brief 克隆该索引的点云
          */
-        void cloneCloud(const Index &index);
+        void cloneCloud(const Index& index);
 
         /**
          * @brief 重命名该索引的点云
          */
-        void renameCloud(const Index &index, const QString &name);
+        void renameCloud(const Index& index, const QString& name);
 
         /**
          * @brief 返回该索引的点云
          */
-        Cloud::Ptr getCloud(const Index &index)
+        Cloud::Ptr getCloud(const Index& index)
         {
             return m_cloud_vec[index.row][index.col];
         }
@@ -225,34 +225,34 @@ namespace ct
         /**
          * @brief 加载点云文件
          */
-        void loadPointCloud(const QString &filename);
+        void loadPointCloud(const QString& filename);
 
         /**
          * @brief 保存点云文件
          */
-        void savePointCloud(const Cloud::Ptr &cloud, const QString &filename, bool isBinary);
+        void savePointCloud(const Cloud::Ptr& cloud, const QString& filename, bool isBinary);
 
         /**
          * @brief 删除点云的ID
          */
-        void removedCloudId(const QString &);
+        void removedCloudId(const QString&);
 
     private slots:
 
         /**
          * @brief 加载点云文件的结果
          */
-        void loadCloudResult(bool success, const Cloud::Ptr &cloud, float time);
+        void loadCloudResult(bool success, const Cloud::Ptr& cloud, float time);
 
         /**
          * @brief 保存点云文件的结果
          */
-        void saveCloudResult(bool success, const QString &path, float time);
+        void saveCloudResult(bool success, const QString& path, float time);
 
         /**
          * @brief 项目点击事件
          */
-        void itemClickedEvent(QTreeWidgetItem *, int);
+        void itemClickedEvent(QTreeWidgetItem*, int);
 
         /**
          * @brief 项目选中改变事件
@@ -260,17 +260,17 @@ namespace ct
         void itemSelectionChangedEvent();
 
     protected:
-        void mousePressEvent(QMouseEvent *event) override;
+        void mousePressEvent(QMouseEvent* event) override;
 
     private:
         QString m_path;
         QThread m_thread;
-        FileIO *m_fileio;
-        QMenu *m_tree_menu;
-        CloudView *m_cloudview;
-        Console *m_console;
-        QTableWidget *m_table;
-        QProgressBar *m_progress_bar;
+        FileIO* m_fileio;
+        QMenu* m_tree_menu;
+        CloudView* m_cloudview;
+        Console* m_console;
+        QTableWidget* m_table;
+        QProgressBar* m_progress_bar;
         std::vector<std::vector<Cloud::Ptr>> m_cloud_vec;
     };
 } // namespace ct

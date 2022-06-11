@@ -8,7 +8,7 @@
 
 namespace ct
 {
-    void HSVtoRGB(float h, float s, float v, float &r, float &g, float &b)
+    void HSVtoRGB(float h, float s, float v, float& r, float& g, float& b)
     {
         if (s == 0.0f)
         {

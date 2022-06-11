@@ -22,34 +22,34 @@ namespace ct
     {
         Q_OBJECT
     public:
-        explicit CustomDialog(QWidget *parent = nullptr) : QDialog(parent) {}
+        explicit CustomDialog(QWidget* parent = nullptr) : QDialog(parent) {}
 
         ~CustomDialog() {}
 
-        void setCloudView(CloudView *cloudview) { m_cloudview = cloudview; }
+        void setCloudView(CloudView* cloudview) { m_cloudview = cloudview; }
 
-        void setCloudTree(CloudTree *cloudtree) { m_cloudtree = cloudtree; }
+        void setCloudTree(CloudTree* cloudtree) { m_cloudtree = cloudtree; }
 
-        void setConsole(Console *console) { m_console = console; }
+        void setConsole(Console* console) { m_console = console; }
 
         virtual void init() {}
 
         virtual void reset() {}
 
     protected:
-        void closeEvent(QCloseEvent *event)
+        void closeEvent(QCloseEvent* event)
         {
             reset();
             return QDialog::closeEvent(event);
         }
 
     public:
-        CloudView *m_cloudview;
-        CloudTree *m_cloudtree;
-        Console *m_console;
+        CloudView* m_cloudview;
+        CloudTree* m_cloudtree;
+        Console* m_console;
     };
 
-    static std::unordered_map<QString, CustomDialog *> registed_dialogs;
+    static std::unordered_map<QString, CustomDialog*> registed_dialogs;
     static std::unordered_map<QString, bool> dialogs_visible;
 
     /**
@@ -60,10 +60,10 @@ namespace ct
      * @param move_signal 窗口移动信号 void posChanged(const QPoint &pos)
      */
     template <typename T, typename Func>
-    void createDialog(typename QtPrivate::FunctionPointer<Func>::Object *parent,
-                      Func signal, const QString &label, const QPoint &central_pos,
-                      CloudView *cloudview = nullptr, CloudTree *cloudtree = nullptr,
-                      Console *console = nullptr)
+    void createDialog(typename QtPrivate::FunctionPointer<Func>::Object* parent,
+                      Func signal, const QString& label, const QPoint& central_pos,
+                      CloudView* cloudview = nullptr, CloudTree* cloudtree = nullptr,
+                      Console* console = nullptr)
     {
         if (parent == nullptr)
             return;
@@ -71,7 +71,7 @@ namespace ct
             registed_dialogs[label] = nullptr;
         if (registed_dialogs.find(label)->second == nullptr) // create new dialog
         {
-            for (auto &dialog : registed_dialogs)
+            for (auto& dialog : registed_dialogs)
                 if (dialog.first != label && dialog.second != nullptr)
                     return;
             registed_dialogs[label] = new T(parent);
@@ -91,11 +91,11 @@ namespace ct
 
             QPoint pos = parent->mapToParent(central_pos);
             registed_dialogs[label]->move(pos.x() + cloudview->width() - registed_dialogs[label]->width(), pos.y() + 18);
-            QObject::connect(parent, signal, [=](const QPoint &pos)
+            QObject::connect(parent, signal, [=](const QPoint& pos)
                              {
-                         if (registed_dialogs[label] != nullptr)
-                           registed_dialogs[label]->move(pos.x() + cloudview->width() -
-                                                         registed_dialogs[label]->width(), pos.y() + 18); });
+                                 if (registed_dialogs[label] != nullptr)
+                                     registed_dialogs[label]->move(pos.x() + cloudview->width() -
+                                                                   registed_dialogs[label]->width(), pos.y() + 18); });
         }
         else // update dialog
             registed_dialogs[label]->close();
