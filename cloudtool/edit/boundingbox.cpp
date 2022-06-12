@@ -100,10 +100,10 @@ void BoundingBox::preview()
             break;
         }
         float roll, pitch, yaw;
-        pcl::getEulerAngles(box.pose, roll, pitch, yaw);
-        ui->dspin_rx->setValue(pcl::rad2deg(roll));
-        ui->dspin_ry->setValue(pcl::rad2deg(pitch));
-        ui->dspin_rz->setValue(pcl::rad2deg(yaw));
+        ct::getEulerAngles(box.pose, roll, pitch, yaw);
+        ui->dspin_rx->setValue(roll);
+        ui->dspin_ry->setValue(pitch);
+        ui->dspin_rz->setValue(yaw);
         m_box_map[cloud->id()] = box;
     }
     this->adjustEnable(true);
@@ -166,8 +166,7 @@ void BoundingBox::adjustBox(float r, float p, float y)
 {
     for (auto& cloud : m_cloudtree->getSelectedClouds())
     {
-        Eigen::Affine3f affine = pcl::getTransformation(cloud->center()[0], cloud->center()[1], cloud->center()[2],
-                                                        pcl::deg2rad(r), pcl::deg2rad(p), pcl::deg2rad(y));
+        Eigen::Affine3f affine = ct::getTransformation(cloud->center()[0], cloud->center()[1], cloud->center()[2], r, p, y);
         ct::Box box = ct::Features::boundingBoxAdjust(cloud, affine.inverse());
         m_cloudview->addCube(box, cloud->boxId());
         m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::Blue);

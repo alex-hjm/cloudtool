@@ -138,11 +138,11 @@ void Color::reset()
             break;
         case COLOR_NORMALS:
             if (m_cloudview->contains(cloud->normalId()))
-                m_cloudview->setPointCloudColor(cloud->normalId(), QColorConstants::White);
+                m_cloudview->setPointCloudColor(cloud->normalId(), cloud->normalColor());
             break;
         case COLOR_BOUNDINGBOX:
             if (m_cloudview->contains(cloud->boxId()))
-                m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::White);
+                m_cloudview->setShapeColor(cloud->boxId(), cloud->boxColor());
             break;
         }
         printI(QString("Reset cloud[id:%1] color done.").arg(cloud->id()));

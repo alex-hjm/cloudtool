@@ -1,37 +1,41 @@
-#ifndef TRANSFORMATION_H
-#define TRANSFORMATION_H
+/**
+ * @file transformation.h
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-15
+ */
+#ifndef CT_EDIT_TRANSFORMATION_H
+#define CT_EDIT_TRANSFORMATION_H
 
-#include "pca/customdock.h"
+#include "base/customdock.h"
 
-namespace Ui {
-class Transformation;
+namespace Ui
+{
+    class Transformation;
 }
 
-class Transformation : public pca::CustomDock {
-  Q_OBJECT
+class Transformation : public ct::CustomDock
+{
+    Q_OBJECT
 
- public:
-  explicit Transformation(QWidget *parent = nullptr);
-  ~Transformation();
-  virtual void init();
-  void add();
-  void apply();
-  virtual void reset();
+public:
+    explicit Transformation(QWidget* parent = nullptr);
+    ~Transformation();
 
- private:
-  bool checkValid(bool preview = false);
+    void add();
+    void apply();
+    virtual void reset();
 
- signals:
-  void affine(const Eigen::Affine3f &);
+signals:
+    void affine(const Eigen::Affine3f& affine);
 
- public slots:
-  void preview(const Eigen::Affine3f &);
+public slots:
+    void preview(const Eigen::Affine3f& affine);
 
- private:
-  Ui::Transformation *ui;
-  Eigen::Affine3f trans_affine;
-  std::vector<pca::Cloud::Ptr> selected_clouds;
-  std::unordered_map<QString, Eigen::Affine3f> trans_map;
+private:
+    Ui::Transformation* ui;
+    Eigen::Affine3f m_affine;
+    std::unordered_map<QString, Eigen::Affine3f> m_trans_map;
 };
 
-#endif  // TRANSFORMATION_H
+#endif  // CT_EDIT_TRANSFORMATION_H

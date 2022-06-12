@@ -76,7 +76,6 @@ void Coordinate::reset()
 {
     m_coord_map.clear();
     m_cloudview->removeAllCoordinateSystems();
-    ui->dspin_scale->setValue(1.0);
     m_cloudview->addCoordinateSystem(m_origin_coord);
     printI(QString("Reset all coordinates done."));
 }
