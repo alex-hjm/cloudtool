@@ -112,7 +112,7 @@ namespace ct
     void CloudTree::updateCloud(const Cloud::Ptr& cloud, const Cloud::Ptr& new_cloud, bool update_name)
     {
         if (cloud == nullptr || new_cloud == nullptr) return;
-        cloud->swap(*new_cloud);
+        if (cloud != new_cloud) cloud->swap(*new_cloud);
         cloud->update();
         Index i = index(cloud->id());
         if (update_name) renameCloud(i, new_cloud->id());
@@ -295,7 +295,7 @@ namespace ct
             appendCloud(cloud);
         }
         if (m_progress_bar != nullptr) m_progress_bar->close();
-        
+
     }
 
     void CloudTree::saveCloudResult(bool success, const QString& path, float time)
