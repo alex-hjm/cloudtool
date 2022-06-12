@@ -1,37 +1,40 @@
+/**
+ * @file coordinate.h
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-15
+ */
 #ifndef SCALE_H
 #define SCALE_H
 
-#include "pca/customdialog.h"
+#include "base/customdialog.h"
 
-namespace Ui {
-class Scale;
+namespace Ui
+{
+    class Scale;
 }
 
-class Scale : public pca::CustomDialog {
-  Q_OBJECT
+class Scale : public ct::CustomDialog
+{
+    Q_OBJECT
 
- public:
-  explicit Scale(QWidget *parent = nullptr);
-  ~Scale();
+public:
+    explicit Scale(QWidget* parent = nullptr);
+    ~Scale();
 
-  virtual void init();
-  void add();
-  void apply();
-  virtual void reset();
+    void add();
+    void apply();
+    virtual void reset();
 
- signals:
-  void scale(double x, double y, double z);
+signals:
+    void scale(double x, double y, double z);
 
- public slots:
-  void preview(double x, double y, double z);
+public slots:
+    void preview(double x, double y, double z);
 
- private:
-  bool checkValid(bool preview = false);
-
- private:
-  Ui::Scale *ui;
-  std::vector<pca::Cloud::Ptr> selected_clouds;
-  std::unordered_map<QString, pca::Cloud::Ptr> scaled_clouds_map;
+private:
+    Ui::Scale* ui;
+    std::unordered_map<QString, ct::Cloud::Ptr> m_scale_map;
 };
 
 #endif  // SCALE_H
