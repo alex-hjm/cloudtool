@@ -1,43 +1,48 @@
-#ifndef NORMALS_H
-#define NORMALS_H
+/**
+ * @file coordinate.h
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-15
+ */
+#ifndef CT_EDIT_NORMALS_H
+#define CT_EDIT_NORMALS_H
 
 #include <QThread>
 
-#include "pca/customdock.h"
-#include "pca/features.h"
+#include "base/customdock.h"
+#include "modules/features.h"
 
-namespace Ui {
-class Normals;
+namespace Ui
+{
+  class Normals;
 }
 
-class Normals : public pca::CustomDock {
+class Normals : public ct::CustomDock
+{
   Q_OBJECT
 
- public:
-  explicit Normals(QWidget *parent = nullptr);
+public:
+  explicit Normals(QWidget* parent = nullptr);
   ~Normals();
-  virtual void init();
+
   void preview();
   void add();
   void apply();
   virtual void reset();
 
- signals:
-  void NormalEstimation(float vpx, float vpy, float vpz);
+signals:
+  void normalEstimation(float vpx, float vpy, float vpz);
 
- public slots:
-  void normalsResult(const pca::Cloud::Ptr &cloud, float time);
+public slots:
+  void reverseNormals();
   void updateNormals();
-
- private:
-  bool checkValid(bool preview = false);
-
- private:
-  Ui::Normals *ui;
-  QThread thread;
-  pca::Features *feature;
-  std::vector<pca::Cloud::Ptr> selected_clouds;
-  std::unordered_map<QString, pca::Cloud::Ptr> normals_map;
+  void normalsResult(const ct::Cloud::Ptr& cloud, float time);
+  
+private:
+  Ui::Normals* ui;
+  QThread m_thread;
+  ct::Features* m_feature;
+  std::unordered_map<QString, ct::Cloud::Ptr> m_normals_map;
 };
 
 #endif  // NORMALS_H
