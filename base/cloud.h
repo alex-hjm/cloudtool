@@ -17,14 +17,13 @@
 
 #include "base/exports.h"
 
-#define CLOUD_DEFAULT_ID        "cloud"
-#define BOX_DEFAULT_ID          "-box"
-#define NORMALS_DEFAULT_ID      "-normals"
-
 #define CLOUD_TYPE_XYZ          "XYZ"
 #define CLOUD_TYPE_XYZRGB       "XYZRGB"
 #define CLOUD_TYPE_XYZN         "XYZNormal"
 #define CLOUD_TYPE_XYZRGBN      "XYZRGBNormal"
+
+#define BOX_FLAG                "-box"
+#define NORMALS_FLAG            "-normals"
 
 namespace ct
 {
@@ -45,7 +44,7 @@ namespace ct
     class CT_EXPORT Cloud : public pcl::PointCloud<PointXYZRGBN>
     {
     public:
-        Cloud() : m_id(CLOUD_DEFAULT_ID),
+        Cloud() : m_id("cloud"),
             m_type(CLOUD_TYPE_XYZ),
             m_point_size(1),
             m_opacity(1.0),
@@ -83,12 +82,12 @@ namespace ct
         /**
          * @brief 点云法线ID
          */
-        QString normalId() const { return m_id + NORMALS_DEFAULT_ID; }
+        QString normalId() const { return m_id + NORMALS_FLAG; }
 
         /**
          * @brief 点云包围盒ID
          */
-        QString boxId() const { return m_id + BOX_DEFAULT_ID; }
+        QString boxId() const { return m_id + BOX_FLAG; }
 
         /**
          * @brief 点云包围盒颜色

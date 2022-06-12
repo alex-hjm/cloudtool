@@ -7,9 +7,16 @@
 #ifndef CT_BASE_CUSTOMTREE_H
 #define CT_BASE_CUSTOMTREE_H
 
-#include <QTreeWidget>
+
 
 #include "base/exports.h"
+
+#include "base/cloudview.h"
+#include "base/console.h"
+
+#include <QTreeWidget>
+#include <QTableWidget>
+#include <QProgressBar>
 
 namespace ct
 {
@@ -44,6 +51,26 @@ namespace ct
         explicit CustomTree(QWidget* parent = nullptr);
 
         /**
+         * @brief 设置点云视图
+         */
+        void setCloudView(CloudView* cloudview) { m_cloudview = cloudview; }
+
+        /**
+         * @brief 设置属性显示窗口
+         */
+        void setPropertiesTable(QTableWidget* table) { m_table = table; }
+
+        /**
+         * @brief 设置处理进度条
+         */
+        void setProgressBar(QProgressBar* progress_bar) { m_progress_bar = progress_bar; }
+
+        /**
+         * @brief 设置输出窗口
+         */
+        void setConsole(Console* console) { m_console = console; }
+
+        /**
          * @brief 设置父类项目的图标
          */
         void setParentIcon(const QIcon& icon) { m_parent_icon = icon; }
@@ -54,6 +81,14 @@ namespace ct
         void setChildIcon(const QIcon& icon) { m_child_icon = icon; }
 
     protected:
+
+        /**
+         * @brief 打印日志
+         */
+        void printI(const QString& message) { m_console->print(LOG_INFO, message); }
+        void printW(const QString& message) { m_console->print(LOG_WARNING, message); }
+        void printE(const QString& message) { m_console->print(LOG_ERROR, message); }
+
         /**
          * @brief 获取选中项目的索引
          */
@@ -120,6 +155,11 @@ namespace ct
          */
         void itemClickedEvent(QTreeWidgetItem*, int i = 0);
 
+    public:
+        CloudView* m_cloudview;
+        Console* m_console;
+        QTableWidget* m_table;
+        QProgressBar* m_progress_bar;
     private:
         QIcon m_parent_icon;
         QIcon m_child_icon;

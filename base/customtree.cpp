@@ -8,7 +8,11 @@
 
 namespace ct
 {
-    CustomTree::CustomTree(QWidget* parent) : QTreeWidget(parent)
+    CustomTree::CustomTree(QWidget* parent) : QTreeWidget(parent),
+        m_progress_bar(nullptr),
+        m_table(nullptr),
+        m_console(nullptr),
+        m_cloudview(nullptr)
     {
         this->setSelectionMode(QAbstractItemView::ExtendedSelection);
         connect(this, &CustomTree::itemSelectionChanged, this, &CustomTree::itemSelectionChangedEvent);

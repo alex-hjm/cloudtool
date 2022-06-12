@@ -37,6 +37,10 @@ namespace ct
         virtual void reset() {}
 
     protected:
+        void printI(const QString& message) { m_console->print(LOG_INFO, message); }
+        void printW(const QString& message) { m_console->print(LOG_WARNING, message); }
+        void printE(const QString& message) { m_console->print(LOG_ERROR, message); }
+        
         void closeEvent(QCloseEvent* event)
         {
             reset();

@@ -7,19 +7,18 @@
 #ifndef CT_BASE_CLOUDTREE_H
 #define CT_BASE_CLOUDTREE_H
 
-#include <QMenu>
-#include <QProgressBar>
-#include <QTableWidget>
-#include <QInputDialog>
-#include <QThread>
-#include <QTreeWidget>
-
-#include "base/cloudview.h"
-#include "base/console.h"
 #include "base/customtree.h"
 #include "base/fileio.h"
 
-#define SAMPLE_PATH "../../../data/rabbit.pcd"
+#include <QMenu>
+#include <QInputDialog>
+#include <QThread>
+
+#define CLONE_FLAG      "clone-"
+#define MERGE_FLAG      "merge-"
+
+#define INIT_PATH       "../../../data"
+#define SAMPLE_PATH     "../../../data/rabbit.pcd"
 
 namespace ct
 {
@@ -30,26 +29,6 @@ namespace ct
         explicit CloudTree(QWidget* parent = nullptr);
 
         ~CloudTree() override;
-
-        /**
-         * @brief 设置点云视图
-         */
-        void setCloudView(CloudView* cloudview) { m_cloudview = cloudview; }
-
-        /**
-         * @brief 设置属性显示窗口
-         */
-        void setPropertiesTable(QTableWidget* table) { m_table = table; }
-
-        /**
-         * @brief 设置输出窗口
-         */
-        void setConsole(Console* console) { m_console = console; }
-
-        /**
-         * @brief 设置处理进度条
-         */
-        void setProgressBar(QProgressBar* progress_bar) { m_progress_bar = progress_bar; }
 
         /**
          * @brief 添加点云
@@ -267,10 +246,6 @@ namespace ct
         QThread m_thread;
         FileIO* m_fileio;
         QMenu* m_tree_menu;
-        CloudView* m_cloudview;
-        Console* m_console;
-        QTableWidget* m_table;
-        QProgressBar* m_progress_bar;
         std::vector<std::vector<Cloud::Ptr>> m_cloud_vec;
     };
 } // namespace ct

@@ -6,6 +6,10 @@
  */
 #include "base/common.h"
 
+#include <QStringList>
+
+#define MATRIX_SIZE 16
+
 namespace ct
 {
     void HSVtoRGB(float h, float s, float v, float& r, float& g, float& b)
@@ -48,5 +52,29 @@ namespace ct
             break;
         }
     }
+
+    bool getTransformation(const QString& matrix, Eigen::Affine3f& affine)
+    {
+        QStringList valuesStr = matrix.simplified().split(QChar(' '), Qt::SplitBehaviorFlags::SkipEmptyParts);
+        if (valuesStr.size() != MATRIX_SIZE) return false;
+
+        Eigen::Matrix4f mat;
+        bool ok = false;
+        for (int i = 0; i < MATRIX_SIZE; ++i)
+        {
+            mat(i / 4, i % 4) = (valuesStr[(i % 4) * 4 + (i >> 2)].toDouble(&ok));
+            if (!ok) return false;
+        }
+
+        // internalRescale
+        if (mat(3, 3) != 1 && mat(3, 3) != 0)
+        {
+            for (int i = 0;i < MATRIX_SIZE;i++) mat(i / 4, i % 4) *= 1.0 / mat(3, 3);
+            mat(3, 3) = 1;
+        }
+        affine = Eigen::Affine3f(mat);
+        return true;
+    }
+
 
 } // namespace ct

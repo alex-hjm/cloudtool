@@ -12,8 +12,11 @@
 #include <pcl/common/eigen.h>
 #include <pcl/common/angles.h>
 
+#include <QString>
+
 namespace ct
 {
 	void CT_EXPORT HSVtoRGB(float h, float s, float v, float &r, float &g, float &b);
+	bool CT_EXPORT getTransformation(const QString& matrix, Eigen::Affine3f &affine);
 } // namespace ct
 #endif // CT_BASE_COMMON_H

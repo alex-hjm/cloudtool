@@ -16,21 +16,13 @@
 #include <QPushButton>
 #include <QSpinBox>
 
-#define CLONE_PREFIX    "clone-"
-#define MERGE_PREFIX    "merge-"
-#define INIT_PATH       "../../../data"
-
 namespace ct
 {
     CloudTree::CloudTree(QWidget* parent)
         : CustomTree(parent),
         m_path(INIT_PATH),
         m_thread(this),
-        m_tree_menu(nullptr),
-        m_progress_bar(nullptr),
-        m_table(nullptr),
-        m_console(nullptr),
-        m_cloudview(nullptr)
+        m_tree_menu(nullptr)
     {
         // register meta type
         qRegisterMetaType<Cloud::Ptr>("Cloud::Ptr &");
@@ -59,7 +51,7 @@ namespace ct
     void CloudTree::addCloud()
     {
         QString filter = "all(*.*);;ply(*.ply);;pcd(*.pcd)";
-        QStringList filePathList = QFileDialog::getOpenFileNames(this, tr("Open pointcloud file"), m_path, filter);
+        QStringList filePathList = QFileDialog::getOpenFileNames(this, tr("Open cloud file"), m_path, filter);
         if (filePathList.isEmpty())
             return;
         if (m_progress_bar != nullptr)
@@ -71,9 +63,8 @@ namespace ct
     void CloudTree::insertCloud(const Index& index, const Cloud::Ptr& cloud, bool selected)
     {
         // check cloud id
-        if (cloud == nullptr)
-            return;
-        if (!cloud->empty() && m_cloudview->contains(cloud->id()))
+        if (cloud == nullptr) return;
+        if (m_cloudview->contains(cloud->id()))
         {
             int k = QMessageBox::warning(this, "WARNING", "Rename the exists id?", QMessageBox::Yes, QMessageBox::Cancel);
             if (k == QMessageBox::Yes)
@@ -84,14 +75,14 @@ namespace ct
                 {
                     if (res == cloud->id() || m_cloudview->contains(res))
                     {
-                        m_console->print(LOG_ERROR, "The id " + res + " already exists!");
+                        printE(QString("The cloud id[%1] already exists!").arg(res));
                         return;
                     }
                     cloud->setId(res);
                 }
                 else
                 {
-                    m_console->print(LOG_ERROR, "Add pointcloud canceled.");
+                    printW("Add cloud canceled.");
                     return;
                 }
             }
@@ -115,6 +106,7 @@ namespace ct
         addItem(index, cloud->info().absolutePath(), cloud->id(), selected);
         m_cloudview->addPointCloud(cloud);
         m_cloudview->resetCamera();
+        printI(QString("Add cloud[id:%1] done.").arg(cloud->id()));
     }
 
     void CloudTree::updateCloud(const Cloud::Ptr& cloud, const Cloud::Ptr& new_cloud, bool update_name)
@@ -126,6 +118,8 @@ namespace ct
         if (update_name) renameCloud(i, new_cloud->id());
         m_cloudview->addPointCloud(cloud);
         if (item(i)->isSelected()) m_cloudview->addBox(cloud);
+        printI(QString("Update cloud[id:%1, size:%2] to new cloud[id:%3, size:%4] done.")
+               .arg(cloud->id()).arg(cloud->size()).arg(new_cloud->id()).arg(new_cloud->size()));
     }
 
     void CloudTree::removeAllClouds()
@@ -138,6 +132,7 @@ namespace ct
         this->clear();
         this->m_cloud_vec.clear();
         std::vector<std::vector<Cloud::Ptr>>().swap(m_cloud_vec);
+        printI("remove all clouds done.");
     }
 
     void CloudTree::mergeSelectedClouds()
@@ -145,16 +140,17 @@ namespace ct
         std::vector<Cloud::Ptr> clouds = getSelectedClouds();
         if (clouds.size() <= 1)
         {
-            m_console->print(LOG_WARNING, "The number of pointclouds to merge are not enough!");
+            printW("The number of clouds to merge are not enough!");
             return;
         }
         Cloud::Ptr merged_cloud(new Cloud);
         for (auto& i : clouds)
             *merged_cloud += *i;
-        merged_cloud->setId(MERGE_PREFIX + clouds.front()->id());
+        merged_cloud->setId(MERGE_FLAG + clouds.front()->id());
         merged_cloud->setInfo(clouds.front()->info());
         merged_cloud->update();
         appendCloud(merged_cloud);
+        printI(QString("Merge clouds to new cloud[id:%1] done.").arg(merged_cloud->id()));
     }
 
     void CloudTree::renameSelectedClouds()
@@ -168,7 +164,7 @@ namespace ct
                 renameCloud(index, name);
             else
             {
-                m_console->print(LOG_WARNING, "Rename pointcloud canceled.");
+                printW("Rename pointcloud canceled.");
                 return;
             }
         }
@@ -217,15 +213,15 @@ namespace ct
             m_cloud_vec.erase(m_cloud_vec.begin() + index.row);
         else
             m_cloud_vec[index.row].erase(m_cloud_vec[index.row].begin() + index.col);
+        printI(QString("Remove cloud[id:%1] done.").arg(cloud->id()));
     }
 
     void CloudTree::saveCloud(const Index& index)
     {
         Cloud::Ptr cloud = getCloud(index);
         QString filter = "ply(*.ply);;pcd(*.pcd)";
-        QString filepath = QFileDialog::getSaveFileName(this, tr("Save pointcloud"), cloud->id(), filter);
-        if (filepath.isEmpty())
-            return;
+        QString filepath = QFileDialog::getSaveFileName(this, tr("Save cloud file"), cloud->id(), filter);
+        if (filepath.isEmpty())return;
         QMessageBox message_box(QMessageBox::NoIcon, "Saved format", tr("Save in binary or ascii format?"),
                                 QMessageBox::NoButton, this);
         message_box.addButton(tr("Ascii"), QMessageBox::ActionRole);
@@ -234,19 +230,19 @@ namespace ct
         int k = message_box.exec();
         if (k == QMessageBox::Cancel)
         {
-            m_console->print(LOG_WARNING, "Save pointcloud canceled.");
+            printW("Save cloud canceled.");
             return;
         }
-        if (m_progress_bar != nullptr)
-            m_progress_bar->show();
+        if (m_progress_bar != nullptr)m_progress_bar->show();
         emit savePointCloud(cloud, filepath, k);
     }
 
     void CloudTree::cloneCloud(const Index& index)
     {
         Cloud::Ptr clone_cloud = getCloud(index)->makeShared();
-        clone_cloud->setId(CLONE_PREFIX + clone_cloud->id());
+        clone_cloud->setId(CLONE_FLAG + clone_cloud->id());
         appendCloud(clone_cloud);
+        printI(QString("Clone cloud[id:%1] done.").arg(clone_cloud->id()));
     }
 
     void CloudTree::renameCloud(const Index& index, const QString& name)
@@ -254,7 +250,7 @@ namespace ct
         Cloud::Ptr cloud = getCloud(index);
         if (m_cloudview->contains(name))
         {
-            m_console->print(LOG_WARNING, "The id " + name + " already exists!");
+            printW(QString("The cloud id[%1] already exists!").arg(name));
             return;
         }
         item(index)->setText(0, name);
@@ -262,6 +258,7 @@ namespace ct
         m_cloudview->removePointCloud(cloud->normalId());
         m_cloudview->removeShape(cloud->boxId());
         cloud->setId(name);
+        printI(QString("Rename cloud[id:%1] to new name[%2] done.").arg(cloud->id()).arg(name));
     }
 
     void CloudTree::setAcceptDrops(bool enable)
@@ -290,24 +287,25 @@ namespace ct
     void CloudTree::loadCloudResult(bool success, const Cloud::Ptr& cloud, float time)
     {
         if (!success)
-            m_console->print(LOG_ERROR, "Failed to save the file!");
+            printE("Load the file failed!");
         else
         {
-            m_console->print(LOG_INFO, LOG_STATU_PROCESS_DONE("Load the file [path: " + cloud->info().absoluteFilePath() + " ]", time));
+            printI(QString("Load the file [path:%1] done, take time %2 ms.").arg(cloud->info().absoluteFilePath()).arg(time));
             m_path = cloud->info().path();
             appendCloud(cloud);
         }
-        if (m_progress_bar != nullptr)
-            m_progress_bar->close();
+        if (m_progress_bar != nullptr) m_progress_bar->close();
+        
     }
 
     void CloudTree::saveCloudResult(bool success, const QString& path, float time)
     {
         if (!success)
-            m_console->print(LOG_ERROR, "Save the file failed !");
+            printE("Save the file failed!");
         else
         {
-            m_console->print(LOG_INFO, LOG_STATU_PROCESS_DONE("Save the file [path: " + path + " ]", time));
+            m_path = path;
+            printI(QString("Save the file [path:%1] done, take time %2 ms.").arg(path).arg(time));
         }
         if (m_progress_bar != nullptr)
             m_progress_bar->close();
