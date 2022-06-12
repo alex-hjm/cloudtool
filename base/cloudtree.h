@@ -50,6 +50,7 @@ namespace ct
          */
         void appendCloud(const Cloud::Ptr& cloud, const Cloud::Ptr& new_cloud, bool selected = false)
         {
+            new_cloud->update();
             Index index(index(cloud->id()).row, -1);
             insertCloud(index, new_cloud, selected);
         }
