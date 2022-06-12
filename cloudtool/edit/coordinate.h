@@ -1,28 +1,37 @@
-#ifndef COORDS_H
-#define COORDS_H
+/**
+ * @file coordinate.h
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-15
+ */
+#ifndef CT_EDIT_COORDINATE_H
+#define CT_EDIT_COORDINATE_H
 
-#include "pca/customdialog.h"
+#include "base/customdialog.h"
 
-namespace Ui {
-class Coordinate;
+namespace Ui
+{
+    class Coordinate;
 }
 
-class Coordinate : public pca::CustomDialog {
-  Q_OBJECT
+class Coordinate : public ct::CustomDialog
+{
+    Q_OBJECT
 
- public:
-  explicit Coordinate(QWidget *parent = nullptr);
-  ~Coordinate();
+public:
+    explicit Coordinate(QWidget* parent = nullptr);
+    ~Coordinate();
 
-  virtual void init();
-  void add();
-  virtual void reset();
-  void addCoord();
-  void closeCoord();
+    virtual void init();
+    void add();
+    virtual void reset();
+    void addCoord();
+    void closeCoord();
 
- private:
-  Ui::Coordinate *ui;
-  std::vector<pca::Coord> coordinate_vec;
+private:
+    Ui::Coordinate* ui;
+    ct::Coord m_origin_coord; // origin_coord
+    std::unordered_map<QString, ct::Coord> m_coord_map; // cloud coord
 };
 
 #endif  // COORDS_H

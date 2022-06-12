@@ -15,8 +15,6 @@
 #define BOX_TYPE_WIREFRAME  (1)
 #define BOX_TYPE_SURFACE    (2)
 
-#define CT_BoundingBox_AABB "Axis-Aligned Bounding Box"
-#define CT_BoundingBox_OBB  "Oriented Bounding Box"
 
 BoundingBox::BoundingBox(QWidget* parent)
     : CustomDock(parent), ui(new Ui::BoundingBox), m_box_type(BOX_TYPE_WIREFRAME)
@@ -65,11 +63,7 @@ BoundingBox::~BoundingBox() { delete ui; }
 void BoundingBox::preview()
 {
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty())
-    {
-        m_console->print(ct::LOG_WARNING, LOG_STATU_NO_POINTCLOUD);
-        return;
-    }
+    if (selected_clouds.empty()) return;
     this->adjustEnable(false);
     for (auto& i : selected_clouds)
     {
@@ -79,14 +73,14 @@ void BoundingBox::preview()
             box = ct::Features::boundingBoxAABB(i);
             m_cloudview->addCube(box, i->boxId());
             m_cloudview->setShapeColor(i->boxId(), QColorConstants::Red);
-            m_cloudview->showInfo(CT_BoundingBox_AABB, 1);
+            m_cloudview->showInfo("Axis-Aligned Bounding Box", 1);
         }
         else
         {
             box = ct::Features::boundingBoxOBB(i);
             m_cloudview->addCube(box, i->boxId());
             m_cloudview->setShapeColor(i->boxId(), QColorConstants::Green);
-            m_cloudview->showInfo(CT_BoundingBox_OBB, 1);
+            m_cloudview->showInfo("Oriented Bounding Box", 1);
         }
         m_cloudview->setShapeRepersentation(i->boxId(), m_box_type);
         switch (m_box_type)
@@ -109,17 +103,12 @@ void BoundingBox::preview()
         m_box_map[i->id()] = box;
     }
     this->adjustEnable(true);
-    m_console->print(ct::LOG_INFO, LOG_STATU_PREVIEW_DONE(CT_BoundingBox));
 }
 
 void BoundingBox::apply()
 {
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty())
-    {
-        m_console->print(ct::LOG_WARNING, LOG_STATU_NO_POINTCLOUD);
-        return;
-    }
+    if (selected_clouds.empty()) return;
     for (auto& cloud : selected_clouds)
         if (m_box_map.find(cloud->id()) == m_box_map.end())
         {
@@ -131,9 +120,10 @@ void BoundingBox::apply()
     {
         cloud->setBox(m_box_map.find(cloud->id())->second);
         m_cloudview->addBox(cloud);
+        printI(QString("Apply cloud[id:%1] boundingbox done.").arg(cloud->id()));
     }
     this->adjustEnable(false);
-    m_console->print(ct::LOG_INFO, LOG_STATU_APPLY_DONE(CT_BoundingBox));
+    
 }
 
 void BoundingBox::reset()
@@ -143,6 +133,7 @@ void BoundingBox::reset()
     for (auto& cloud : m_cloudtree->getSelectedClouds())
     {
         m_cloudview->addBox(cloud);
+        printI(QString("Reset cloud[id:%1] boundingbox done.").arg(cloud->id()));
     }
     this->adjustEnable(false);
 }

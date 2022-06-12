@@ -32,7 +32,7 @@ const QColor colors[5][10] = {
 
     {QColor("#9e1068"), QColor("#a8171b"), QColor("#ad4e00"), QColor("#ad8b00"),
      QColor("#5b8c00"), QColor("#006075"), QColor("#006d75"), QColor("#0050b3"),
-     QColor("#10239e"), QColor("#391085")}};
+     QColor("#10239e"), QColor("#391085")} };
 
 Color::Color(QWidget* parent)
     : CustomDock(parent), ui(new Ui::Color), m_field(""), m_rgb(QColorConstants::White)
@@ -87,31 +87,30 @@ Color::~Color() { delete ui; }
 void Color::apply()
 {
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty())
+    if (selected_clouds.empty()) return;
+    for (auto& cloud : selected_clouds)
     {
-        m_console->print(ct::LOG_WARNING, LOG_STATU_NO_POINTCLOUD);
-        return;
-    }
-    switch (ui->cbox_type->currentIndex())
-    {
-    case COLOR_POINTCLOUD:
-        for (auto& cloud : selected_clouds)
+        switch (ui->cbox_type->currentIndex())
         {
+        case COLOR_POINTCLOUD:
             if (m_field != "") cloud->setCloudColor(m_field);
             else cloud->setCloudColor(m_rgb);
             m_cloudview->addPointCloud(cloud);
-        }
-        break;
-    case COLOR_BACKGROUNG:
-        break;
-    case COLOR_NORMALS:
-        for (auto& cloud : selected_clouds)
+            break;
+        case COLOR_BACKGROUNG:
+            break;
+        case COLOR_NORMALS:
             cloud->setNormalColor(m_rgb);
-        break;
-    case 3: // box
-        for (auto& cloud : selected_clouds)
+            break;
+        case COLOR_BOUNDINGBOX:
             cloud->setBoxColor(m_rgb);
-        break;
+            break;
+        }
+        if (m_field != "")
+            printI(QString("Apply cloud[id:%1] color[axis:%2] done.").arg(cloud->id()).arg(m_field));
+        else
+            printI(QString("Apply cloud[id:%1] color[r:%2, g:%3, b:%4] done.")
+                   .arg(cloud->id()).arg(m_rgb.red()).arg(m_rgb.green()).arg(m_rgb.blue()));
     }
 }
 
@@ -119,42 +118,36 @@ void Color::reset()
 {
     m_rgb == QColorConstants::White, m_field = "";
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty())
+    if (selected_clouds.empty()) return;
+    for (auto& cloud : selected_clouds)
     {
-        m_console->print(ct::LOG_WARNING, LOG_STATU_NO_POINTCLOUD);
-        return;
-    }
-    switch (ui->cbox_type->currentIndex())
-    {
-    case COLOR_POINTCLOUD:
-        for (auto& cloud : selected_clouds)
+        switch (ui->cbox_type->currentIndex())
+        {
+        case COLOR_POINTCLOUD:
             m_cloudview->resetPointCloudColor(cloud);
-        break;
-    case COLOR_BACKGROUNG:
-        m_cloudview->resetBackgroundColor();
-        break;
-    case COLOR_NORMALS:
-        for (auto& cloud : selected_clouds)
+            break;
+        case COLOR_BACKGROUNG:
+            m_cloudview->resetBackgroundColor();
+            break;
+        case COLOR_NORMALS:
             if (m_cloudview->contains(cloud->normalId()))
                 m_cloudview->setPointCloudColor(cloud->normalId(), QColorConstants::White);
-        break;
-    case COLOR_BOUNDINGBOX:
-        for (auto& cloud : selected_clouds)
+            break;
+        case COLOR_BOUNDINGBOX:
             if (m_cloudview->contains(cloud->boxId()))
                 m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::White);
-        break;
+            break;
+        }
+        printI(QString("Reset cloud[id:%1] color done.").arg(cloud->id()));
     }
+
 }
 
 void Color::setColor(const QColor& rgb)
 {
     m_rgb = rgb, m_field = "";
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty())
-    {
-        m_console->print(ct::LOG_WARNING, LOG_STATU_NO_POINTCLOUD);
-        return;
-    }
+    if (selected_clouds.empty()) return;
     switch (ui->cbox_type->currentIndex())
     {
     case COLOR_POINTCLOUD:
@@ -181,5 +174,6 @@ void Color::setColor(const QString& field)
 {
     m_field = field, m_rgb = QColorConstants::White;
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
+    if (selected_clouds.empty()) return;
     for (auto& i : selected_clouds) m_cloudview->setPointCloudColor(i, field);
 }

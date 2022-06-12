@@ -9,8 +9,6 @@
 
 #include "base/customdock.h"
 
-#define CT_BoundingBox      "BoundingBox"
-
 namespace Ui
 {
     class BoundingBox;

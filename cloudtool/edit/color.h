@@ -11,8 +11,6 @@
 
 #include "base/customdock.h"
 
-#define CT_Color      "Color"
-
 namespace Ui
 {
     class Color;
