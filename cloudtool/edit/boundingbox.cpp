@@ -63,36 +63,40 @@ BoundingBox::~BoundingBox() { delete ui; }
 void BoundingBox::preview()
 {
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty()) return;
+    if (selected_clouds.empty())
+    {
+        printW("please select a cloud!");
+        return;
+    }
     this->adjustEnable(false);
-    for (auto& i : selected_clouds)
+    for (auto& cloud : selected_clouds)
     {
         ct::Box box;
         if (ui->rbtn_aabb->isChecked())
         {
-            box = ct::Features::boundingBoxAABB(i);
-            m_cloudview->addCube(box, i->boxId());
-            m_cloudview->setShapeColor(i->boxId(), QColorConstants::Red);
+            box = ct::Features::boundingBoxAABB(cloud);
+            m_cloudview->addCube(box, cloud->boxId());
+            m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::Red);
             m_cloudview->showInfo("Axis-Aligned Bounding Box", 1);
         }
         else
         {
-            box = ct::Features::boundingBoxOBB(i);
-            m_cloudview->addCube(box, i->boxId());
-            m_cloudview->setShapeColor(i->boxId(), QColorConstants::Green);
+            box = ct::Features::boundingBoxOBB(cloud);
+            m_cloudview->addCube(box, cloud->boxId());
+            m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::Green);
             m_cloudview->showInfo("Oriented Bounding Box", 1);
         }
-        m_cloudview->setShapeRepersentation(i->boxId(), m_box_type);
+        m_cloudview->setShapeRepersentation(cloud->boxId(), m_box_type);
         switch (m_box_type)
         {
         case BOX_TYPE_POINTS:
-            m_cloudview->setShapeSize(i->boxId(), 5);
+            m_cloudview->setShapeSize(cloud->boxId(), 5);
             break;
         case BOX_TYPE_WIREFRAME:
-            m_cloudview->setShapeLineWidth(i->boxId(), 3);
+            m_cloudview->setShapeLineWidth(cloud->boxId(), 3);
             break;
         case BOX_TYPE_SURFACE:
-            m_cloudview->setShapeOpacity(i->boxId(), 0.5);
+            m_cloudview->setShapeOpacity(cloud->boxId(), 0.5);
             break;
         }
         float roll, pitch, yaw;
@@ -100,7 +104,7 @@ void BoundingBox::preview()
         ui->dspin_rx->setValue(pcl::rad2deg(roll));
         ui->dspin_ry->setValue(pcl::rad2deg(pitch));
         ui->dspin_rz->setValue(pcl::rad2deg(yaw));
-        m_box_map[i->id()] = box;
+        m_box_map[cloud->id()] = box;
     }
     this->adjustEnable(true);
 }
@@ -108,22 +112,24 @@ void BoundingBox::preview()
 void BoundingBox::apply()
 {
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty()) return;
-    for (auto& cloud : selected_clouds)
-        if (m_box_map.find(cloud->id()) == m_box_map.end())
-        {
-            this->preview();
-            break;
-        }
-    m_cloudview->clearInfo();
+    if (selected_clouds.empty())
+    {
+        printW("Please select a cloud!");
+        return;
+    }
     for (auto& cloud : selected_clouds)
     {
+        if (m_box_map.find(cloud->id()) == m_box_map.end())
+        {
+            printW(QString("The cloud[id:%1] has no matched boundingbox !").arg(cloud->id()));
+            continue;
+        }
         cloud->setBox(m_box_map.find(cloud->id())->second);
         m_cloudview->addBox(cloud);
         printI(QString("Apply cloud[id:%1] boundingbox done.").arg(cloud->id()));
     }
+    m_cloudview->clearInfo();
     this->adjustEnable(false);
-    
 }
 
 void BoundingBox::reset()

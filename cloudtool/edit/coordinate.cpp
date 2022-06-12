@@ -3,7 +3,7 @@
 #include "base/common.h"
 #include "ui_coordinate.h"
 
-#define COORDINATE_FLAG   "-coord"
+#define COORDINATE_ADD_FLAG   "-coord"
 
 Coordinate::Coordinate(QWidget* parent)
     : CustomDialog(parent), ui(new Ui::Coordinate)
@@ -49,12 +49,16 @@ void Coordinate::init()
 void Coordinate::add()
 {
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
-    if (selected_clouds.empty()) return;
+    if (selected_clouds.empty())
+    {
+        printW("Please select a cloud!");
+        return;
+    }
     for (auto& cloud : selected_clouds)
     {
-        if (!m_cloudview->contains(cloud->id() + COORDINATE_FLAG))
+        if (!m_cloudview->contains(cloud->id() + COORDINATE_ADD_FLAG))
         {
-            ct::Coord cloud_coord(cloud->id() + COORDINATE_FLAG, ui->dspin_scale->value(), cloud->box().pose);
+            ct::Coord cloud_coord(cloud->id() + COORDINATE_ADD_FLAG, ui->dspin_scale->value(), cloud->box().pose);
             m_cloudview->addCoordinateSystem(cloud_coord);
             m_coord_map[cloud->id()] = cloud_coord;
         }
