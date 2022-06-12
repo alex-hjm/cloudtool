@@ -146,7 +146,7 @@ namespace ct
         Cloud::Ptr merged_cloud(new Cloud);
         for (auto& i : clouds)
             *merged_cloud += *i;
-        merged_cloud->setId(MERGE_FLAG + clouds.front()->id());
+        merged_cloud->setId(MERGE_ADD_FLAG + clouds.front()->id());
         merged_cloud->setInfo(clouds.front()->info());
         merged_cloud->update();
         appendCloud(merged_cloud);
@@ -240,7 +240,7 @@ namespace ct
     void CloudTree::cloneCloud(const Index& index)
     {
         Cloud::Ptr clone_cloud = getCloud(index)->makeShared();
-        clone_cloud->setId(CLONE_FLAG + clone_cloud->id());
+        clone_cloud->setId(CLONE_ADD_FLAG + clone_cloud->id());
         appendCloud(clone_cloud);
         printI(QString("Clone cloud[id:%1] done.").arg(clone_cloud->id()));
     }

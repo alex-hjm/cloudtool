@@ -14,8 +14,8 @@
 #include <QInputDialog>
 #include <QThread>
 
-#define CLONE_FLAG      "clone-"
-#define MERGE_FLAG      "merge-"
+#define CLONE_ADD_FLAG  "clone-"
+#define MERGE_ADD_FLAG  "merge-"
 
 #define INIT_PATH       "../../../data"
 #define SAMPLE_PATH     "../../../data/rabbit.pcd"
@@ -155,6 +155,16 @@ namespace ct
          * @brief 设置选中点云
          */
         void setCloudSelected(const Cloud::Ptr& cloud, bool selected = true);
+
+        /**
+         * @brief 显示进度条
+         */
+        void showProgressBar() { if(m_progress_bar) m_progress_bar->show(); }
+
+        /**
+         * @brief 关闭进度条
+         */
+        void closeProgressBar() { if(m_progress_bar) m_progress_bar->close(); }
 
     protected:
         /**

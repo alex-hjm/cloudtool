@@ -22,8 +22,8 @@
 #define CLOUD_TYPE_XYZN         "XYZNormal"
 #define CLOUD_TYPE_XYZRGBN      "XYZRGBNormal"
 
-#define BOX_FLAG                "-box"
-#define NORMALS_FLAG            "-normals"
+#define BOX_PRE_FLAG                "-box"
+#define NORMALS_PRE_FLAG            "-normals"
 
 namespace ct
 {
@@ -82,12 +82,12 @@ namespace ct
         /**
          * @brief 点云法线ID
          */
-        QString normalId() const { return m_id + NORMALS_FLAG; }
+        QString normalId() const { return m_id + NORMALS_PRE_FLAG; }
 
         /**
          * @brief 点云包围盒ID
          */
-        QString boxId() const { return m_id + BOX_FLAG; }
+        QString boxId() const { return m_id + BOX_PRE_FLAG; }
 
         /**
          * @brief 点云包围盒颜色
