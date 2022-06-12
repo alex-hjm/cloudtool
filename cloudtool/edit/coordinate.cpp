@@ -1,3 +1,9 @@
+/**
+ * @file coordinate.cpp
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-15
+ */
 #include "coordinate.h"
 
 #include "base/common.h"

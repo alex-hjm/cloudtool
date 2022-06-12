@@ -1,3 +1,9 @@
+/**
+ * @file normals.cpp
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-15
+ */
 #include "normals.h"
 
 #include "ui_normals.h"
@@ -135,13 +141,12 @@ void Normals::add()
             printW(QString("The cloud[id:%1] has no estimated normals !").arg(cloud->id()));
             continue;
         }
-        m_cloudview->removePointCloud(cloud->normalId());
         ct::Cloud::Ptr new_cloud = m_normals_map.find(cloud->id())->second;
+        m_cloudview->removePointCloud(new_cloud->normalId());
         new_cloud->setId(NORMALS_ADD_FLAG + new_cloud->id());
-        new_cloud->update();
         m_cloudtree->appendCloud(cloud, new_cloud, true);
         m_normals_map.erase(cloud->id());
-        printI(QString("Add new cloud[id:%1] with estimated normals done.").arg(cloud->id()));
+        printI(QString("Add cloud[id:%1] with estimated normals done.").arg(cloud->id()));
     }
     m_cloudview->clearInfo();
 }
@@ -161,8 +166,8 @@ void Normals::apply()
             printW(QString("The cloud[id:%1] has no estimated normals !").arg(cloud->id()));
             continue;
         }
-        m_cloudview->removePointCloud(cloud->normalId());
         ct::Cloud::Ptr new_cloud = m_normals_map.find(cloud->id())->second;
+        m_cloudview->removePointCloud(new_cloud->normalId());
         m_cloudtree->updateCloud(cloud, new_cloud);
         m_normals_map.erase(cloud->id());
         printI(QString("Apply cloud[id:%1] estimated normals done.").arg(cloud->id()));
