@@ -10,7 +10,7 @@
 #include "help/about.h"
 #include "help/shortcutkey.h"
 
-//#include "tools/filters.h"
+#include "tool/filters.h"
 //#include "tools/keypoints.h"
 
 #include <QDebug>
@@ -65,6 +65,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
 
     // edit
+    connect(ui->actionBoundingBox, &QAction::triggered, [=] { this->createLeftDock<BoundingBox>("BoundingBox"); });
+    connect(ui->actionColor, &QAction::triggered, [=] { this->createLeftDock<Color>("Color"); });
+    connect(ui->actionCoordinate, &QAction::triggered, [=] { this->createDialog<Coordinate>("Coordinate"); });
+    connect(ui->actionNormals, &QAction::triggered, [=] { this->createLeftDock<Normals>("Normals"); });
+    connect(ui->actionScale, &QAction::triggered, [=] { this->createDialog<Scale>("Scale"); });
+    connect(ui->actionTransformation, &QAction::triggered, [=] { this->createLeftDock<Transformation>("Transformation"); });
 
     // view
     connect(ui->actionResetcamera, &QAction::triggered, ui->cloudview, &ct::CloudView::resetCamera);
@@ -79,12 +85,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionShowId, &QAction::triggered, ui->cloudview, &ct::CloudView::setShowId);
 
     // tools
-    connect(ui->actionBoundingBox, &QAction::triggered, [=] { this->createLeftDock<BoundingBox>("BoundingBox"); });
-    connect(ui->actionColor, &QAction::triggered, [=] { this->createLeftDock<Color>("Color"); });
-    connect(ui->actionCoordinate, &QAction::triggered, [=] { this->createDialog<Coordinate>("Coordinate"); });
-    connect(ui->actionNormals, &QAction::triggered, [=] { this->createLeftDock<Normals>("Normals"); });
-    connect(ui->actionScale, &QAction::triggered, [=] { this->createDialog<Scale>("Scale"); });
-    connect(ui->actionTransformation, &QAction::triggered, [=] { this->createLeftDock<Transformation>("Transformation"); });
+    connect(ui->actionFilters, &QAction::triggered, [=] { this->createLeftDock<Filters>("Filters"); });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });

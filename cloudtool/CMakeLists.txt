@@ -9,6 +9,7 @@ set(Srcs
         edit/normals.cpp
         edit/scale.cpp
         edit/transformation.cpp
+        tool/filters.cpp
         )
 
 set(MOC_Hdrs 
@@ -21,6 +22,7 @@ set(MOC_Hdrs
         edit/normals.h
         edit/scale.h
         edit/transformation.h
+        tool/filters.h
         )
 
 set(UIs 

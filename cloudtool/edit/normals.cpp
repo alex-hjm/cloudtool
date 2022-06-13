@@ -222,6 +222,7 @@ void Normals::updateNormals()
 
 void Normals::normalsResult(const ct::Cloud::Ptr& cloud, float time)
 {
+    printI(QString("Estimate cloud[id:%1] normals done, take time %2 ms.").arg(cloud->id()).arg(time));
     if (ui->check_reverse->isChecked())
     {
         for (auto& point : cloud->points)
@@ -233,7 +234,6 @@ void Normals::normalsResult(const ct::Cloud::Ptr& cloud, float time)
     }
     m_cloudview->addPointCloudNormals(cloud, ui->spin_level->value(), ui->dspin_scale->value());
     m_normals_map[cloud->id()] = cloud;
-    printI(QString("Estimate cloud[id:%1] normals done, take time %2 ms.").arg(cloud->id()).arg(time));
     m_cloudtree->closeProgressBar();
 }
 

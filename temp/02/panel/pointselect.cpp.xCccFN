@@ -1,0 +1,437 @@
+﻿#include "pointselect.h"
+#include "ui_pointselect.h"
+
+PointSelect::PointSelect(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::PointSelect)
+{
+    ui->setupUi(this);
+    ui->table_cloud->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    connect(ui->btn_add,&QPushButton::clicked,this,&PointSelect::add);
+    connect(ui->btn_start,&QPushButton::clicked,this,&PointSelect::start);
+    connect(ui->btn_reset,&QPushButton::clicked,this,&PointSelect::reset);
+    connect(ui->btn_delete,&QPushButton::clicked,this,&PointSelect::del);
+
+}
+
+PointSelect::~PointSelect()
+{
+    delete ui;
+}
+
+void PointSelect::init()
+{
+    comBox = new QComboBox();
+    comBox->addItem(tr("Single"));
+    comBox->addItem(tr("Continus"));
+    ui->table_cloud->setCellWidget(0,1,comBox);
+    comBox->setCurrentIndex(0);
+}
+
+void PointSelect::add()
+{
+    if(comBox->currentIndex()==0)
+    {
+        addPickCloud(currentCloud,currentIndex,single_cloud,single_cloud_reverse,single_indexs);
+
+    }
+    else if(comBox->currentIndex()==1)
+    {
+        addPickCloud(currentCloud,currentIndex,continus_clouds,continus_clouds_reverse,continius_indexs);
+    }
+}
+
+void PointSelect::del()
+{
+    if(comBox->currentIndex()==0)
+    {
+        deletePickCloud(currentCloud,currentIndex,single_cloud,single_indexs);
+
+    }
+    else if(comBox->currentIndex()==1)
+    {
+        deletePickCloud(currentCloud,currentIndex,continus_clouds,continius_indexs);
+    }
+}
+
+void PointSelect::start()
+{
+    if(ui->btn_start->text()==tr("Start"))
+    {
+        //selectcloud
+        selectedClouds=clouddata->getSelectedClouds();
+        Indexs=clouddata->getSelectedIndexs();
+        allClouds=clouddata->getAllClouds();
+        if(selectedClouds.size()<=0)
+        {
+            console->warning(tr("Please select the correct pointcloud!"));
+            return;
+        }
+
+        currentCloud=selectedClouds[0];
+        currentIndex=Indexs[0];
+
+        for(int i=0;i<allClouds.size();i++)
+        {
+            if(allClouds[i].id!=currentCloud.id)
+                cloudview->removeCloud(allClouds[i].id);
+        }
+
+        auto items = clouddata->selectedItems();
+        clouddata->setCurrentItem(items[0]);
+        clouddata->setEnabled(false);
+
+        console->info(tr("Start picking..."));
+        ui->btn_start->setText(tr("Stop"));
+        ui->btn_start->setIcon(QIcon(":/icon/resource/icon/media-playback-stop.svg"));
+        //init
+        if(comBox->currentIndex()==0)
+            single_indexs.clear();
+        else if(comBox->currentIndex()==1)
+            continius_indexs.clear();
+
+        //connect
+        if(ui->cbox_point->isChecked())
+            connect(cloudview,SIGNAL(pointPicked(int)),this,SLOT(pickPoints(int)));
+        if(ui->cbox_area->isChecked())
+            connect(cloudview,SIGNAL(pointsPicked(std::vector<int>)),this,SLOT(pickAreas(std::vector<int>)));
+
+        disconnect(ui->cbox_reverse,&QCheckBox::stateChanged,0,0);
+        //info
+        cloudview->removeShape("BoundingBox");
+        cloudview->removeShape("pickcloud");
+        cloudview->removeShape("pick-BoundingBox");
+        cloudview->updateInfoText("[point pick]: press shift + left click",30,"info");
+        cloudview->updateInfoText("[areas pick]: click  X  + left click",50,"info_1");
+    }
+    else
+    {
+        //disconnect
+        disconnect(cloudview,SIGNAL(pointPicked(int)),this,SLOT(pickPoints(int)));
+        disconnect(cloudview,SIGNAL(pointsPicked(std::vector<int>)),this,SLOT(pickAreas(std::vector<int>)));
+        //selectcloud
+        allClouds=clouddata->getAllClouds();
+        for(int i=0;i<allClouds.size();i++)
+        {
+            if(!cloudview->contains(allClouds[i].id))
+                cloudview->addCloud(allClouds[i].cloud,allClouds[i].id);
+        }
+        clouddata->setEnabled(true);
+        ui->btn_start->setText(tr("Start"));
+        ui->btn_start->setIcon(QIcon(":/icon/resource/icon/media-playback-start.svg"));
+        //update
+        this->updatePickCloud();
+        connect(ui->cbox_reverse,&QCheckBox::stateChanged,[=]{updatePickCloud();});
+
+        cloudview->removeShape("info");
+        cloudview->removeShape("info_1");
+    }
+}
+
+void PointSelect::reset()
+{
+    clearTable();
+
+    if(ui->btn_start->text()==tr("Start"))
+    {
+        cloudview->removeShape("pickcloud");
+        cloudview->removeShape("pick-BoundingBox");
+        cloudview->removeShape("info");
+        cloudview->removeShape("info_1");
+
+        single_indexs.clear();
+        continius_indexs.clear();
+    }
+    else
+    {
+        disconnect(cloudview,SIGNAL(pointPicked(int)),this,SLOT(pickPoints(int)));
+        disconnect(cloudview,SIGNAL(pointsPicked(std::vector<int>)),this,SLOT(pickAreas(std::vector<int>)));
+
+        allClouds=clouddata->getAllClouds();
+        for(int i=0;i<allClouds.size();i++)
+        {
+            if(!cloudview->contains(allClouds[i].id))
+                cloudview->addCloud(allClouds[i].cloud,allClouds[i].id);
+        }
+        clouddata->setEnabled(true);
+
+        ui->btn_start->setText(tr("Start"));
+        ui->btn_start->setIcon(QIcon(":/icon/resource/icon/media-playback-start.svg"));
+
+        cloudview->removeShape("pickcloud");
+        cloudview->removeShape("pick-BoundingBox");
+
+        single_indexs.clear();
+        continius_indexs.clear();
+        console->warning(tr("Interrupt picking. "));
+    }
+
+}
+
+void PointSelect::pickPoints(int index)
+{
+    if(comBox->currentIndex()==0)
+    {
+        single_indexs.clear();
+        single_indexs.push_back(index);
+        updataPreCloud(currentCloud,single_indexs);
+    }
+    else if(comBox->currentIndex()==1)
+    {
+        continius_indexs.push_back(index);
+        tool.Getunique(continius_indexs);
+        updataPreCloud(currentCloud,continius_indexs);
+    }
+}
+
+void PointSelect::pickAreas(std::vector<int> indexs)
+{
+    if(comBox->currentIndex()==0)
+    {
+        single_indexs.clear();
+        single_indexs=indexs;
+        updataPreCloud(currentCloud,single_indexs);
+    }
+    else if(comBox->currentIndex()==1)
+    {
+        tool.GetUnion(continius_indexs,indexs,continius_indexs);
+        tool.Getunique(continius_indexs);
+        updataPreCloud(currentCloud,continius_indexs);
+    }
+
+}
+
+void PointSelect::updatePickCloud()
+{
+
+    if(comBox->currentIndex()==0)
+    {
+        if(!ui->cbox_reverse->isChecked())
+        {
+            if(single_indexs.size()<=0)
+            {
+                console->info(tr("Stop picking. (pick clouds : 0 , point size: 0) "));
+                clearTable();
+                return;
+            }
+            updateCloud(currentCloud,single_cloud,single_indexs);
+            updateTable(single_cloud.id,single_cloud.cloudSize,single_cloud.cloudCenter);
+            console->info(tr("Stop picking. (pick clouds : 1 , point size: %1) ").arg(single_cloud.cloudSize));
+        }
+        else
+        {
+            if(single_indexs.size()==currentCloud.cloud->size())
+            {
+                console->info(tr("Stop picking. (pick clouds : 0 , point size: 0) "));
+                clearTable();
+                return;
+            }
+            updateReverseCloud(currentCloud,single_cloud_reverse,single_indexs);
+            updateTable(single_cloud_reverse.id,single_cloud_reverse.cloudSize,single_cloud_reverse.cloudCenter);
+            console->info(tr("Stop picking. (pick clouds : 1 , point size: %1) ").arg(single_cloud_reverse.cloudSize));
+        }
+
+
+    }
+    else if(comBox->currentIndex()==1)
+    {
+
+        if(!ui->cbox_reverse->isChecked())
+        {
+            if(continius_indexs.size()<=0)
+            {
+                console->info(tr("Stop picking.   (pick clouds : 0 , point size: 0) "));
+                clearTable();
+                return;
+            }
+            updateCloud(currentCloud,continus_clouds,continius_indexs);
+            updateTable(continus_clouds.id,continus_clouds.cloudSize,continus_clouds.cloudCenter);
+            console->info(tr("Stop picking.   (pick clouds : 1 , point size: %1) ").arg(continus_clouds.cloudSize));
+        }
+        else
+        {
+            if(continius_indexs.size()==currentCloud.cloud->size())
+            {
+                console->info(tr("Stop picking.   (pick clouds : 0 , point size: 0) "));
+                clearTable();
+                return;
+            }
+            updateReverseCloud(currentCloud,continus_clouds_reverse,continius_indexs);
+            updateTable(continus_clouds_reverse.id,continus_clouds_reverse.cloudSize,continus_clouds_reverse.cloudCenter);
+            console->info(tr("Stop picking.   (pick clouds : 1 , point size: %1) ").arg(continus_clouds_reverse.cloudSize));
+        }
+    }
+}
+
+void PointSelect::addPickCloud(Cloud &cloudin, itemIndexs indexin,Cloud &pickcloud, Cloud &pickcloud_reverse, std::vector<int> &pick_indexs)
+{
+    if(pickcloud.id!=cloudin.id+"-pick")
+    {
+        console->warning(tr("Please select the correct pointcloud!"));
+        return;
+    }
+    if(pickcloud.id!=getCloudId())
+    {
+        pickcloud.id=getCloudId();
+    }
+    if(pick_indexs.size()>0 && pickcloud.cloudSize>0)
+    {
+        cloudview->removeShape("pickcloud");
+        cloudview->removeShape("pick-BoundingBox");
+
+        if(ui->cbox_reverse->isChecked())
+        {
+            if(pickcloud_reverse.cloudSize<=0)
+            {
+                console->warning(tr("pick no points from the pointcloud."));
+                return;
+            }
+            clouddata->insertCloudItems(indexin.row,pickcloud_reverse);
+        }
+        else
+        {
+            clouddata->insertCloudItems(indexin.row,pickcloud);
+        }
+        pick_indexs.clear();
+        clearTable();
+    }
+    else
+    {
+        console->warning(tr("Please pick points from the pointcloud"));
+        return;
+    }
+}
+
+void PointSelect::deletePickCloud(Cloud &cloudin,itemIndexs indexin,Cloud &pickcloud,std::vector<int>&pick_indexs)
+{
+    if(pickcloud.id!=cloudin.id+"-pick")
+    {
+        console->warning(tr("Please select the correct pointcloud!"));
+        return;
+    }
+    if(pick_indexs.size()>0 && pickcloud.cloudSize>0)
+    {
+        cloudview->removeShape("pickcloud");
+        cloudview->removeShape("pick-BoundingBox");
+
+        if(ui->cbox_reverse->isChecked())
+        {
+            *cloudin.cloud=*pickcloud.cloud;
+            cloudin.update();
+            clouddata->updateCloudItem(indexin,cloudin);
+            cloudview->updateCloud(cloudin.cloud,cloudin.id);
+
+        }
+        else
+        {
+            if(pick_indexs.size()!=cloudin.cloud->size())
+            {
+                std::vector<int> pick_indexs_reverse;
+                tool.GetDifference(cloudin.cloudSize,pick_indexs,pick_indexs_reverse);
+                CloudXYZRGBN::Ptr pickCloud_reverse(new CloudXYZRGBN);
+                pcl::copyPointCloud(*cloudin.cloud,pick_indexs_reverse,*pickCloud_reverse);
+                *cloudin.cloud=*pickCloud_reverse;
+                cloudin.update();
+                clouddata->updateCloudItem(indexin,cloudin);
+                cloudview->updateCloud(cloudin.cloud,cloudin.id);
+            }
+            else
+            {
+                console->warning(tr("pick the all pointcloud!"));
+                return;
+            }
+
+        }
+        pick_indexs.clear();
+        clearTable();
+
+    }
+    else
+    {
+        console->warning(tr("Please pick points from the pointcloud"));
+        return;
+    }
+
+
+}
+
+void PointSelect::updateTable(string id, int cloudSize, Eigen::Vector3f &cloudcenter)
+{
+    ui->table_cloud->setItem(1, 1, new QTableWidgetItem(id.c_str()));
+    ui->table_cloud->setItem(2, 1, new QTableWidgetItem(QString::number(cloudSize)));
+    QString Center=QString::number(cloudcenter[0], 'f', 3)+","+QString::number(cloudcenter[1], 'f', 3)
+            +","+QString::number(cloudcenter[2], 'f', 3);
+    ui->table_cloud->setItem(3, 1, new QTableWidgetItem(Center));
+}
+
+void PointSelect::updataPreCloud(Cloud &cloudin,std::vector<int> &pick_indexs)
+{
+    CloudXYZRGBN::Ptr cloud(new CloudXYZRGBN);
+    pcl::copyPointCloud(*cloudin.cloud,pick_indexs,*cloud);
+    cloudview->updateCloud(cloud,"pickcloud");
+    cloudview->setCloudColor(cloud,"pickcloud",255,0,0);
+    cloudview->setCloudSize("pickcloud",2);
+}
+
+void PointSelect::updateCloud(Cloud &cloudin,Cloud &pickcloud, std::vector<int>&pick_indexs)
+{
+    pickcloud=cloudin;
+    CloudXYZRGBN::Ptr pick_cloud(new CloudXYZRGBN);
+    pcl::copyPointCloud(*cloudin.cloud,pick_indexs,*pick_cloud);
+    pickcloud.cloud=pick_cloud;
+    pickcloud.update("-pick");
+    cloudview->updateCloud(pickcloud.cloud,"pickcloud");
+    cloudview->setCloudColor(pickcloud.cloud,"pickcloud",255,0,0);
+    cloudview->setCloudSize("pickcloud",2);
+    if(pickcloud.cloudSize>10)
+        cloudview->updateBoundingBox(pickcloud.Box,"pick-BoundingBox",representation_type::wireframe,1,255,255,255);
+}
+
+void PointSelect::updateReverseCloud(Cloud &cloudin, Cloud &pickcloud_reverse, std::vector<int> &pick_indexs)
+{
+    pickcloud_reverse=cloudin;
+    std::vector<int> pick_indexs_reverse;
+    tool.GetDifference(cloudin.cloudSize,pick_indexs,pick_indexs_reverse);
+    CloudXYZRGBN::Ptr pickCloud_reverse(new CloudXYZRGBN);
+    pcl::copyPointCloud(*cloudin.cloud,pick_indexs_reverse,*pickCloud_reverse);
+    pickcloud_reverse.cloud=pickCloud_reverse;
+    pickcloud_reverse.update("-pick");
+    cloudview->updateCloud(pickcloud_reverse.cloud,"pickcloud");
+    cloudview->setCloudColor(pickcloud_reverse.cloud,"pickcloud",255,0,0);
+    cloudview->setCloudSize("pickcloud",2);
+    if(pickcloud_reverse.cloudSize>10)
+        cloudview->updateBoundingBox(pickcloud_reverse.Box,"pick-BoundingBox",representation_type::wireframe,1,255,255,255);
+
+}
+
+void PointSelect::clearTable()
+{
+    ui->table_cloud->setItem(1, 1, new QTableWidgetItem(""));
+    ui->table_cloud->setItem(2, 1, new QTableWidgetItem(""));
+    ui->table_cloud->setItem(3, 1, new QTableWidgetItem(""));
+}
+
+string PointSelect::getCloudId()
+{
+    QString str = ui->table_cloud->item(1,1)->text();
+    return str.toStdString();
+}
+
+void PointSelect::closeEvent(QCloseEvent *event)
+{
+    disconnect(this,0,0,0);
+    cloudview->removeShape("pickcloud");
+    cloudview->removeShape("pick-BoundingBox");
+    cloudview->removeShape("info");
+    cloudview->removeShape("info_1");
+
+    allClouds=clouddata->getAllClouds();
+    for(int i=0;i<allClouds.size();i++)
+    {
+        if(!cloudview->contains(allClouds[i].id))
+            cloudview->addCloud(allClouds[i].cloud,allClouds[i].id);
+    }
+
+}
+
+

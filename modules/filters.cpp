@@ -31,19 +31,33 @@
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/surface/mls.h>
 
+#include <pcl/filters/impl/local_maximum.hpp>
+#include <pcl/filters/impl/project_inliers.hpp>
+
+#include <pcl/sample_consensus/impl/sac_model_circle.hpp>
+#include <pcl/sample_consensus/impl/sac_model_cylinder.hpp>
+#include <pcl/sample_consensus/impl/sac_model_cone.hpp>
+#include <pcl/sample_consensus/impl/sac_model_line.hpp>
+#include <pcl/sample_consensus/impl/sac_model_normal_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_normal_sphere.hpp>
+#include <pcl/sample_consensus/impl/sac_model_parallel_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_normal_parallel_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_parallel_line.hpp>
+#include <pcl/sample_consensus/impl/sac_model_perpendicular_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_sphere.hpp>
+
 namespace ct
 {
-    void Filters::ApproximateVoxelGrid(float lx, float ly, float lz,
-                                       bool downsample)
+    void Filters::ApproximateVoxelGrid(float lx, float ly, float lz)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
         pcl::ApproximateVoxelGrid<PointXYZRGBN> avfilter;
         avfilter.setInputCloud(cloud_);
         avfilter.setLeafSize(lx, ly, lz);
-        avfilter.setDownsampleAllData(downsample);
         avfilter.filter(*cloud_filtered);
 
         if (negative_)
@@ -59,14 +73,12 @@ namespace ct
 
     void Filters::ConditionalRemoval(Condition::Ptr con)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
+        Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
         pcl::ConditionalRemoval<PointXYZRGBN> bfilter;
         bfilter.setInputCloud(cloud_);
-        bfilter.setKeepOrganized(keep_organized_);
-        bfilter.setUserFilterValue(value_);
         bfilter.setCondition(con);
         bfilter.filter(*cloud_filtered);
 
@@ -81,12 +93,11 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::Convolution3D(float sigma, float sigma_coefficient,
-                                float threshold, double radius)
+    void Filters::Convolution3D(float sigma, float sigma_coefficient, float threshold, double radius)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
+        Cloud::Ptr cloud_filtered = cloud_->makeShared();
         pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
 
         pcl::filters::GaussianKernel<PointXYZRGBN, PointXYZRGBN> kernel;
@@ -94,10 +105,7 @@ namespace ct
         kernel.setThresholdRelativeToSigma(sigma_coefficient);
         kernel.setThreshold(threshold);
 
-        pcl::filters::Convolution3D<
-            PointXYZRGBN, PointXYZRGBN,
-            pcl::filters::GaussianKernel<PointXYZRGBN, PointXYZRGBN>>
-            convolution;
+        pcl::filters::Convolution3D< PointXYZRGBN, PointXYZRGBN, pcl::filters::GaussianKernel<PointXYZRGBN, PointXYZRGBN>> convolution;
         convolution.setInputCloud(cloud_);
         convolution.setKernel(kernel);
         convolution.setNumberOfThreads(14);
@@ -107,11 +115,9 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::CropBox(const Eigen::Vector4f& min_pt,
-                          const Eigen::Vector4f& max_pt,
-                          const Eigen::Affine3f& transform)
+    void Filters::CropBox(const Eigen::Vector4f& min_pt, const Eigen::Vector4f& max_pt, const Eigen::Affine3f& transform)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -120,18 +126,15 @@ namespace ct
         cb.setMin(min_pt);
         cb.setMax(max_pt);
         cb.setTransform(transform);
-        cb.setKeepOrganized(keep_organized_);
-        cb.setUserFilterValue(value_);
         cb.setNegative(negative_);
         cb.filter(*cloud_filtered);
 
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::CropHull(const std::vector<pcl::Vertices>& polygons, int dim,
-                           bool crop_outside)
+    void Filters::CropHull(const std::vector<pcl::Vertices>& polygons, int dim, bool crop_outside)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -140,18 +143,15 @@ namespace ct
         ch.setHullIndices(polygons);
         ch.setDim(dim);
         ch.setCropOutside(crop_outside);
-        ch.setKeepOrganized(keep_organized_);
-        ch.setUserFilterValue(value_);
         ch.setNegative(negative_);
         ch.filter(*cloud_filtered);
 
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::FrustumCulling(const Eigen::Matrix4f& camera_pose, float hfov,
-                                 float vfov, float np_dist, float fp_dist)
+    void Filters::FrustumCulling(const Eigen::Matrix4f& camera_pose, float hfov, float vfov, float np_dist, float fp_dist)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -162,8 +162,6 @@ namespace ct
         filter.setVerticalFOV(vfov);
         filter.setNearPlaneDistance(np_dist);
         filter.setFarPlaneDistance(fp_dist);
-        filter.setKeepOrganized(keep_organized_);
-        filter.setUserFilterValue(value_);
         filter.setNegative(negative_);
         filter.filter(*cloud_filtered);
 
@@ -172,15 +170,13 @@ namespace ct
 
     void Filters::GridMinimum(const float resolution)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
         pcl::GridMinimum<PointXYZRGBN> filter(resolution);
         filter.setInputCloud(cloud_);
         filter.setResolution(resolution);
-        filter.setKeepOrganized(keep_organized_);
-        filter.setUserFilterValue(value_);
         filter.setNegative(negative_);
         filter.filter(*cloud_filtered);
 
@@ -189,27 +185,22 @@ namespace ct
 
     void Filters::LocalMaximum(float radius)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
-        pcl::PointCloud<PointXYZRGB>::Ptr cloud(new pcl::PointCloud<PointXYZRGB>);
-        pcl::copyPointCloud(*cloud_, *cloud);
 
-        pcl::LocalMaximum<PointXYZRGB> filter;
-        filter.setInputCloud(cloud);
+        pcl::LocalMaximum<PointXYZRGBN> filter;
+        filter.setInputCloud(cloud_);
         filter.setRadius(radius);
-        filter.setKeepOrganized(keep_organized_);
-        filter.setUserFilterValue(value_);
         filter.setNegative(negative_);
-        filter.filter(*cloud);
+        filter.filter(*cloud_filtered);
 
-        pcl::copyPointCloud(*cloud, *cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }
 
     void Filters::MedianFilter(int window_size, float max_allowed_movement)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -229,43 +220,27 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::MovingLeastSquares(bool computer_normals, int polynomial_order,
-                                     float radius, double sqr_gauss_param,
-                                     int upsampling_method, double uradius,
-                                     double step_size, int dradius,
-                                     float voxel_size, int iterations,
-                                     int projection_method)
+    void Filters::MovingLeastSquares(bool computer_normals, int polynomial_order, float radius)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
         pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
-        typedef pcl::MovingLeastSquares<PointXYZRGBN, PointXYZRGBN>::UpsamplingMethod
-            UpsamplingMethod;
-        typedef pcl::MLSResult::ProjectionMethod ProjectionMethod;
+
         pcl::MovingLeastSquaresOMP<PointXYZRGBN, PointXYZRGBN> mfilter;
         mfilter.setInputCloud(cloud_);
         mfilter.setSearchRadius(radius);
         mfilter.setComputeNormals(computer_normals);
         mfilter.setPolynomialOrder(polynomial_order);
         mfilter.setSearchMethod(tree);
-        mfilter.setSqrGaussParam(sqr_gauss_param);
-        mfilter.setUpsamplingMethod(UpsamplingMethod(upsampling_method));
-        mfilter.setUpsamplingRadius(uradius);
-        mfilter.setUpsamplingStepSize(step_size);
-        mfilter.setPointDensity(dradius);
-        mfilter.setDilationVoxelSize(voxel_size);
-        mfilter.setDilationIterations(iterations);
-        mfilter.setProjectionMethod(ProjectionMethod(projection_method));
         mfilter.process(*cloud_filtered);
 
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::NormalSpaceSampling(int sample, int seed, int binsx, int binsy,
-                                      int binsz)
+    void Filters::NormalSpaceSampling(int sample, int seed, int binsx, int binsy, int binsz)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -275,8 +250,6 @@ namespace ct
         filter.setSample(sample);
         filter.setSeed(seed);
         filter.setBins(binsx, binsy, binsz);
-        filter.setKeepOrganized(keep_organized_);
-        filter.setUserFilterValue(value_);
         filter.setNegative(negative_);
         filter.filter(*cloud_filtered);
 
@@ -286,7 +259,7 @@ namespace ct
     void Filters::PassThrough(const std::string& field_name, float limit_min,
                               float limit_max)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -295,15 +268,13 @@ namespace ct
         pfilter.setFilterFieldName(field_name);
         pfilter.setFilterLimits(limit_min, limit_max);
         pfilter.setFilterLimitsNegative(negative_);
-        pfilter.setKeepOrganized(keep_organized_);
-        pfilter.setUserFilterValue(value_);
         pfilter.filter(*cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }
 
     void Filters::PlaneClipper3D(const Eigen::Vector4f& plane_params)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -321,40 +292,33 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::ProjectInliers(int type, const pcl::ModelCoefficients::Ptr& model,
-                                 bool va)
+    void Filters::ProjectInliers(int type, const pcl::ModelCoefficients::Ptr& model,bool va)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
-        pcl::PointCloud<PointXYZRGB>::Ptr cloud_copy(
-            new pcl::PointCloud<PointXYZRGB>);
-        pcl::PointCloud<PointXYZRGB>::Ptr cloud_copy_filtered(
-            new pcl::PointCloud<PointXYZRGB>);
-        pcl::copyPointCloud(*cloud_, *cloud_copy);
 
-        pcl::ProjectInliers<PointXYZRGB> filter;
-        filter.setInputCloud(cloud_copy);
+        pcl::ProjectInliers<PointXYZRGBN> filter;
+        filter.setInputCloud(cloud_);
         filter.setModelType(type);
         filter.setModelCoefficients(model);
         filter.setCopyAllData(va);
-        filter.filter(*cloud_copy_filtered);
+        filter.filter(*cloud_filtered);
 
         if (negative_)
         {
-            pcl::ExtractIndices<PointXYZRGB> extract;
-            extract.setInputCloud(cloud_copy);
+            pcl::ExtractIndices<PointXYZRGBN> extract;
+            extract.setInputCloud(cloud_);
             extract.setIndices(filter.getRemovedIndices());
-            extract.filter(*cloud_copy_filtered);
+            extract.filter(*cloud_filtered);
         }
-        pcl::copyPointCloud(*cloud_copy_filtered, *cloud_filtered);
 
         emit filterResult(cloud_filtered, time.toc());
     }
 
     void Filters::RadiusOutlierRemoval(double radius, int min_pts)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -363,15 +327,13 @@ namespace ct
         rfilter.setRadiusSearch(radius);
         rfilter.setMinNeighborsInRadius(min_pts);
         rfilter.setNegative(negative_);
-        rfilter.setKeepOrganized(keep_organized_);
-        rfilter.setUserFilterValue(value_);
         rfilter.filter(*cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }
 
     void Filters::RandomSample(int sample, int seed)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -380,15 +342,13 @@ namespace ct
         rfilter.setSample(sample);
         rfilter.setSeed(seed);
         rfilter.setNegative(negative_);
-        rfilter.setKeepOrganized(keep_organized_);
-        rfilter.setUserFilterValue(value_);
         rfilter.filter(*cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }
 
     void Filters::SamplingSurfaceNormal(int sample, int seed, float ratio)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -411,7 +371,7 @@ namespace ct
 
     void Filters::ShadowPoints(float threshold)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -420,8 +380,6 @@ namespace ct
         rfilter.setNormals(cloud_);
         rfilter.setThreshold(threshold);
         rfilter.setNegative(negative_);
-        rfilter.setKeepOrganized(keep_organized_);
-        rfilter.setUserFilterValue(value_);
         rfilter.filter(*cloud_filtered);
 
         emit filterResult(cloud_filtered, time.toc());
@@ -429,7 +387,7 @@ namespace ct
 
     void Filters::StatisticalOutlierRemoval(int nr_k, double stddev_mult)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -438,15 +396,13 @@ namespace ct
         sfilter.setMeanK(nr_k);
         sfilter.setStddevMulThresh(stddev_mult);
         sfilter.setNegative(negative_);
-        sfilter.setKeepOrganized(keep_organized_);
-        sfilter.setUserFilterValue(value_);
         sfilter.filter(*cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }
 
     void Filters::UniformSampling(double radius)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -465,10 +421,9 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::VoxelGrid(float lx, float ly, float lz, bool downsample,
-                            int min_points_per_voxel)
+    void Filters::VoxelGrid(float lx, float ly, float lz)
     {
-        pcl::console::TicToc time;
+        TicToc time;
         time.tic();
         Cloud::Ptr cloud_filtered = cloud_->makeShared();
 
@@ -476,8 +431,6 @@ namespace ct
         vfilter.setInputCloud(cloud_);
         vfilter.setLeafSize(lx, ly, lz);
         vfilter.setFilterLimitsNegative(negative_);
-        vfilter.setDownsampleAllData(downsample);
-        vfilter.setMinimumPointsNumberPerVoxel(min_points_per_voxel);
         vfilter.filter(*cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }

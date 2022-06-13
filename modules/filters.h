@@ -20,7 +20,6 @@
 namespace ct
 {
     typedef pcl::ConditionBase<PointXYZRGBN> Condition;
-    typedef pcl::PointXYZRGB PointXYZRGB;
 
     class CT_EXPORT Filters : public QObject
     {
@@ -29,9 +28,7 @@ namespace ct
         explicit Filters(QObject* parent = nullptr)
             : QObject(parent),
             cloud_(),
-            negative_(false),
-            keep_organized_(false),
-            value_(std::numeric_limits<float>::quiet_NaN())
+            negative_(false)
         {}
 
         void setInputCloud(const Cloud::Ptr& cloud) { cloud_ = cloud; }
@@ -41,25 +38,9 @@ namespace ct
          */
         void setNegative(bool negative) { negative_ = negative; }
 
-        /**
-         * @brief 设置过滤后的点是否应保留并设置为通过 setUserFilterValue 给出的值
-         *        （默认值：NaN）,或者从 PointCloud 中删除，从而可能破坏其组织结构。
-         */
-        void setKeepOrganized(bool keep_organized)
-        {
-            keep_organized_ = keep_organized;
-        }
-
-        /**
-         * @brief 提供一个值，过滤点应设置为而不是删除它们
-         */
-        void setUserFilterValue(float value) { value_ = value; }
-
     private:
         Cloud::Ptr cloud_;
         bool negative_;
-        bool keep_organized_;
-        float value_;
 
     signals:
 
@@ -73,16 +54,13 @@ namespace ct
         /**
          * @brief 在给定的 PointCloud 上组装本地 3D 网格，并对数据进行下采样 + 过滤
          * @param lx ly lz 设置体素网格叶大小
-         * @param downsample 如果所有字段都需要下采样，则设置为 true，如果只是
-         * XYZ，则设置为 false
          */
-        void ApproximateVoxelGrid(float lx, float ly, float lz, bool downsample);
+        void ApproximateVoxelGrid(float lx, float ly, float lz);
 
         /**
          * @brief 条件滤波器
-         * @param val 设置过滤后的点是否应保留并设置为通过 setUserFilterValue
-         * 给出的值（默认值：NaN）， 或者从 PointCloud
-         * 中删除，从而可能破坏其组织结构。
+         * @param val 设置过滤后的点是否应保留并设置为通过 setUserFilterValue 给出的值（默认值：NaN）， 
+         *            或者从 PointCloud 中删除，从而可能破坏其组织结构。
          * @param val1 提供一个值，过滤点应设置为而不是删除它们。
          * @param con 设置过滤器将使用的条件
          */
@@ -95,8 +73,7 @@ namespace ct
          * @param threshold 设置距离阈值如 pi，||pi - q|| > 不考虑阈值
          * @param radius 设置用于确定最近邻居的球体半径
          */
-        void Convolution3D(float sigma, float sigma_coefficient, float threshold,
-                           double radius);
+        void Convolution3D(float sigma, float sigma_coefficient, float threshold, double radius);
 
         /**
          * @brief 允许用户过滤给定框内的所有数据的过滤器
@@ -106,8 +83,7 @@ namespace ct
          * @param rotation 设置框的旋转值
          * @param transform 设置过滤前应应用于云的转换
          */
-        void CropBox(const Eigen::Vector4f& min_pt, const Eigen::Vector4f& max_pt,
-                     const Eigen::Affine3f& transform);
+        void CropBox(const Eigen::Vector4f& min_pt, const Eigen::Vector4f& max_pt, const Eigen::Affine3f& transform);
 
         /**
          * @brief 过滤位于 3D 闭合曲面或 2D 闭合多边形内部或外部的点
@@ -115,8 +91,7 @@ namespace ct
          * @param dim 设置要使用的船体的维度
          * @param crop_outside 移除船体外部的点（默认）或船体内部的点
          */
-        void CropHull(const std::vector<pcl::Vertices>& polygons, int dim,
-                      bool crop_outside);
+        void CropHull(const std::vector<pcl::Vertices>& polygons, int dim, bool crop_outside);
 
         /**
          * @brief 过滤由相机的姿势和视野给出的截锥体内的点
@@ -126,8 +101,7 @@ namespace ct
          * @param np_dist 设置近平面距离
          * @param fp_dist 设置远平面距离
          */
-        void FrustumCulling(const Eigen::Matrix4f& camera_pose, float hfov,
-                            float vfov, float np_dist, float fp_dist);
+        void FrustumCulling(const Eigen::Matrix4f& camera_pose, float hfov, float vfov, float np_dist, float fp_dist);
 
         /**
          * @brief 在给定的 PointCloud 上组装一个本地 2D 网格，并对数据进行下采样
@@ -153,16 +127,11 @@ namespace ct
          * @param computer_normals 设置算法是否还应存储计算的法线
          * @param polynomial_order 设置要拟合的多项式的阶数
          * @param radius 设置用于确定用于拟合的 k 最近邻的球体半径。
-         * @param sqr_gauss_param
-         * 设置用于基于距离的邻居加权的参数（搜索半径的平方通常效果最好）
+         * @param sqr_gauss_param 设置用于基于距离的邻居加权的参数（搜索半径的平方通常效果最好）
          * @param method1 设置要使用的上采样方法
          * @param method2 设置将点投影到 MLS 表面时使用的方法
          */
-        void MovingLeastSquares(bool computer_normals, int polynomial_order,
-                                float radius, double sqr_gauss_param,
-                                int upsampling_method, double uradius,
-                                double step_size, int dradius, float voxel_size,
-                                int iterations, int projection_method);
+        void MovingLeastSquares(bool computer_normals, int polynomial_order, float radius);
 
         /**
          * @brief 在每个点计算的法线方向空间中对输入点云进行采样
@@ -170,8 +139,7 @@ namespace ct
          * @param seed 设置随机函数的种子
          * @param binsx binsy binsz设置 x,y,z 方向的 bin 数量
          */
-        void NormalSpaceSampling(int sample, int seed, int binsx, int binsy,
-                                 int binsz);
+        void NormalSpaceSampling(int sample, int seed, int binsx, int binsy, int binsz);
 
         /**
          * @brief 直通滤波器
@@ -180,8 +148,7 @@ namespace ct
          * @param limit_max 为过滤数据的字段设置数值限制
          * @param negative  是否返回指定的限制间隔之外的数据
          */
-        void PassThrough(const std::string& field_name, float limit_min,
-                         float limit_max);
+        void PassThrough(const std::string& field_name, float limit_min, float limit_max);
 
         /**
          * @brief 3D 平面剪裁器
@@ -212,8 +179,7 @@ namespace ct
         void RandomSample(int sample, int seed);
 
         /**
-         * @brief 将输入空间划分为网格，直到每个网格包含最多 N
-         * 个点，并在每个网格内随机采样点
+         * @brief 将输入空间划分为网格，直到每个网格包含最多N个点，并在每个网格内随机采样点
          * @param sample 设置每个网格中的最大样本数
          * @param seed 设置随机函数的种子
          * @param ratio 设置每个网格中要采样的点的比率
@@ -234,22 +200,16 @@ namespace ct
         void StatisticalOutlierRemoval(int nr_k, double stddev_mult);
 
         /**
-         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样 +
-         * 过滤
+         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样+ 过滤
          * @param radius 设置 3D 网格叶子大小
          */
         void UniformSampling(double radius);
 
         /**
-         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样 +
-         * 过滤
+         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样 + 过滤
          * @param lx ly lz 设置体素网格叶大小
-         * @param downsample 如果所有字段都需要下采样，则设置为 true，如果只是
-         * XYZ，则设置为 false
-         * @param min_points_per_voxel 设置要使用的体素所需的最小点数
          */
-        void VoxelGrid(float lx, float ly, float lz, bool downsample,
-                       int min_points_per_voxel);
+        void VoxelGrid(float lx, float ly, float lz);
     };
 } // namespace ct
 
