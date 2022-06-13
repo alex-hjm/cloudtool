@@ -1,13 +1,15 @@
 #include "mainwindow.h"
 
 #include "edit/boundingbox.h"
-//#include "edit/color.h"
-//#include "edit/coordinate.h"
-//#include "edit/normals.h"
-//#include "edit/scale.h"
-//#include "edit/transformation.h"
+#include "edit/color.h"
+#include "edit/coordinate.h"
+#include "edit/normals.h"
+#include "edit/scale.h"
+#include "edit/transformation.h"
+
 #include "help/about.h"
 #include "help/shortcutkey.h"
+
 //#include "tools/filters.h"
 //#include "tools/keypoints.h"
 
@@ -78,6 +80,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // tools
     connect(ui->actionBoundingBox, &QAction::triggered, [=] { this->createLeftDock<BoundingBox>("BoundingBox"); });
+    connect(ui->actionColor, &QAction::triggered, [=] { this->createLeftDock<Color>("Color"); });
+    connect(ui->actionCoordinate, &QAction::triggered, [=] { this->createDialog<Coordinate>("Coordinate"); });
+    connect(ui->actionNormals, &QAction::triggered, [=] { this->createLeftDock<Normals>("Normals"); });
+    connect(ui->actionScale, &QAction::triggered, [=] { this->createDialog<Scale>("Scale"); });
+    connect(ui->actionTransformation, &QAction::triggered, [=] { this->createLeftDock<Transformation>("Transformation"); });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });

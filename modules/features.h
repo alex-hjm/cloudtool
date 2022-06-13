@@ -17,19 +17,19 @@
 namespace ct
 {
 
-    typedef pcl::PointCloud<pcl::ShapeContext1980> SCFeature;
-    typedef pcl::PointCloud<pcl::Histogram<90>> CRHFeature;
-    typedef pcl::PointCloud<pcl::VFHSignature308> VFHFeature;
-    typedef pcl::PointCloud<pcl::ESFSignature640> ESFFeature;
-    typedef pcl::PointCloud<pcl::FPFHSignature33> FPFHFeature;
-    typedef pcl::PointCloud<pcl::GASDSignature512> GASDFeature;
-    typedef pcl::PointCloud<pcl::GASDSignature984> GASDCFeature;
-    typedef pcl::PointCloud<pcl::GRSDSignature21> GRSDFeature;
-    typedef pcl::PointCloud<pcl::PFHSignature125> PFHFeature;
-    typedef pcl::PointCloud<pcl::PrincipalRadiiRSD> RSDFeature;
-    typedef pcl::PointCloud<pcl::SHOT352> SHOTFeature;
-    typedef pcl::PointCloud<pcl::SHOT1344> SHOTCFeature;
-    typedef pcl::PointCloud<pcl::UniqueShapeContext1960> USCFeature;
+    typedef pcl::PointCloud<pcl::ShapeContext1980>          SCFeature;
+    typedef pcl::PointCloud<pcl::Histogram<90>>             CRHFeature;
+    typedef pcl::PointCloud<pcl::VFHSignature308>           VFHFeature;
+    typedef pcl::PointCloud<pcl::ESFSignature640>           ESFFeature;
+    typedef pcl::PointCloud<pcl::FPFHSignature33>           FPFHFeature;
+    typedef pcl::PointCloud<pcl::GASDSignature512>          GASDFeature;
+    typedef pcl::PointCloud<pcl::GASDSignature984>          GASDCFeature;
+    typedef pcl::PointCloud<pcl::GRSDSignature21>           GRSDFeature;
+    typedef pcl::PointCloud<pcl::PFHSignature125>           PFHFeature;
+    typedef pcl::PointCloud<pcl::PrincipalRadiiRSD>         RSDFeature;
+    typedef pcl::PointCloud<pcl::SHOT352>                   SHOTFeature;
+    typedef pcl::PointCloud<pcl::SHOT1344>                  SHOTCFeature;
+    typedef pcl::PointCloud<pcl::UniqueShapeContext1960>    USCFeature;
 
     class CT_EXPORT Features : public QObject
     {

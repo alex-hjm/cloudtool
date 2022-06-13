@@ -3,14 +3,24 @@ set(Srcs
         mainwindow.cpp
         help/about.cpp
         help/shortcutkey.cpp
+        edit/color.cpp
         edit/boundingbox.cpp
+        edit/coordinate.cpp
+        edit/normals.cpp
+        edit/scale.cpp
+        edit/transformation.cpp
         )
 
 set(MOC_Hdrs 
         mainwindow.h
         help/about.h
-        help/shortcutkey.h 
+        help/shortcutkey.h
+        edit/color.h 
         edit/boundingbox.h
+        edit/coordinate.h
+        edit/normals.h
+        edit/scale.h
+        edit/transformation.h
         )
 
 set(UIs 
