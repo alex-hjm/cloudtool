@@ -609,6 +609,7 @@ namespace ct
         void dropFilePath(const QStringList& filepath);
         void viewerPose(Eigen::Affine3f&);
         void sizeChanged(const QSize& size);
+        void posChanged(const QPoint& pos);
         void mouseLeftPressed(const PointXY& pt);
         void mouseLeftReleased(const PointXY& pt);
         void mouseRightPressed(const PointXY& pt);
