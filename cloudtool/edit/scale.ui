@@ -163,7 +163,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../resources/res.qrc">
          <normaloff>:/res/icon/add.svg</normaloff>:/res/icon/add.svg</iconset>
        </property>
       </widget>
@@ -174,7 +174,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../resources/res.qrc">
          <normaloff>:/res/icon/apply1.svg</normaloff>:/res/icon/apply1.svg</iconset>
        </property>
       </widget>
@@ -185,7 +185,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../resources/res.qrc">
          <normaloff>:/res/icon/reset.svg</normaloff>:/res/icon/reset.svg</iconset>
        </property>
       </widget>
@@ -196,7 +196,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../resources/res.qrc">
          <normaloff>:/res/icon/close-copy.svg</normaloff>:/res/icon/close-copy.svg</iconset>
        </property>
       </widget>
@@ -206,7 +206,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../res/res.qrc"/>
+  <include location="../resources/res.qrc"/>
  </resources>
  <connections/>
 </ui>

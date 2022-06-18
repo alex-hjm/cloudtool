@@ -4,8 +4,8 @@
  * @version 3.0
  * @date 2022-05-15
  */
-#ifndef SCALE_H
-#define SCALE_H
+#ifndef CT_EDIT_SCALE_H
+#define CT_EDIT_SCALE_H
 
 #include "base/customdialog.h"
 
@@ -37,4 +37,4 @@ private:
     std::unordered_map<QString, ct::Cloud::Ptr> m_scale_map;
 };
 
-#endif  // SCALE_H
+#endif  // CT_EDIT_SCALE_H
