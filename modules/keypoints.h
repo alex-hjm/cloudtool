@@ -11,15 +11,15 @@
 
 #include "base/cloud.h"
 
-
 #include <pcl/range_image/range_image.h>
 #include <pcl/features/range_image_border_extractor.h>
 
-
 namespace ct
 {
-  typedef pcl::PointXYZI PointXYZI;
-  typedef pcl::RangeImage RangeImage;
+  typedef pcl::PointXYZI      PointXYZI;
+  typedef pcl::PointXYZRGB    PointXYZRGB;
+  typedef pcl::PointWithScale PointWithScale;
+  typedef pcl::RangeImage     RangeImage;
 
   class CT_EXPORT Keypoints : public QObject
   {
@@ -62,32 +62,26 @@ namespace ct
   public slots:
 
     /**
+     * @brief 通过一幅距离图像输出关键点
+     * @param range_image 深度图
+     * @param support_size 支持的大小
+     */
+    void NarfKeypoint(const RangeImage* range_image, float support_size);
+
+    /**
      * @brief 使用 2D Harris 关键点的思想，但不是使用图像梯度，而是使用表面法线
-     * @param response_method 设置要计算的响应的方法:
-     *                        1-HARRIS 2-NOBLE 3-LOWE 4-TOMASI 5-CURVATURE
+     * @param response_method 设置要计算的响应的方法: 1-HARRIS 2-NOBLE 3-LOWE 4-TOMASI 5-CURVATURE
      * @param radius 设置正常估计和非最大值抑制的半径
      * @param threshold 设置检测角的阈值
-     * @param non_maxima 是否应应用非最大值抑制或应返回每个点的响应
-     * @param do_refine 检测到的关键点是否需要细化
      */
-    void HarrisKeypoint3D(int response_method, float radius, float threshold,
-                          bool non_maxima, bool do_refine);
+    void HarrisKeypoint3D(int response_method, float radius, float threshold);
 
     /**
      * @brief 检测给定点云的内在形状特征关键点
-     * @param salient_radius 设置用于计算散射矩阵的球形邻域的半径
-     * @param non_max_radius 设置应用非极大值抑制算法的半径
-     * @param normal_radius 设置用于估计输入云的表面法线的半径
-     * @param border_radius 设置用于估计边界点的半径
-     * @param gamma_21 设置第二个和第一个特征值之间比率的上限
-     * @param gamma_32 设置第三个和第二个特征值之间比率的上限
-     * @param min_neighbors 设置应用非最大值抑制算法时必须找到的最小邻居数
+     * @param resolutin 点云分辨率
      * @param angle 设置将点标记为边界或规则的决策边界（角度阈值）
      */
-    void ISSKeypoint3D(double salient_radius, double non_max_radius,
-                       double normal_radius, double border_radius,
-                       double gamma_21, double gamma_32, int min_neighbors,
-                       float angle);
+    void ISSKeypoint3D(double resolutin, float angle);
 
     /**
      * @brief 检测包含点和强度的给定点云数据集的尺度不变特征变换关键点
@@ -96,8 +90,7 @@ namespace ct
      * @param nr_scales_per_octave 在每个八度音程内计算的音阶数
      * @param min_contrast 检测所需的最小对比度
      */
-    void SIFTKeypoint(float min_scale, int nr_octaves, int nr_scales_per_octave,
-                      float min_contrast);
+    void SIFTKeypoint(float min_scale, int nr_octaves, int nr_scales_per_octave, float min_contrast);
 
     /**
      * @brief 使用几何信息在点云上实现 Trajkovic 和 Hedley 角点检测器
