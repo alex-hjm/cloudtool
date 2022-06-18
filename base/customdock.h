@@ -7,14 +7,14 @@
 #ifndef CT_BASE_CUSTOMDOCK_H
 #define CT_BASE_CUSTOMDOCK_H
 
+#include "base/cloudtree.h"
+#include "base/cloudview.h"
+#include "base/console.h"
+
 #include <QDockWidget>
 #include <QMainWindow>
 #include <QPushButton>
 #include <unordered_map>
-
-#include "base/cloudtree.h"
-#include "base/cloudview.h"
-#include "base/console.h"
 
 namespace ct
 {
@@ -112,6 +112,18 @@ namespace ct
                 registed_docks.erase(label);
             }
         }
+    }
+
+    /**
+     * @brief 获取窗口指针
+     * @param label 窗口标签
+     */
+    CustomDock* getDock(const QString& label)
+    {
+        if (registed_docks.find(label) == registed_docks.end())
+            return nullptr;
+        else
+            return registed_docks.find(label)->second;
     }
 
 } // namespace ct

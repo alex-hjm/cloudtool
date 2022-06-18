@@ -7,14 +7,14 @@
 #ifndef CT_BASE_CLOUDVIEW_H
 #define CT_BASE_CLOUDVIEW_H
 
+#include "base/cloud.h"
+#include "base/exports.h"
+
 #include <QVTKOpenGLNativeWidget.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/range_image/range_image.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkOrientationMarkerWidget.h>
-
-#include "base/cloud.h"
-#include "base/exports.h"
 
 namespace ct
 {

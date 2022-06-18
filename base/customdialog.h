@@ -109,7 +109,7 @@ namespace ct
                                      int ay = pos.y() + 9;
                                      registed_dialogs[label]->move(ax, ay);
                                  }
-                             }); 
+                             });
             QObject::connect(registed_dialogs[label], &CustomDialog::sizeChanged, [=](const QSize& size)
                              {
                                  if (registed_dialogs[label] != nullptr)
@@ -123,6 +123,18 @@ namespace ct
         }
         else // update dialog
             registed_dialogs[label]->close();
+    }
+
+    /**
+     * @brief 获取窗口指针
+     * @param label 窗口标签
+     */
+    CustomDialog* getDialog(const QString& label)
+    {
+        if (registed_dialogs.find(label) == registed_dialogs.end())
+            return nullptr;
+        else
+            return registed_dialogs.find(label)->second;
     }
 
 } // namespace pca

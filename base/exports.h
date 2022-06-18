@@ -8,6 +8,7 @@
 #define CT_BASE_EXPORTS_H
 
 #include <QtCore/qglobal.h>
+#define BOOST_ALLOW_DEPRECATED_HEADERS
 
 #if defined(CT_LIBRARY)
 #define CT_EXPORT Q_DECL_EXPORT

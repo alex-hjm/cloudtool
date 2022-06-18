@@ -7,6 +7,8 @@
 #ifndef CT_BASE_CLOUD_H
 #define CT_BASE_CLOUD_H
 
+#include "base/exports.h"
+
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/console/time.h>
@@ -14,8 +16,6 @@
 #include <QFileInfo>
 #include <QString>
 #include <QColor>
-
-#include "base/exports.h"
 
 #define CLOUD_TYPE_XYZ          "XYZ"
 #define CLOUD_TYPE_XYZRGB       "XYZRGB"

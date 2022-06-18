@@ -7,9 +7,9 @@
 #ifndef CT_BASE_CONSOLE_H
 #define CT_BASE_CONSOLE_H
 
-#include <QTextBrowser>
-
 #include "base/exports.h"
+
+#include <QTextBrowser>
 
 namespace ct
 {
