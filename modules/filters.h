@@ -19,8 +19,12 @@
 
 namespace ct
 {
-    typedef pcl::ConditionBase<PointXYZRGBN> Condition;
-
+    typedef pcl::ConditionBase<PointXYZRGBN>    ConditionBase;
+    typedef pcl::ConditionAnd<PointXYZRGBN>     ConditionAnd;
+    typedef pcl::ConditionOr<PointXYZRGBN>      ConditionOr;
+    typedef pcl::FieldComparison<PointXYZRGBN>  FieldComparison;
+    typedef pcl::ComparisonOps::CompareOp       CompareOp;
+    
     class CT_EXPORT Filters : public QObject
     {
         Q_OBJECT
@@ -64,7 +68,7 @@ namespace ct
          * @param val1 提供一个值，过滤点应设置为而不是删除它们。
          * @param con 设置过滤器将使用的条件
          */
-        void ConditionalRemoval(Condition::Ptr con);
+        void ConditionalRemoval(ConditionBase::Ptr con);
 
         /**
          * @brief 高斯滤波器

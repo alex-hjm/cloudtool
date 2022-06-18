@@ -71,7 +71,7 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::ConditionalRemoval(Condition::Ptr con)
+    void Filters::ConditionalRemoval(ConditionBase::Ptr con)
     {
         TicToc time;
         time.tic();
@@ -233,6 +233,7 @@ namespace ct
         mfilter.setComputeNormals(computer_normals);
         mfilter.setPolynomialOrder(polynomial_order);
         mfilter.setSearchMethod(tree);
+        mfilter.setNumberOfThreads(14);
         mfilter.process(*cloud_filtered);
 
         emit filterResult(cloud_filtered, time.toc());
@@ -292,7 +293,7 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::ProjectInliers(int type, const pcl::ModelCoefficients::Ptr& model,bool va)
+    void Filters::ProjectInliers(int type, const pcl::ModelCoefficients::Ptr& model, bool va)
     {
         TicToc time;
         time.tic();
@@ -432,6 +433,7 @@ namespace ct
         vfilter.setLeafSize(lx, ly, lz);
         vfilter.setFilterLimitsNegative(negative_);
         vfilter.filter(*cloud_filtered);
+
         emit filterResult(cloud_filtered, time.toc());
     }
 
