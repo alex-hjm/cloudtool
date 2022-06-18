@@ -120,6 +120,16 @@ namespace ct
         QString path() const { return m_info.path(); }
 
         /**
+         * @brief 点云最小点
+         */
+        PointXYZRGBN min() const {return m_min;}
+
+        /**
+         * @brief 点云最大点
+         */
+        PointXYZRGBN max() const {return m_max;}
+
+        /**
          * @brief 点云文件大小（KB)
          */
         int fileSize() const { return m_info.size() / 1024; }
@@ -218,6 +228,8 @@ namespace ct
         int m_point_size;
         float m_opacity;
         float m_resolution;
+        PointXYZRGBN m_min;
+        PointXYZRGBN m_max;
     };
 } // namespace ct
 #endif // CT_BASE_CLOUD_H

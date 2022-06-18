@@ -28,12 +28,10 @@ namespace ct
         float fRed = 0.f, fGreen = 0.f, fBlue = 0.f;
         constexpr float range = 2.f / 3.f;
         constexpr uint8_t colorMax = std::numeric_limits<uint8_t>::max();
-        PointXYZRGBN min_pt, max_pt;
-        pcl::getMinMax3D(*this, min_pt, max_pt);
         if (aixs == "x")
         {
-            max = max_pt.x;
-            min = min_pt.x;
+            max = m_max.x;
+            min = m_min.x;
             for (auto& i : points)
             {
                 float hue = (max - i.x) / static_cast<float>(max - min);
@@ -47,8 +45,8 @@ namespace ct
         }
         else if (aixs == "y")
         {
-            max = max_pt.y;
-            min = min_pt.y;
+            max = m_max.y;
+            min = m_min.y;
             for (auto& i : points)
             {
                 float hue = (max - i.y) / static_cast<float>(max - min);
@@ -62,8 +60,8 @@ namespace ct
         }
         else if (aixs == "z")
         {
-            max = max_pt.z;
-            min = min_pt.z;
+            max = m_max.z;
+            min = m_min.z;
             for (auto& i : points)
             {
                 float hue = (max - i.z) / static_cast<float>(max - min);
@@ -120,10 +118,9 @@ namespace ct
         }
         if (box_flag)
         {
-            PointXYZRGBN min, max;
-            pcl::getMinMax3D(*this, min, max);
-            Eigen::Vector3f center = 0.5f * (min.getVector3fMap() + max.getVector3fMap());
-            Eigen::Vector3f whd = max.getVector3fMap() - min.getVector3fMap();
+            pcl::getMinMax3D(*this, m_min, m_max);
+            Eigen::Vector3f center = 0.5f * (m_min.getVector3fMap() + m_max.getVector3fMap());
+            Eigen::Vector3f whd = m_max.getVector3fMap() - m_min.getVector3fMap();
             Eigen::Affine3f affine = m_box.pose;
             float roll, pitch, yaw;
             pcl::getEulerAngles(affine, roll, pitch, yaw);
