@@ -37,7 +37,7 @@ signals:
     void approximateVoxelGrid(float lx, float ly, float lz);
     void statisticalOutlierRemoval(int nr_k, double stddev_mult);
     void radiusOutlierRemoval(double radius, int min_pts);
-    void conditionalRemoval(ct::Condition::Ptr con);
+    void conditionalRemoval(ct::ConditionBase::Ptr con);
     void movingLeastSquares(bool computer_normals, int polynomial_order, float radius);
     void gridMinimum(const float resolution);
     void localMaximum(float radius);
@@ -47,7 +47,7 @@ public slots:
     void filterResult(const ct::Cloud::Ptr& cloud, float time);
 
 private:
-    ct::Condition::Ptr getCondition();
+    ct::ConditionBase::Ptr getCondition();
     void getRange(int index);
 
 private:

@@ -115,7 +115,7 @@
           <enum>QFrame::Plain</enum>
          </property>
          <property name="currentIndex">
-          <number>8</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="PassThrough">
           <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -167,10 +167,10 @@
                 <bool>false</bool>
                </property>
                <property name="currentText">
-                <string>x</string>
+                <string/>
                </property>
                <property name="currentIndex">
-                <number>0</number>
+                <number>-1</number>
                </property>
                <property name="sizeAdjustPolicy">
                 <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
@@ -208,14 +208,21 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <layout class="QHBoxLayout" name="horizontalLayout_15">
              <property name="spacing">
-              <number>0</number>
+              <number>3</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="label_13">
                <property name="text">
-                <string>Range:</string>
+                <string>Min: </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="slider_min">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
               </widget>
              </item>
@@ -241,16 +248,27 @@
                </property>
               </widget>
              </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <property name="spacing">
+              <number>3</number>
+             </property>
              <item>
-              <widget class="QLabel" name="label_3">
-               <property name="maximumSize">
-                <size>
-                 <width>8</width>
-                 <height>16777215</height>
-                </size>
-               </property>
+              <widget class="QLabel" name="label_5">
                <property name="text">
-                <string>~</string>
+                <string>Max: </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="slider_max">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::NoTicks</enum>
                </property>
               </widget>
              </item>
