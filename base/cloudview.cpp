@@ -22,7 +22,6 @@ VTK_MODULE_INIT(vtkRenderingFreeType)
 
 #define INFO_CLOUD_ID   "info_cloud_id"
 #define INFO_TEXT       "info_text"
-#define RANGE_IMAGE_ID  "range_image"
 
 namespace ct
 {
