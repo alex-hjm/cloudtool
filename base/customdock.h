@@ -40,7 +40,7 @@ namespace ct
         void printI(const QString& message) { m_console->print(LOG_INFO, message); }
         void printW(const QString& message) { m_console->print(LOG_WARNING, message); }
         void printE(const QString& message) { m_console->print(LOG_ERROR, message); }
-        
+
         void closeEvent(QCloseEvent* event)
         {
             reset();
@@ -64,9 +64,9 @@ namespace ct
      * @param dock 合并的停靠窗口
      */
     template <class T>
-    void createDock(QMainWindow* parent, const QString& label, Qt::DockWidgetArea area,
-                    CloudView* cloudview = nullptr, CloudTree* cloudtree = nullptr,
-                    Console* console = nullptr, QDockWidget* dock = nullptr)
+    void createDock(QMainWindow* parent, const QString& label, CloudView* cloudview = nullptr,
+                    CloudTree* cloudtree = nullptr, Console* console = nullptr,
+                    Qt::DockWidgetArea area = Qt::LeftDockWidgetArea, QDockWidget* dock = nullptr)
     {
         if (parent == nullptr) return;
         if (registed_docks.find(label) == registed_docks.end()) // register dock

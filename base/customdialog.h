@@ -10,6 +10,7 @@
 #include <QDialog>
 #include <QMainWindow>
 #include <QPushButton>
+#include <QResizeEvent>
 #include <unordered_map>
 
 #include "base/cloudtree.h"
@@ -36,6 +37,9 @@ namespace ct
 
         virtual void reset() {}
 
+    signals:
+        void sizeChanged(const QSize&);
+
     protected:
 
         void printI(const QString& message) { m_console->print(LOG_INFO, message); }
@@ -46,6 +50,12 @@ namespace ct
         {
             reset();
             return QDialog::closeEvent(event);
+        }
+
+        void resizeEvent(QResizeEvent* event)
+        {
+            emit sizeChanged(event->size());
+            return QDialog::resizeEvent(event);
         }
 
     public:
@@ -64,21 +74,17 @@ namespace ct
      * @param central_pos 中心部件的相对位置
      * @param move_signal 窗口移动信号 void posChanged(const QPoint &pos)
      */
-    template <typename T, typename Func>
-    void createDialog(typename QtPrivate::FunctionPointer<Func>::Object* parent,
-                      Func signal, const QString& label, const QPoint& central_pos,
-                      CloudView* cloudview = nullptr, CloudTree* cloudtree = nullptr,
-                      Console* console = nullptr)
+    template <class T>
+    void createDialog(QMainWindow* parent, const QString& label, CloudView* cloudview = nullptr,
+                      CloudTree* cloudtree = nullptr, Console* console = nullptr)
     {
-        if (parent == nullptr)
-            return;
+        if (parent == nullptr) return;
         if (registed_dialogs.find(label) == registed_dialogs.end()) // register dock
             registed_dialogs[label] = nullptr;
         if (registed_dialogs.find(label)->second == nullptr) // create new dialog
         {
             for (auto& dialog : registed_dialogs)
-                if (dialog.first != label && dialog.second != nullptr)
-                    return;
+                if (dialog.first != label && dialog.second != nullptr) return;
             registed_dialogs[label] = new T(parent);
             if (cloudview)
                 registed_dialogs[label]->setCloudView(cloudview);
@@ -87,20 +93,33 @@ namespace ct
             if (console)
                 registed_dialogs[label]->setConsole(console);
             registed_dialogs[label]->setAttribute(Qt::WA_DeleteOnClose);
-            registed_dialogs[label]->setWindowFlags(Qt::FramelessWindowHint |
-                                                    Qt::Dialog);
+            registed_dialogs[label]->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
             registed_dialogs[label]->init();
             QObject::connect(registed_dialogs[label], &QDialog::destroyed, [=]
                              { registed_dialogs[label] = nullptr; });
             registed_dialogs[label]->show();
 
-            QPoint pos = parent->mapToParent(central_pos);
-            registed_dialogs[label]->move(pos.x() + cloudview->width() - registed_dialogs[label]->width(), pos.y() + 18);
-            QObject::connect(parent, signal, [=](const QPoint& pos)
+            QPoint pos = cloudview->mapToGlobal(QPoint(0, 0));
+            registed_dialogs[label]->move(pos.x() + cloudview->width() - registed_dialogs[label]->width() - 9, pos.y() + 9);
+            QObject::connect(cloudview, &CloudView::posChanged, [=](const QPoint& pos)
                              {
                                  if (registed_dialogs[label] != nullptr)
-                                     registed_dialogs[label]->move(pos.x() + cloudview->width() -
-                                                                   registed_dialogs[label]->width(), pos.y() + 18); });
+                                 {
+                                     int ax = pos.x() + cloudview->width() - registed_dialogs[label]->width() - 9;
+                                     int ay = pos.y() + 9;
+                                     registed_dialogs[label]->move(ax, ay);
+                                 }
+                             }); 
+            QObject::connect(registed_dialogs[label], &CustomDialog::sizeChanged, [=](const QSize& size)
+                             {
+                                 if (registed_dialogs[label] != nullptr)
+                                 {
+                                     QPoint pos = cloudview->mapToGlobal(QPoint(0, 0));
+                                     int ax = pos.x() + cloudview->width() - size.width() - 9;
+                                     int ay = pos.y() + 9;
+                                     registed_dialogs[label]->move(ax, ay);
+                                 }
+                             });
         }
         else // update dialog
             registed_dialogs[label]->close();
