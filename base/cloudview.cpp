@@ -22,6 +22,7 @@ VTK_MODULE_INIT(vtkRenderingFreeType)
 
 #define INFO_CLOUD_ID   "info_cloud_id"
 #define INFO_TEXT       "info_text"
+#define RANGE_IMAGE_ID  "range_image"
 
 namespace ct
 {
@@ -81,6 +82,16 @@ namespace ct
         if (cloud->opacity() != 1)
             m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_OPACITY,
                                                        cloud->opacity(), cloud->id().toStdString());
+        m_viewer->getRenderWindow()->Render();
+    }
+
+    void CloudView::addPointCloudFromRangeImage(const pcl::RangeImage::Ptr& image, const QString& id, const QColor& rgb)
+    {
+        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> range_image_color(image, rgb.red(), rgb.green(), rgb.blue());
+        if (!m_viewer->contains(id.toStdString()))
+            m_viewer->addPointCloud(image, range_image_color, id.toStdString());
+        else
+            m_viewer->updatePointCloud(image, range_image_color, id.toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 

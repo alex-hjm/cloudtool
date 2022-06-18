@@ -9,6 +9,7 @@
 
 #include <QVTKOpenGLNativeWidget.h>
 #include <pcl/visualization/pcl_visualizer.h>
+#include <pcl/range_image/range_image.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkOrientationMarkerWidget.h>
 
@@ -51,6 +52,11 @@ namespace ct
          * @brief 添加点云
          */
         void addPointCloud(const Cloud::Ptr& cloud);
+
+        /**
+         * @brief 从深度图中添加点云
+         */
+        void addPointCloudFromRangeImage(const pcl::RangeImage::Ptr& image, const QString& id, const QColor& rgb = QColor(255, 255, 255));
 
         /**
          * @brief 添加坐标系
