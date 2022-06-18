@@ -767,6 +767,7 @@ namespace ct
     {
         if (event->button() == Qt::LeftButton)
         {
+            emit viewerPose(m_viewer->getViewerPose());
             emit mouseLeftReleased(PointXY(m_renderwindow->GetInteractor()->GetEventPosition()[0],
                                            m_renderwindow->GetInteractor()->GetEventPosition()[1]));
         }
