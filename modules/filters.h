@@ -31,7 +31,7 @@ namespace ct
     public:
         explicit Filters(QObject* parent = nullptr)
             : QObject(parent),
-            cloud_(),
+            cloud_(nullptr),
             negative_(false)
         {}
 

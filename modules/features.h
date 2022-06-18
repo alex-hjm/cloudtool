@@ -37,7 +37,7 @@ namespace ct
 
     public:
         explicit Features(QObject* parent = nullptr)
-            : QObject(parent), cloud_(), surface_(), k_(0), radius_(0)
+            : QObject(parent), cloud_(nullptr), surface_(nullptr), k_(0), radius_(0)
         {}
 
         void setInputCloud(const Cloud::Ptr& cloud) { cloud_ = cloud; }
