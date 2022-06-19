@@ -10,6 +10,9 @@ set(Srcs
         edit/scale.cpp
         edit/transformation.cpp
         tool/filters.cpp
+        tool/keypoints.cpp
+        tool/rangeimage.cpp
+        tool/segmentation.cpp
         )
 
 set(MOC_Hdrs 
@@ -23,6 +26,9 @@ set(MOC_Hdrs
         edit/scale.h
         edit/transformation.h
         tool/filters.h
+        tool/keypoints.h
+        tool/rangeimage.h
+        tool/segmentation.h
         )
 
 set(UIs 

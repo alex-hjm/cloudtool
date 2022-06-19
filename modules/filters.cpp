@@ -34,19 +34,6 @@
 #include <pcl/filters/impl/local_maximum.hpp>
 #include <pcl/filters/impl/project_inliers.hpp>
 
-#include <pcl/sample_consensus/impl/sac_model_circle.hpp>
-#include <pcl/sample_consensus/impl/sac_model_cylinder.hpp>
-#include <pcl/sample_consensus/impl/sac_model_cone.hpp>
-#include <pcl/sample_consensus/impl/sac_model_line.hpp>
-#include <pcl/sample_consensus/impl/sac_model_normal_plane.hpp>
-#include <pcl/sample_consensus/impl/sac_model_normal_sphere.hpp>
-#include <pcl/sample_consensus/impl/sac_model_parallel_plane.hpp>
-#include <pcl/sample_consensus/impl/sac_model_normal_parallel_plane.hpp>
-#include <pcl/sample_consensus/impl/sac_model_parallel_line.hpp>
-#include <pcl/sample_consensus/impl/sac_model_perpendicular_plane.hpp>
-#include <pcl/sample_consensus/impl/sac_model_plane.hpp>
-#include <pcl/sample_consensus/impl/sac_model_sphere.hpp>
-
 namespace ct
 {
     void Filters::ApproximateVoxelGrid(float lx, float ly, float lz)

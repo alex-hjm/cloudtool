@@ -1,20 +1,20 @@
 set(LibSrcs
         features.cpp
         filters.cpp
-        #keypoints.cpp
+        keypoints.cpp
         #recognition.cpp
         #registration.cpp
-        #segmentation.cpp
+        segmentation.cpp
         #surface.cpp
         )
 
 set(MocHeaders
         features.h
         filters.h
-        #keypoints.h
+        keypoints.h
         #recognition.h
         #registration.h
-        #segmentation.h
+        segmentation.h
         #surface.h
         )
 

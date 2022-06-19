@@ -16,6 +16,18 @@
 #include <pcl/filters/conditional_removal.h>
 #include <pcl/surface/mls.h>
 
+#include <pcl/sample_consensus/impl/sac_model_circle.hpp>
+#include <pcl/sample_consensus/impl/sac_model_cylinder.hpp>
+#include <pcl/sample_consensus/impl/sac_model_cone.hpp>
+#include <pcl/sample_consensus/impl/sac_model_line.hpp>
+#include <pcl/sample_consensus/impl/sac_model_normal_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_normal_sphere.hpp>
+#include <pcl/sample_consensus/impl/sac_model_parallel_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_normal_parallel_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_parallel_line.hpp>
+#include <pcl/sample_consensus/impl/sac_model_perpendicular_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_plane.hpp>
+#include <pcl/sample_consensus/impl/sac_model_sphere.hpp>
 
 namespace ct
 {

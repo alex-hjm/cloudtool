@@ -5,10 +5,6 @@
  * @date 2022-05-15
  */
 #include "filters.h"
-
-#include <QComboBox>
-#include <QDebug>
-
 #include "ui_filters.h"
 
 #define FILTER_TYPE_PassThrough                     (0)

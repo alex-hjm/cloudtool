@@ -11,7 +11,8 @@
 #include "help/shortcutkey.h"
 
 #include "tool/filters.h"
-//#include "tools/keypoints.h"
+#include "tool/keypoints.h"
+#include "tool/rangeimage.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -23,16 +24,16 @@
 #define PARENT_ICON_PATH    ":/res/icon/document-open.svg"
 #define CHILD_ICON_PATH     ":/res/icon/view-calendar.svg"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow),
-      translator(nullptr)
+    ui(new Ui::MainWindow),
+    translator(nullptr)
 {
     ui->setupUi(this);
 
     // resize
     this->setBaseSize(1320, 845);
-    QList<QDockWidget *> docks;
+    QList<QDockWidget*> docks;
     docks.push_back(ui->DataDock);
     docks.push_back(ui->PropertiesDock);
     docks.push_back(ui->ConsoleDock);
@@ -86,6 +87,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     // tools
     connect(ui->actionFilters, &QAction::triggered, [=] { this->createLeftDock<Filters>("Filters"); });
+    connect(ui->actionKeyPoints, &QAction::triggered, [=]
+            {
+                this->createLeftDock<KeyPoints>("KeyPoints");
+                if (ct::getDock<KeyPoints>("KeyPoints"))
+                    ct::getDock<KeyPoints>("KeyPoints")->setRangeImage(ct::getDialog<RangeImage>("RangeImage"));
+            });
+
+    connect(ui->actionRangeImage, &QAction::triggered, [=]
+            {
+                this->createDialog<RangeImage>("RangeImage");
+                if (ct::getDock<KeyPoints>("KeyPoints"))
+                    ct::getDock<KeyPoints>("KeyPoints")->setRangeImage(ct::getDialog<RangeImage>("RangeImage"));
+            });
+
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });
@@ -95,8 +110,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionChinese, &QAction::triggered, [=] { changeLanguage(1); });
 
     // help
-    About *about = new About(this);
-    ShortcutKey *shortcutKey = new ShortcutKey(this);
+    About* about = new About(this);
+    ShortcutKey* shortcutKey = new ShortcutKey(this);
     connect(ui->actionAbout, &QAction::triggered, about, &QDialog::show);
     connect(ui->actionShortcutKey, &QAction::triggered, shortcutKey, &QDialog::show);
 
@@ -159,9 +174,9 @@ void MainWindow::changeLanguage(int index)
     }
 }
 
-void MainWindow::moveEvent(QMoveEvent *event)
+void MainWindow::moveEvent(QMoveEvent* event)
 {
-    QPoint pos = mapToParent(ui->centralWidget->pos());
-    emit posChanged(pos);
+    QPoint pos = ui->cloudview->mapToGlobal(QPoint(0, 0));
+    emit ui->cloudview->posChanged(pos);
     return QMainWindow::moveEvent(event);
 }
