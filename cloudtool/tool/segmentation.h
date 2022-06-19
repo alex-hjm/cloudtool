@@ -34,10 +34,9 @@ public:
 
 signals:
     void SACSegmentation(int model, int method, double threshold, int max_iterations, double probability, bool optimize,
-                         double min_radius, double max_radius, const Eigen::Vector3f& ax, double ea);
+                         double min_radius, double max_radius);
     void SACSegmentationFromNormals(int model, int method, double threshold, int max_iterations, double probability,
-                                    bool optimize, double min_radius, double max_radius, const Eigen::Vector3f& ax,
-                                    double ea, double distance_weight, double min_angle, double max_angle, double d);
+                                    bool optimize, double min_radius, double max_radius,double distance_weight, double d);
     void EuclideanClusterExtraction(double tolerance, int min_cluster_size, int max_cluster_size);
     void RegionGrowing(int min_cluster_size, int max_cluster_size, bool smooth_mode, bool curvature_test, bool residual_test,
                        float smoothness_threshold, float residual_threshold, float curvature_threshold, int neighbours);

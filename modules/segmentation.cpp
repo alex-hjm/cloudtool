@@ -12,6 +12,8 @@
 #include <pcl/console/time.h>
 #include <pcl/filters/extract_indices.h>
 
+#include <pcl/segmentation/supervoxel_clustering.h>
+
 #include <pcl/segmentation/impl/conditional_euclidean_clustering.hpp>
 #include <pcl/segmentation/impl/extract_clusters.hpp>
 #include <pcl/segmentation/impl/extract_polygonal_prism_data.hpp>
@@ -20,7 +22,6 @@
 #include <pcl/segmentation/impl/sac_segmentation.hpp>
 #include <pcl/segmentation/impl/seeded_hue_segmentation.hpp>
 #include <pcl/segmentation/impl/segment_differences.hpp>
-#include <pcl/segmentation/impl/supervoxel_clustering.hpp>
 
 namespace ct
 {
@@ -175,8 +176,7 @@ namespace ct
     }
 
     void Segmentation::SACSegmentation(int model, int method, double threshold, int max_iterations, double probability,
-                                       bool optimize, double min_radius, double max_radius, const Eigen::Vector3f& ax,
-                                       double ea)
+                                       bool optimize, double min_radius, double max_radius)
     {
         TicToc time;
         time.tic();
@@ -192,8 +192,6 @@ namespace ct
         sacseg.setMaxIterations(max_iterations);
         sacseg.setOptimizeCoefficients(optimize);
         sacseg.setRadiusLimits(min_radius, max_radius);
-        sacseg.setAxis(ax);
-        sacseg.setEpsAngle(ea);
         sacseg.setProbability(probability);
         sacseg.setNumberOfThreads(12);
 
@@ -203,8 +201,7 @@ namespace ct
 
     void Segmentation::SACSegmentationFromNormals(int model, int method, double threshold, int max_iterations,
                                                   double probability, bool optimize, double min_radius, double max_radius,
-                                                  const Eigen::Vector3f& ax, double ea, double distance_weight,
-                                                  double min_angle, double max_angle, double d)
+                                                  double distance_weight, double d)
     {
         TicToc time;
         time.tic();
@@ -222,11 +219,8 @@ namespace ct
         sacseg.setMaxIterations(max_iterations);
         sacseg.setOptimizeCoefficients(optimize);
         sacseg.setRadiusLimits(min_radius, max_radius);
-        sacseg.setAxis(ax);
-        sacseg.setEpsAngle(ea);
         sacseg.setProbability(probability);
         sacseg.setNormalDistanceWeight(distance_weight);
-        sacseg.setMinMaxOpeningAngle(min_angle, max_angle);
         sacseg.setDistanceFromOrigin(d);
         sacseg.setNumberOfThreads(12);
 
@@ -238,11 +232,9 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudrgb(
-            new pcl::PointCloud<pcl::PointXYZRGB>);
+        pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudrgb(new pcl::PointCloud<pcl::PointXYZRGB>);
         pcl::copyPointCloud(*cloud_, *cloudrgb);
-        pcl::search::KdTree<pcl::PointXYZRGB>::Ptr tree(
-            new pcl::search::KdTree<pcl::PointXYZRGB>);
+        pcl::search::KdTree<pcl::PointXYZRGB>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZRGB>);
         pcl::PointIndicesPtr indices_in(new pcl::PointIndices);
         pcl::PointIndicesPtr indices_out(new pcl::PointIndices);
 
@@ -255,13 +247,11 @@ namespace ct
         emit segmentationResult(cloud_->id(), getClusters(indices_out), time.toc());
     }
 
-    void Segmentation::SegmentDifferences(const Cloud::Ptr& tar_cloud,
-                                          double sqr_threshold)
+    void Segmentation::SegmentDifferences(const Cloud::Ptr& tar_cloud, double sqr_threshold)
     {
         TicToc time;
         time.tic();
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(
-            new pcl::search::KdTree<PointXYZRGBN>);
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
         Cloud::Ptr diff = cloud_->makeShared();
         pcl::PointIndicesPtr indices(new pcl::PointIndices);
 
@@ -281,22 +271,20 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(
-            new pcl::search::KdTree<PointXYZRGBN>);
-        IndicesClustersPtr clusters(new IndicesClusters);
 
-        pcl::SupervoxelClustering<PointXYZRGBN> super(voxel_resolution,
-                                                      seed_resolution);
+        pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_xyzrgba(new pcl::PointCloud<pcl::PointXYZRGBA>);
+        pcl::copyPointCloud(*cloud_, *cloud_xyzrgba);
+
+        pcl::SupervoxelClustering<pcl::PointXYZRGBA> super(voxel_resolution, seed_resolution);
+        super.setInputCloud(cloud_xyzrgba);
         super.setVoxelResolution(voxel_resolution);
         super.setSeedResolution(seed_resolution);
         super.setColorImportance(color_importance);
         super.setSpatialImportance(spatial_importance);
         super.setNormalImportance(normal_importance);
         super.setUseSingleCameraTransform(camera_transform);
-        super.setInputCloud(cloud_);
 
-        std::map<std::uint32_t, pcl::Supervoxel<PointXYZRGBN>::Ptr>
-            supervoxel_clusters;
+        std::map<std::uint32_t, pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr> supervoxel_clusters;
         super.extract(supervoxel_clusters);
 
         std::multimap<uint32_t, uint32_t> supervoxel_adjacency;
@@ -304,13 +292,11 @@ namespace ct
 
         std::vector<Cloud::Ptr> segmented_clouds;
 
-        std::multimap<uint32_t, uint32_t>::iterator label_itr =
-            supervoxel_adjacency.begin();
+        std::multimap<uint32_t, uint32_t>::iterator label_itr = supervoxel_adjacency.begin();
         for (; label_itr != supervoxel_adjacency.end();)
         {
             uint32_t supervoxel_label = label_itr->first;
-            pcl::Supervoxel<PointXYZRGBN>::Ptr supervoxel =
-                supervoxel_clusters.at(supervoxel_label);
+            pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr supervoxel = supervoxel_clusters.at(supervoxel_label);
             Cloud::Ptr supervoxel_cloud(new Cloud);
             pcl::copyPointCloud(*supervoxel->voxels_, *supervoxel_cloud);
             segmented_clouds.push_back(supervoxel_cloud);

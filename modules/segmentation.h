@@ -128,13 +128,10 @@ namespace ct
          * @param max_iterations 设置放弃前的最大迭代次数
          * @param probability 设置至少选择一个没有异常值的样本的概率
          * @param optimize 如果需要进行系数细化，则设置为 true
-         * @param min_radius max_radius
-         * 设置模型的最小和最大允许半径限制（适用于估计半径的模型）
-         * @param ax 设置我们需要沿其垂直搜索模型的轴
-         * @param ea 设置角度 epsilon (delta) 阈值
+         * @param min_radius max_radius 设置模型的最小和最大允许半径限制（适用于估计半径的模型）
          */
         void SACSegmentation(int model, int method, double threshold, int max_iterations, double probability, bool optimize,
-                             double min_radius, double max_radius, const Eigen::Vector3f& ax, double ea);
+                             double min_radius, double max_radius);
 
         /**
          * @brief 表示 Sample Consensus 方法和模型的 Nodelet
@@ -146,18 +143,12 @@ namespace ct
          * @param max_iterations 设置放弃前的最大迭代次数
          * @param probability 设置至少选择一个没有异常值的样本的概率
          * @param optimize 如果需要进行系数细化，则设置为 true
-         * @param min_radius max_radius
-         * 设置模型的最小和最大允许半径限制（适用于估计半径的模型）
-         * @param ax 设置我们需要沿其垂直搜索模型的轴
-         * @param ea 设置角度 epsilon (delta) 阈值
-         * @param distance_weight 设置相对权重（介于 0 和 1
-         * 之间）以给出点法线和平面法线之间的角距离（0 到 pi/2）
-         * @param min_angle max_angle 设置圆锥模型的最小打开角度
+         * @param min_radius max_radius 设置模型的最小和最大允许半径限制（适用于估计半径的模型）
+         * @param distance_weight 设置相对权重（介于 0 和 1 之间）以给出点法线和平面法线之间的角距离（0 到 pi/2）
          * @param d 设置期望平面模型与原点的距离
          */
         void SACSegmentationFromNormals(int model, int method, double threshold, int max_iterations, double probability,
-                                        bool optimize, double min_radius, double max_radius, const Eigen::Vector3f& ax,
-                                        double ea, double distance_weight, double min_angle, double max_angle, double d);
+                                        bool optimize, double min_radius, double max_radius,double distance_weight, double d);
 
         /**
          * @brief 种子色调分割

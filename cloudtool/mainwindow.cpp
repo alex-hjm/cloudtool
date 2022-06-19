@@ -13,6 +13,7 @@
 #include "tool/filters.h"
 #include "tool/keypoints.h"
 #include "tool/rangeimage.h"
+#include "tool/segmentation.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -100,7 +101,7 @@ MainWindow::MainWindow(QWidget* parent)
                 if (ct::getDock<KeyPoints>("KeyPoints"))
                     ct::getDock<KeyPoints>("KeyPoints")->setRangeImage(ct::getDialog<RangeImage>("RangeImage"));
             });
-
+     connect(ui->actionSegmentation, &QAction::triggered, [=] { this->createLeftDock<Segmentation>("Segmentation"); });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });

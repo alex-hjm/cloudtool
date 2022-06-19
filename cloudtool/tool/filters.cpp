@@ -29,8 +29,8 @@ Filters::Filters(QWidget* parent)
 
     qRegisterMetaType<std::string>("std::string &");
     qRegisterMetaType<std::string>("std::string");
-    qRegisterMetaType<ct::ConditionBase::Ptr>("ct::ConditionBase::Ptr &");
-    qRegisterMetaType<ct::ConditionBase::Ptr>("ct::ConditionBase::Ptr");
+    qRegisterMetaType<ct::ConditionBase::Ptr>("ConditionBase::Ptr &");
+    qRegisterMetaType<ct::ConditionBase::Ptr>("ConditionBase::Ptr");
 
     connect(ui->btn_preview, &QPushButton::clicked, this, &Filters::preview);
     connect(ui->btn_add, &QPushButton::clicked, this, &Filters::add);

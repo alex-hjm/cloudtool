@@ -17,8 +17,8 @@ KeyPoints::KeyPoints(QWidget* parent)
 {
     ui->setupUi(this);
 
-    qRegisterMetaType<ct::RangeImage::Ptr>("ct::RangeImage::Ptr &");
-    qRegisterMetaType<ct::RangeImage::Ptr>("ct::RangeImage::Ptr");
+    qRegisterMetaType<ct::RangeImage::Ptr>("RangeImage::Ptr &");
+    qRegisterMetaType<ct::RangeImage::Ptr>("RangeImage::Ptr");
 
     connect(ui->btn_add, &QPushButton::clicked, this, &KeyPoints::add);
     connect(ui->btn_apply, &QPushButton::clicked, this, &KeyPoints::apply);
