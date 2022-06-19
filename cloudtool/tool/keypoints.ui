@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>269</height>
+    <height>266</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>260</width>
-    <height>269</height>
+    <height>266</height>
    </size>
   </property>
   <property name="styleSheet">
@@ -56,6 +56,11 @@
        </property>
        <item>
         <widget class="QComboBox" name="cbox_type">
+         <item>
+          <property name="text">
+           <string>NarfKeypoint</string>
+          </property>
+         </item>
          <item>
           <property name="text">
            <string>HarrisKeypoint</string>
@@ -120,8 +125,64 @@
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>2</number>
+          <number>4</number>
          </property>
+         <widget class="QWidget" name="NarfKeypoint">
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_23">
+             <item>
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string>SupoortSize: </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="dspin_support_size">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="maximum">
+                <double>99999.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>0.200000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
          <widget class="QWidget" name="HarrisKeypoint">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <property name="spacing">
@@ -156,7 +217,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>228</width>
-                <height>187</height>
+                <height>98</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -211,30 +272,6 @@
                      <string>CURVATURE</string>
                     </property>
                    </item>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
-                  <widget class="QLabel" name="label_4">
-                   <property name="text">
-                    <string>Radius:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="dspin_radius">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.010000000000000</double>
-                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -333,7 +370,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>228</width>
-                <height>208</height>
+                <height>100</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -352,93 +389,6 @@
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QLabel" name="label_6">
-                   <property name="text">
-                    <string>SalientRadius: </string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="dspin_salient_radius">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="minimum">
-                    <double>0.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.000100000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <widget class="QLabel" name="label_7">
-                   <property name="text">
-                    <string>NonMaxRadius: </string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="dspin_non_max_radius">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_9">
-                 <item>
-                  <widget class="QLabel" name="label_8">
-                   <property name="text">
-                    <string>NormalRadius: </string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="dspin_normal_radius">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_10">
-                 <item>
-                  <widget class="QLabel" name="label_9">
-                   <property name="text">
-                    <string>BorderRadius: </string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="dspin_border_radius">
-                   <property name="decimals">
-                    <number>4</number>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_11">
                  <item>
@@ -582,7 +532,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>228</width>
-                <height>104</height>
+                <height>100</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -618,6 +568,9 @@
                    <property name="maximum">
                     <double>9999.000000000000000</double>
                    </property>
+                   <property name="value">
+                    <double>0.010000000000000</double>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -636,6 +589,9 @@
                    <property name="maximum">
                     <number>9999</number>
                    </property>
+                   <property name="value">
+                    <number>3</number>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -653,6 +609,9 @@
                   <widget class="QSpinBox" name="spin_nr_scales_per_octave">
                    <property name="maximum">
                     <number>9999</number>
+                   </property>
+                   <property name="value">
+                    <number>2</number>
                    </property>
                   </widget>
                  </item>
@@ -685,7 +644,7 @@
                     <double>9999.000000000000000</double>
                    </property>
                    <property name="value">
-                    <double>-1.000000000000000</double>
+                    <double>0.000000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -743,8 +702,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>206</width>
-                <height>106</height>
+                <width>228</width>
+                <height>102</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -890,7 +849,7 @@
           <string>Preview</string>
          </property>
          <property name="icon">
-          <iconset resource="../res/res.qrc">
+          <iconset resource="../resources/res.qrc">
            <normaloff>:/res/icon/preview.svg</normaloff>:/res/icon/preview.svg</iconset>
          </property>
         </widget>
@@ -920,7 +879,7 @@
             <string>Add</string>
            </property>
            <property name="icon">
-            <iconset resource="../res/res.qrc">
+            <iconset resource="../resources/res.qrc">
              <normaloff>:/res/icon/add.svg</normaloff>:/res/icon/add.svg</iconset>
            </property>
           </widget>
@@ -937,7 +896,7 @@
             <string>Apply</string>
            </property>
            <property name="icon">
-            <iconset resource="../res/res.qrc">
+            <iconset resource="../resources/res.qrc">
              <normaloff>:/res/icon/apply1.svg</normaloff>:/res/icon/apply1.svg</iconset>
            </property>
           </widget>
@@ -954,7 +913,7 @@
             <string>Reset</string>
            </property>
            <property name="icon">
-            <iconset resource="../res/res.qrc">
+            <iconset resource="../resources/res.qrc">
              <normaloff>:/res/icon/reset.svg</normaloff>:/res/icon/reset.svg</iconset>
            </property>
           </widget>
@@ -968,7 +927,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="../res/res.qrc"/>
+  <include location="../resources/res.qrc"/>
  </resources>
  <connections>
   <connection>

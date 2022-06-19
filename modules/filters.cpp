@@ -53,7 +53,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::ApproximateVoxelGrid<PointXYZRGBN> avfilter;
         avfilter.setInputCloud(cloud_);
@@ -75,7 +76,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::ConditionalRemoval<PointXYZRGBN> bfilter;
         bfilter.setInputCloud(cloud_);
@@ -97,7 +99,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
         pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
 
         pcl::filters::GaussianKernel<PointXYZRGBN, PointXYZRGBN> kernel;
@@ -119,7 +122,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::CropBox<PointXYZRGBN> cb;
         cb.setInputCloud(cloud_);
@@ -136,7 +140,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::CropHull<PointXYZRGBN> ch;
         ch.setInputCloud(cloud_);
@@ -153,7 +158,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::FrustumCulling<PointXYZRGBN> filter;
         filter.setInputCloud(cloud_);
@@ -172,7 +178,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::GridMinimum<PointXYZRGBN> filter(resolution);
         filter.setInputCloud(cloud_);
@@ -187,7 +194,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::LocalMaximum<PointXYZRGBN> filter;
         filter.setInputCloud(cloud_);
@@ -202,7 +210,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::MedianFilter<PointXYZRGBN> filter;
         filter.setInputCloud(cloud_);
@@ -224,7 +233,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
         pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
 
         pcl::MovingLeastSquaresOMP<PointXYZRGBN, PointXYZRGBN> mfilter;
@@ -243,7 +253,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::NormalSpaceSampling<PointXYZRGBN, PointXYZRGBN> filter;
         filter.setInputCloud(cloud_);
@@ -262,7 +273,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::PassThrough<PointXYZRGBN> pfilter;
         pfilter.setInputCloud(cloud_);
@@ -277,7 +289,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::PlaneClipper3D<PointXYZRGBN> filter(plane_params);
         filter.setPlaneParameters(plane_params);
@@ -297,7 +310,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::ProjectInliers<PointXYZRGBN> filter;
         filter.setInputCloud(cloud_);
@@ -321,7 +335,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::RadiusOutlierRemoval<PointXYZRGBN> rfilter;
         rfilter.setInputCloud(cloud_);
@@ -336,7 +351,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::RandomSample<PointXYZRGBN> rfilter;
         rfilter.setInputCloud(cloud_);
@@ -351,7 +367,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::SamplingSurfaceNormal<PointXYZRGBN> rfilter;
         rfilter.setInputCloud(cloud_);
@@ -374,7 +391,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::ShadowPoints<PointXYZRGBN, PointXYZRGBN> rfilter;
         rfilter.setInputCloud(cloud_);
@@ -390,7 +408,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::StatisticalOutlierRemoval<PointXYZRGBN> sfilter;
         sfilter.setInputCloud(cloud_);
@@ -405,7 +424,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::UniformSampling<PointXYZRGBN> sfilter;
         sfilter.setInputCloud(cloud_);
@@ -426,7 +446,8 @@ namespace ct
     {
         TicToc time;
         time.tic();
-        Cloud::Ptr cloud_filtered = cloud_->makeShared();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
 
         pcl::VoxelGrid<PointXYZRGBN> vfilter;
         vfilter.setInputCloud(cloud_);

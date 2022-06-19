@@ -1,54 +1,55 @@
-﻿#ifndef KEYPOINTS_H
-#define KEYPOINTS_H
+﻿/**
+ * @file filters.cpp
+ * @author hjm (hjmalex@163.com)
+ * @version 3.0
+ * @date 2022-05-18
+ */
+#ifndef CT_EDIT_KEYPOINTS_H
+#define CT_EDIT_KEYPOINTS_H
 
-#include <QThread>
-#include <set>
+#include "base/customdock.h"
+#include "modules/keypoints.h"
+#include "cloudtool/tool/rangeimage.h"
 
-#include "pca/customdock.h"
-#include "pca/keypoints.h"
-
-namespace Ui {
-class KeyPoints;
+namespace Ui
+{
+    class KeyPoints;
 }
 
-class KeyPoints : public pca::CustomDock {
-  Q_OBJECT
+class KeyPoints : public ct::CustomDock
+{
+    Q_OBJECT
 
- public:
-  explicit KeyPoints(QWidget *parent = nullptr);
-  ~KeyPoints();
-  virtual void init();
-  void preview();
-  void add();
-  void apply();
-  virtual void reset();
+public:
+    explicit KeyPoints(QWidget* parent = nullptr);
+    ~KeyPoints();
 
-  static std::unordered_map<QString, pca::Cloud::Ptr> keypoints_map;
+    void setRangeImage(RangeImage* rangeimage)
+    {
+        m_rangeimage = rangeimage;
+        if (rangeimage) connect(rangeimage, &RangeImage::destroyed, [=] {m_rangeimage = nullptr;});
+    }
+    void preview();
+    void add();
+    void apply();
+    virtual void reset();
 
- signals:
-  void HarrisKeypoint3D(int response_method, float radius, float threshold,
-                        bool non_maxima, bool do_refine);
-  void ISSKeypoint3D(double salient_radius, double non_max_radius,
-                     double normal_radius, double border_radius,
-                     double gamma_21, double gamma_32, int min_neighbors,
-                     float angle);
-  void SIFTKeypoint(float min_scale, int nr_octaves, int nr_scales_per_octave,
-                    float min_contrast);
-  void TrajkovicKeypoint3D(int compute_method, int window_size,
-                           float frist_threshold, float second_threshold);
+signals:
+    void NarfKeypoint(const ct::RangeImage::Ptr range_image, float support_size);
+    void HarrisKeypoint3D(int response_method, float threshold, bool non_maxima, bool do_refine);
+    void ISSKeypoint3D(double resolution, double gamma_21, double gamma_32, int min_neighbors, float angle);
+    void SIFTKeypoint(float min_scale, int nr_octaves, int nr_scales_per_octave, float min_contrast);
+    void TrajkovicKeypoint3D(int compute_method, int window_size, float frist_threshold, float second_threshold);
 
- public slots:
-  void keypointsResult(const pca::Cloud::Ptr &cloud, float time);
+public slots:
+    void keypointsResult(const ct::Cloud::Ptr& cloud, float time);
 
- private:
-  bool checkValid(bool preview = false);
-
- private:
-  Ui::KeyPoints *ui;
-  QThread thread;
-  pca::Keypoints *keypoints;
-  std::vector<pca::Cloud::Ptr> selected_clouds;
-  std::unordered_map<QString, pca::Cloud::Ptr> keypoints_map_tmp;
+private:
+    Ui::KeyPoints* ui;
+    QThread m_thread;
+    RangeImage* m_rangeimage;
+    ct::Keypoints* m_keypoints;
+    std::unordered_map<QString, ct::Cloud::Ptr> m_keypoints_map;
 };
 
 #endif  // KEYPOINTS_H

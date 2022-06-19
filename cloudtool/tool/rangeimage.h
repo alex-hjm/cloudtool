@@ -30,6 +30,7 @@ public:
 
     virtual void init();
     virtual void reset();
+    ct::RangeImage::Ptr getRangeImage() { return m_range_image; }
 
 public slots:
     void updateRangeImage(Eigen::Affine3f&);
@@ -40,6 +41,7 @@ private:
     vtkSmartPointer<vtkImageData> m_image_data;
     vtkSmartPointer<vtkRenderer> m_ren;
     vtkSmartPointer<vtkImageActor> m_actor;
+    ct::Cloud::Ptr m_cloud;
 };
 
 #endif  // CT_TOOL_RANGEIMAGE_HS

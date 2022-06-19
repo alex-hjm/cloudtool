@@ -10,6 +10,7 @@
 #include "base/cloudtree.h"
 #include "base/cloudview.h"
 #include "base/console.h"
+#include "base/exports.h"
 
 #include <QDockWidget>
 #include <QMainWindow>
@@ -118,12 +119,13 @@ namespace ct
      * @brief 获取窗口指针
      * @param label 窗口标签
      */
-    CustomDock* getDock(const QString& label)
+    template <class T>
+    T* getDock(const QString& label)
     {
         if (registed_docks.find(label) == registed_docks.end())
             return nullptr;
         else
-            return registed_docks.find(label)->second;
+            return (T*)registed_docks.find(label)->second;
     }
 
 } // namespace ct

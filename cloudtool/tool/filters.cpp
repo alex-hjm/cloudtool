@@ -25,7 +25,9 @@
 #define FILTER_ADD_FLAG                             "filtered-"
 
 
-Filters::Filters(QWidget* parent) : CustomDock(parent), ui(new Ui::Filters), m_thread(this)
+Filters::Filters(QWidget* parent)
+    : CustomDock(parent), ui(new Ui::Filters),
+    m_thread(this)
 {
     ui->setupUi(this);
 

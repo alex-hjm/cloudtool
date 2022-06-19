@@ -7,15 +7,16 @@
 #ifndef CT_BASE_CUSTOMDIALOG_H
 #define CT_BASE_CUSTOMDIALOG_H
 
+#include "base/cloudtree.h"
+#include "base/cloudview.h"
+#include "base/console.h"
+#include "base/exports.h"
+
 #include <QDialog>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QResizeEvent>
 #include <unordered_map>
-
-#include "base/cloudtree.h"
-#include "base/cloudview.h"
-#include "base/console.h"
 
 namespace ct
 {
@@ -129,12 +130,13 @@ namespace ct
      * @brief 获取窗口指针
      * @param label 窗口标签
      */
-    CustomDialog* getDialog(const QString& label)
+    template <class T>
+    T* getDialog(const QString& label)
     {
         if (registed_dialogs.find(label) == registed_dialogs.end())
             return nullptr;
         else
-            return registed_dialogs.find(label)->second;
+            return (T*)registed_dialogs.find(label)->second;
     }
 
 } // namespace pca
