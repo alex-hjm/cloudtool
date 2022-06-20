@@ -73,8 +73,7 @@ namespace ct
         /**
          * @brief 边界估计结果
          */
-        void boundaryResult(const pcl::PointCloud<pcl::Boundary>::Ptr& cloud,
-                            float time);
+        void boundaryResult(const pcl::PointCloud<pcl::Boundary>::Ptr& cloud, float time);
 
         /**
          * @brief 法线差异结果
@@ -84,36 +83,23 @@ namespace ct
         /**
          * @brief 本地参考帧估计结果
          */
-        void lrfResult(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& cloud,
-                       float time);
+        void lrfResult(const pcl::PointCloud<pcl::ReferenceFrame>::Ptr& cloud, float time);
 
         /**
          * @brief 特征估计结果
          */
         void featureResult(const SCFeature::Ptr& feature, float time);
-
         void featureResult(const CRHFeature::Ptr& feature, float time);
-
         void featureResult(const VFHFeature::Ptr& feature, float time);
-
         void featureResult(const ESFFeature::Ptr& feature, float time);
-
         void featureResult(const FPFHFeature::Ptr& feature, float time);
-
         void featureResult(const GASDFeature::Ptr& feature, float time);
-
         void featureResult(const GASDCFeature::Ptr& feature, float time);
-
         void featureResult(const GRSDFeature::Ptr& feature, float time);
-
         void featureResult(const RSDFeature::Ptr& feature, float time);
-
         void featureResult(const PFHFeature::Ptr& feature, float time);
-
         void featureResult(const SHOTFeature::Ptr& feature, float time);
-
         void featureResult(const SHOTCFeature::Ptr& feature, float time);
-
         void featureResult(const USCFeature::Ptr& feature, float time);
 
     public slots:

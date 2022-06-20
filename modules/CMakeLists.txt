@@ -2,20 +2,20 @@ set(LibSrcs
         features.cpp
         filters.cpp
         keypoints.cpp
-        #recognition.cpp
-        #registration.cpp
+        recognition.cpp
+        registration.cpp
         segmentation.cpp
-        #surface.cpp
+        surface.cpp
         )
 
 set(MocHeaders
         features.h
         filters.h
         keypoints.h
-        #recognition.h
-        #registration.h
+        recognition.h
+        registration.h
         segmentation.h
-        #surface.h
+        surface.h
         )
 
 qt5_wrap_cpp(LibMocSrcs ${MocHeaders})
