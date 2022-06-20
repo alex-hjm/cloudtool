@@ -12,8 +12,14 @@
 #include <pcl/console/time.h>
 #include <pcl/filters/extract_indices.h>
 
+#include <pcl/features/don.h>
 #include <pcl/segmentation/supervoxel_clustering.h>
+#include <pcl/segmentation/min_cut_segmentation.h>
 
+#include <pcl/segmentation/impl/progressive_morphological_filter.hpp>
+#include <pcl/features/impl/don.hpp>
+#include <pcl/features/impl/normal_3d.hpp>
+#include <pcl/features/impl/normal_3d_omp.hpp>
 #include <pcl/segmentation/impl/conditional_euclidean_clustering.hpp>
 #include <pcl/segmentation/impl/extract_clusters.hpp>
 #include <pcl/segmentation/impl/extract_polygonal_prism_data.hpp>
@@ -78,6 +84,62 @@ namespace ct
         emit segmentationResult(cloud_->id(), getClusters(clusters), time.toc());
     }
 
+    void Segmentation::DonSegmentation(double mean_radius, double scale1, double scale2, double threshold,
+                                       double segradius, int minClusterSize, int maxClusterSize)
+    {
+        TicToc time;
+        time.tic();
+        IndicesClustersPtr cluster_indices(new IndicesClusters);
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
+
+        scale1 *= mean_radius;
+        scale2 *= mean_radius;
+        segradius *= mean_radius;
+
+        pcl::NormalEstimationOMP<PointXYZRGBN, PointN> ne;
+        ne.setInputCloud(cloud_);
+        ne.setSearchMethod(tree);
+        ne.setViewPoint(std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max());
+
+        pcl::PointCloud<PointN>::Ptr normals_small_scale(new pcl::PointCloud<PointN>);
+        pcl::PointCloud<PointN>::Ptr normals_large_scale(new pcl::PointCloud<PointN>);
+
+        ne.setNumberOfThreads(12);
+        ne.setRadiusSearch(scale1);
+        ne.compute(*normals_small_scale);
+        ne.setRadiusSearch(scale2);
+        ne.compute(*normals_large_scale);
+
+        pcl::PointCloud<PointN>::Ptr doncloud(new pcl::PointCloud<PointN>);
+        pcl::DifferenceOfNormalsEstimation<PointXYZRGBN, PointN, PointN> don;
+        don.setInputCloud(cloud_);
+        don.setNormalScaleLarge(normals_large_scale);
+        don.setNormalScaleSmall(normals_small_scale);
+        don.computeFeature(*doncloud);
+
+        pcl::ConditionOr<PointN>::Ptr range_cond;
+        range_cond->addComparison(pcl::FieldComparison<PointN>::ConstPtr(
+            new pcl::FieldComparison<PointN>("curvature", pcl::ComparisonOps::GT, threshold)));
+
+        pcl::ConditionalRemoval<PointN> condrem;
+        condrem.setCondition(range_cond);
+        condrem.setInputCloud(doncloud);
+        pcl::PointCloud<PointN>::Ptr doncloud_filtered(new pcl::PointCloud<PointN>);
+        condrem.filter(*doncloud_filtered);
+
+        pcl::search::KdTree<PointN>::Ptr segtree(new pcl::search::KdTree<PointN>);
+        segtree->setInputCloud(doncloud_filtered);
+
+        pcl::EuclideanClusterExtraction<PointN> ecc;
+        ecc.setClusterTolerance(segradius);
+        ecc.setMinClusterSize(minClusterSize);
+        ecc.setMaxClusterSize(maxClusterSize);
+        ecc.setSearchMethod(segtree);
+        ecc.setInputCloud(doncloud_filtered);
+        ecc.extract(*cluster_indices);
+        emit segmentationResult(cloud_->id(), getClusters(cluster_indices), time.toc());
+    }
+
     void Segmentation::EuclideanClusterExtraction(double tolerance, int min_cluster_size, int max_cluster_size)
     {
         TicToc time;
@@ -111,6 +173,51 @@ namespace ct
         seg.segment(*indices);
         emit segmentationResult(cloud_->id(), getClusters(indices), time.toc());
     }
+
+    void Segmentation::MinCutSegmentation(double sigma, double radius, double weight, int neighbour_number)
+    {
+        TicToc time;
+        time.tic();
+        IndicesClustersPtr cluster_indices(new IndicesClusters);
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
+
+        Cloud::Ptr foreground_points(new Cloud);
+        foreground_points->push_back({ cloud_->center()[0],cloud_->center()[1],cloud_->center()[2] });
+
+        pcl::MinCutSegmentation<PointXYZRGBN> mseg;
+        mseg.setInputCloud(cloud_);
+        mseg.setSigma(sigma);
+        mseg.setRadius(radius);
+        mseg.setSourceWeight(weight);
+        mseg.setSearchMethod(tree);
+        mseg.setForegroundPoints(foreground_points);
+        mseg.setNumberOfNeighbours(neighbour_number);
+        mseg.extract(*cluster_indices);
+        emit segmentationResult(cloud_->id(), getClusters(cluster_indices), time.toc());
+    }
+
+    void Segmentation::MorphologicalFilter(int max_window_size, float slope, float max_distance, float initial_distance,
+                                           float cell_size, float base, bool negative)
+    {
+        TicToc time;
+        time.tic();
+        PointIndicesPtr inliers(new PointIndices);
+
+        Cloud::Ptr cloud_segmented(new Cloud());
+        pcl::ProgressiveMorphologicalFilter<PointXYZRGBN> pmf;
+
+        pmf.setInputCloud(cloud_);
+        pmf.setMaxWindowSize(max_window_size);
+        pmf.setSlope(slope);
+        pmf.setMaxDistance(max_distance);
+        pmf.setInitialDistance(initial_distance);
+        pmf.setCellSize(cell_size);
+        pmf.setBase(base);
+        pmf.extract(inliers->indices);
+
+        emit segmentationResult(cloud_->id(), getClusters(inliers), time.toc());
+    }
+
 
     void Segmentation::RegionGrowing(int min_cluster_size, int max_cluster_size, bool smooth_mode, bool curvature_test,
                                      bool residual_test, float smoothness_threshold, float residual_threshold,

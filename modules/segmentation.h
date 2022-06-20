@@ -17,7 +17,7 @@
 
 namespace ct
 {
-
+    typedef pcl::PointNormal                                    PointN;
     typedef pcl::PointIndices                                   PointIndices;
     typedef pcl::PointIndicesPtr                                PointIndicesPtr;
     typedef pcl::ModelCoefficients                              ModelCoefficients;
@@ -67,6 +67,10 @@ namespace ct
          */
         void ConditionalEuclideanClustering(ConditionFunction func, float cluster_tolerance, int min_cluster_size, int max_cluster_size);
 
+        void DonSegmentation(double mean_radius, double scale1, double scale2, double threshold,
+                             double segradius, int minClusterSize, int maxClusterSize);
+
+
         /**
          * @brief 表示用于欧几里得意义上的聚类提取的分割类
          * @param tolerance 将空间聚类容差设置为 L2 欧几里得空间中的度量
@@ -82,6 +86,31 @@ namespace ct
          * @param vpx vpy vpz 设置视点
          */
         void ExtractPolygonalPrismData(const Cloud::Ptr& hull, double height_min, double height_max, float vpx, float vpy, float vpz);
+
+        /** TODO
+         * @brief
+         *
+         * @param sigma
+         * @param radius
+         * @param weight
+         * @param neighbour_number
+         */
+        void MinCutSegmentation(double sigma, double radius, double weight, int neighbour_number);
+
+        /** TODO
+         * @brief
+         *
+         * @param max_window_size
+         * @param slope
+         * @param max_distance
+         * @param initial_distance
+         * @param cell_size
+         * @param base
+         * @param negative
+         */
+        void MorphologicalFilter(int max_window_size, float slope, float max_distance, float initial_distance,
+                                 float cell_size, float base, bool negative);
+
 
         /**
          * @brief 实现用于分割的众所周知的区域增长算法
@@ -148,7 +177,7 @@ namespace ct
          * @param d 设置期望平面模型与原点的距离
          */
         void SACSegmentationFromNormals(int model, int method, double threshold, int max_iterations, double probability,
-                                        bool optimize, double min_radius, double max_radius,double distance_weight, double d);
+                                        bool optimize, double min_radius, double max_radius, double distance_weight, double d);
 
         /**
          * @brief 种子色调分割
