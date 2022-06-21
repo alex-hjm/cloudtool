@@ -37,6 +37,8 @@ namespace ct
 
         virtual void reset() {}
 
+        virtual void deinit() {}
+
     protected:
         void printI(const QString& message) { m_console->print(LOG_INFO, message); }
         void printW(const QString& message) { m_console->print(LOG_WARNING, message); }
@@ -45,6 +47,7 @@ namespace ct
         void closeEvent(QCloseEvent* event)
         {
             reset();
+            deinit();
             return QDockWidget::closeEvent(event);
         }
 

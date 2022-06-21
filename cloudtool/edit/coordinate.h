@@ -25,6 +25,7 @@ public:
     virtual void init();
     void add();
     virtual void reset();
+    virtual void deinit() { m_cloudview->removeAllCoordinateSystems();}
     void addCoord();
     void closeCoord();
 

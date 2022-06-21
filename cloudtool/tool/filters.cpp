@@ -300,7 +300,7 @@ void Filters::add()
             continue;
         }
         ct::Cloud::Ptr new_cloud = m_filter_map.find(cloud->id())->second;
-        m_cloudview->removePointCloud(cloud->id() + FILTER_PRE_FLAG);
+        m_cloudview->removePointCloud(new_cloud->id());
         new_cloud->setId(FILTER_ADD_FLAG + cloud->id());
         m_cloudtree->appendCloud(cloud, new_cloud, true);
         m_filter_map.erase(cloud->id());

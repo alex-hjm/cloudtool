@@ -38,6 +38,8 @@ namespace ct
 
         virtual void reset() {}
 
+        virtual void deinit() {}
+
     signals:
         void sizeChanged(const QSize&);
 
@@ -50,6 +52,7 @@ namespace ct
         void closeEvent(QCloseEvent* event)
         {
             reset();
+            deinit();
             return QDialog::closeEvent(event);
         }
 

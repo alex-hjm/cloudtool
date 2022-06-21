@@ -426,8 +426,7 @@ namespace ct
         std::vector<int> indices;
         for (size_t i = 0; i < cloud->size(); i++)
         {
-            m_render->SetWorldPoint(cloud->points[i].x, cloud->points[i].y,
-                                    cloud->points[i].z, 1);
+            m_render->SetWorldPoint(cloud->points[i].x, cloud->points[i].y, cloud->points[i].z, 1);
             m_render->WorldToDisplay();
             double p[3];
             m_render->GetDisplayPoint(p);
@@ -440,8 +439,7 @@ namespace ct
                 if (current != previous)
                     oddNodes ^= p[1] * multiple[m] + constant[m] < p[0];
             }
-            if (oddNodes)
-                indices.push_back(i);
+            if (oddNodes) indices.push_back(i);
         }
         return indices;
     }

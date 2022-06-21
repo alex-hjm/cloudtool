@@ -13,6 +13,7 @@ set(Srcs
         tool/keypoints.cpp
         tool/rangeimage.cpp
         tool/segmentation.cpp
+        tool/cutting.cpp
         )
 
 set(MOC_Hdrs 
@@ -29,6 +30,7 @@ set(MOC_Hdrs
         tool/keypoints.h
         tool/rangeimage.h
         tool/segmentation.h
+        tool/cutting.h
         )
 
 set(UIs 

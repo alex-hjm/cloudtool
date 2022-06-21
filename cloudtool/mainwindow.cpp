@@ -14,6 +14,7 @@
 #include "tool/keypoints.h"
 #include "tool/rangeimage.h"
 #include "tool/segmentation.h"
+#include "tool/cutting.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -102,6 +103,9 @@ MainWindow::MainWindow(QWidget* parent)
                     ct::getDock<KeyPoints>("KeyPoints")->setRangeImage(ct::getDialog<RangeImage>("RangeImage"));
             });
      connect(ui->actionSegmentation, &QAction::triggered, [=] { this->createLeftDock<Segmentation>("Segmentation"); });
+
+    connect(ui->actionCutting, &QAction::triggered, [=] { this->createDialog<Cutting>("Cutting"); });
+
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });
