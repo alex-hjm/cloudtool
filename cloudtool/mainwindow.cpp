@@ -15,6 +15,7 @@
 #include "tool/rangeimage.h"
 #include "tool/segmentation.h"
 #include "tool/cutting.h"
+#include "tool/boundary.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -105,6 +106,9 @@ MainWindow::MainWindow(QWidget* parent)
      connect(ui->actionSegmentation, &QAction::triggered, [=] { this->createLeftDock<Segmentation>("Segmentation"); });
 
     connect(ui->actionCutting, &QAction::triggered, [=] { this->createDialog<Cutting>("Cutting"); });
+
+    connect(ui->actionBoundary, &QAction::triggered, [=] { this->createDialog<Boundary>("Boundary"); });
+
 
 
     // options

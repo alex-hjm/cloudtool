@@ -73,7 +73,7 @@ namespace ct
         /**
          * @brief 边界估计结果
          */
-        void boundaryResult(const pcl::PointCloud<pcl::Boundary>::Ptr& cloud, float time);
+        void boundaryResult(const Cloud::Ptr& cloud, float time);
 
         /**
          * @brief 法线差异结果

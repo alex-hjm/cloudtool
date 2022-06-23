@@ -112,7 +112,7 @@ void KeyPoints::add()
             continue;
         }
         ct::Cloud::Ptr new_cloud = m_keypoints_map.find(cloud->id())->second;
-        m_cloudview->removePointCloud(cloud->id() + KEYPOINTS_ADD_FLAG);
+        m_cloudview->removePointCloud(new_cloud->id());
         new_cloud->setId(KEYPOINTS_ADD_FLAG + cloud->id());
         m_cloudtree->appendCloud(cloud, new_cloud, true);
         m_keypoints_map.erase(cloud->id());
@@ -158,7 +158,7 @@ void KeyPoints::reset()
 
 void KeyPoints::keypointsResult(const ct::Cloud::Ptr& cloud, float time)
 {
-    printI(QString("keypoints cloud[id:%1] done, take time %2 ms.").arg(cloud->id()).arg(time));
+    printI(QString("Estimate cloud[id:%1] keypoints done, take time %2 ms.").arg(cloud->id()).arg(time));
     QString id = cloud->id();
     cloud->setId(id + KEYPOINTS_PRE_FLAG);
     m_cloudview->addPointCloud(cloud);

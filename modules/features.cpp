@@ -123,8 +123,7 @@ namespace ct
     {
         pcl::console::TicToc time;
         time.tic();
-        pcl::PointCloud<pcl::ReferenceFrame>::Ptr feature(
-            new pcl::PointCloud<pcl::ReferenceFrame>);
+        pcl::PointCloud<pcl::ReferenceFrame>::Ptr feature(new pcl::PointCloud<pcl::ReferenceFrame>);
         pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
 
         pcl::BOARDLocalReferenceFrameEstimation<PointXYZRGBN, PointXYZRGBN, pcl::ReferenceFrame> est;
@@ -148,7 +147,9 @@ namespace ct
     {
         pcl::console::TicToc time;
         time.tic();
-        pcl::PointCloud<pcl::Boundary>::Ptr boundaries(new pcl::PointCloud<pcl::Boundary>);
+        pcl::PointCloud<pcl::Boundary> boundaries;
+        Cloud::Ptr cloud_boundary(new Cloud);
+        cloud_boundary->setId(cloud_->id());
         pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
 
         pcl::BoundaryEstimation<PointXYZRGBN, PointXYZRGBN, pcl::Boundary> est;
@@ -158,9 +159,17 @@ namespace ct
         est.setSearchMethod(tree);
         est.setKSearch(k_);
         est.setRadiusSearch(radius_);
-        est.setAngleThreshold(angle);
-        est.compute(*boundaries);
-        emit boundaryResult(boundaries, time.toc());
+        est.setAngleThreshold(pcl::deg2rad(angle));
+        est.compute(boundaries);
+
+        for (int i = 0; i < cloud_->points.size(); i++)
+        {
+            if (boundaries[i].boundary_point > 0)
+            {
+                cloud_boundary->push_back(cloud_->points[i]);
+            }
+        }
+        emit boundaryResult(cloud_boundary, time.toc());
     }
 
     void Features::CRHEstimation(float vpx, float vpy, float vpz,

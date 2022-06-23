@@ -156,6 +156,7 @@
     <addaction name="separator"/>
     <addaction name="actionScreenShot"/>
     <addaction name="actionTest"/>
+    <addaction name="actionBoundary"/>
    </widget>
    <widget class="QMenu" name="menuDevice">
     <property name="title">
@@ -599,13 +600,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionTopView"/>
-   <addaction name="actionBottomView"/>
-   <addaction name="actionFrontView"/>
-   <addaction name="actionBackView"/>
-   <addaction name="actionLeftSideView"/>
-   <addaction name="actionRightSideView"/>
    <addaction name="actionResetcamera"/>
+   <addaction name="actionBoundary"/>
    <addaction name="actionRangeImage"/>
    <addaction name="actionTest"/>
   </widget>
@@ -994,7 +990,7 @@
   <action name="actionSegmentation">
    <property name="icon">
     <iconset resource="resources/res.qrc">
-     <normaloff>:/res/icon/segmentation.svg</normaloff>:/res/icon/segmentation.svg</iconset>
+     <normaloff>:/res/icon/view-list-icons.svg</normaloff>:/res/icon/view-list-icons.svg</iconset>
    </property>
    <property name="text">
     <string>Segmentation</string>
@@ -1152,6 +1148,15 @@
    </property>
    <property name="text">
     <string>RangeImage</string>
+   </property>
+  </action>
+  <action name="actionBoundary">
+   <property name="icon">
+    <iconset resource="resources/res.qrc">
+     <normaloff>:/res/icon/snap-nodes-cusp.svg</normaloff>:/res/icon/snap-nodes-cusp.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Boundary</string>
    </property>
   </action>
  </widget>
