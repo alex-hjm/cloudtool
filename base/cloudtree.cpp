@@ -86,6 +86,11 @@ namespace ct
                     return;
                 }
             }
+            else
+            {
+                printW("Add cloud canceled.");
+                return;
+            }
         }
 
         // update cloud_vec

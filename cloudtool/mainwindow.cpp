@@ -16,6 +16,8 @@
 #include "tool/segmentation.h"
 #include "tool/cutting.h"
 #include "tool/boundary.h"
+#include "tool/sampling.h"
+#include "tool/descriptor.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -109,7 +111,9 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->actionBoundary, &QAction::triggered, [=] { this->createDialog<Boundary>("Boundary"); });
 
+    connect(ui->actionSampling, &QAction::triggered, [=] { this->createDialog<Sampling>("Sampling"); });
 
+    connect(ui->actionDescriptor, &QAction::triggered, [=] { this->createLeftDock<Descriptor>("Descriptor"); });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });

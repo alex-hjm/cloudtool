@@ -110,7 +110,7 @@
           <enum>QFrame::Plain</enum>
          </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>6</number>
          </property>
          <widget class="QWidget" name="PassThrough">
           <layout class="QVBoxLayout" name="verticalLayout_3">

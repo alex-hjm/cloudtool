@@ -48,6 +48,11 @@ void Boundary::preview()
     }
     for (auto& cloud : selected_clouds)
     {
+        if (ui->spin_k->value() == 0 && ui->dspin_r->value() == 0)
+        {
+            printW("Parameters set error!");
+            return;
+        }
         if (!cloud->hasNormals())
         {
             printW("Please estimate normals first!");

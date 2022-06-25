@@ -64,24 +64,6 @@ Normals::Normals(QWidget* parent)
                 if (ui->check_refresh->isChecked()) this->updateNormals();
             });
 
-    connect(ui->rbtn_k, &QRadioButton::clicked, [=](bool checked)
-            {
-                if (checked)
-                {
-                    ui->spin_k->setEnabled(true);
-                    ui->dspin_r->setValue(0);
-                    ui->dspin_r->setEnabled(false);
-                }
-            });
-    connect(ui->rbtn_r, &QRadioButton::clicked, [=](bool checked)
-            {
-                if (checked)
-                {
-                    ui->dspin_r->setEnabled(true);
-                    ui->spin_k->setValue(0);
-                    ui->spin_k->setEnabled(false);
-                }
-            });
     connect(ui->check_reverse, &QCheckBox::stateChanged, this, &Normals::reverseNormals);
 }
 
@@ -105,10 +87,7 @@ void Normals::preview()
         printW("Parameters set error!");
         return;
     }
-    if (ui->rbtn_k->isChecked())
-        m_cloudview->showInfo("K-nearest neighbor search estimation", 1);
-    else
-        m_cloudview->showInfo("R-radius search estimation", 1);
+    m_cloudview->showInfo("Normals Estimation", 1);
     for (auto& cloud : selected_clouds)
     {
         m_feature->setInputCloud(cloud);

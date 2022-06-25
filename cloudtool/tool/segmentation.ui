@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>427</height>
+    <height>249</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -102,7 +102,7 @@
           </sizepolicy>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="SACSegmentation">
           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0">
@@ -123,12 +123,6 @@
            </property>
            <item>
             <widget class="QScrollArea" name="scrollArea">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Ignored">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
              <property name="frameShape">
               <enum>QFrame::NoFrame</enum>
              </property>
@@ -147,7 +141,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>228</width>
-                <height>278</height>
+                <height>246</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -768,8 +762,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>228</width>
-                <height>278</height>
+                <width>226</width>
+                <height>273</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1225,7 +1219,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>228</width>
+                <width>126</width>
                 <height>148</height>
                </rect>
               </property>

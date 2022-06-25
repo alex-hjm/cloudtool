@@ -92,12 +92,9 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QRadioButton" name="rbtn_k">
+          <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>K.search: </string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
+            <string>KSearch</string>
            </property>
           </widget>
          </item>
@@ -119,16 +116,16 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QRadioButton" name="rbtn_r">
+          <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>R.search: </string>
+            <string>RadiusSearch</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="dspin_r">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <property name="prefix">
             <string/>

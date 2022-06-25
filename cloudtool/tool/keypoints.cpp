@@ -57,6 +57,11 @@ void KeyPoints::preview()
     }
     for (auto& cloud : selected_clouds)
     {
+        if (ui->spin_k->value() == 0 && ui->dspin_r->value() == 0)
+        {
+            printW("Parameters set error!");
+            return;
+        }
         m_keypoints->setInputCloud(cloud);
         m_keypoints->setKSearch(ui->spin_k->value());
         m_keypoints->setRadiusSearch(ui->dspin_r->value());
