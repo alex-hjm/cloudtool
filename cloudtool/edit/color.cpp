@@ -13,7 +13,8 @@
 #define COLOR_NORMALS       (2)
 #define COLOR_BOUNDINGBOX   (3)
 
-const QColor colors[5][10] = {
+const QColor colors[5][10] =
+{
     {QColor("#ffffff"), QColor("#e5e5e7"), QColor("#cccccc"), QColor("#9a9a9a"),
      QColor("#7f7f7f"), QColor("#666666"), QColor("#4c4c4c"), QColor("#333333"),
      QColor("#191919"), QColor("#000000")},
@@ -32,7 +33,8 @@ const QColor colors[5][10] = {
 
     {QColor("#9e1068"), QColor("#a8171b"), QColor("#ad4e00"), QColor("#ad8b00"),
      QColor("#5b8c00"), QColor("#006075"), QColor("#006d75"), QColor("#0050b3"),
-     QColor("#10239e"), QColor("#391085")} };
+     QColor("#10239e"), QColor("#391085")}
+};
 
 Color::Color(QWidget* parent)
     : CustomDock(parent), ui(new Ui::Color), m_field(""), m_rgb(QColorConstants::White)

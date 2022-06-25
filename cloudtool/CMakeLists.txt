@@ -15,6 +15,7 @@ set(Srcs
         tool/segmentation.cpp
         tool/cutting.cpp
         tool/boundary.cpp
+        tool/sampling.cpp
         )
 
 set(MOC_Hdrs 
@@ -33,6 +34,7 @@ set(MOC_Hdrs
         tool/segmentation.h
         tool/cutting.h
         tool/boundary.h
+        tool/sampling.h
         )
 
 set(UIs 

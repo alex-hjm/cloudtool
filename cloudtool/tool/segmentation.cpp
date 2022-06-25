@@ -37,6 +37,7 @@ Segmentation::Segmentation(QWidget* parent) :
     connect(m_seg, &ct::Segmentation::segmentationResult, this, &Segmentation::segmentationResult);
     m_thread.start();
 
+    //TODO:
     // connect(ui->cbox_Segmentation, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [=](int index)
     //         {
     //             if (index == 0 || index == 6)

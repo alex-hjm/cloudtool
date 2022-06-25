@@ -87,8 +87,7 @@ namespace ct
          * @param min_neighbors 设置应用非最大值抑制算法时必须找到的最小邻居数
          * @param angle 设置将点标记为边界或规则的决策边界（角度阈值）
          */
-        void ISSKeypoint3D(double resolution, double gamma_21, double gamma_32,
-                           int min_neighbors, float angle);
+        void ISSKeypoint3D(double resolution, double gamma_21, double gamma_32,int min_neighbors, float angle);
 
         /**
          * @brief 检测包含点和强度的给定点云数据集的尺度不变特征变换关键点

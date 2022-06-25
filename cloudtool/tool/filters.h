@@ -1,5 +1,5 @@
 /**
- * @file filters.cpp
+ * @file filters.h
  * @author hjm (hjmalex@163.com)
  * @version 3.0
  * @date 2022-05-15
@@ -32,16 +32,15 @@ public:
     virtual void reset();
 
 signals:
-    void passThrough(const std::string& field_name, float limit_min, float limit_max);
-    void voxelGrid(float lx, float ly, float lz);
-    void approximateVoxelGrid(float lx, float ly, float lz);
-    void statisticalOutlierRemoval(int nr_k, double stddev_mult);
-    void radiusOutlierRemoval(double radius, int min_pts);
-    void conditionalRemoval(ct::ConditionBase::Ptr con);
-    void movingLeastSquares(bool computer_normals, int polynomial_order, float radius);
-    void gridMinimum(const float resolution);
-    void localMaximum(float radius);
-    void shadowPoints(float threshold);
+    void PassThrough(const std::string& field_name, float limit_min, float limit_max);
+    void VoxelGrid(float lx, float ly, float lz);
+    void ApproximateVoxelGrid(float lx, float ly, float lz);
+    void StatisticalOutlierRemoval(int nr_k, double stddev_mult);
+    void RadiusOutlierRemoval(double radius, int min_pts);
+    void ConditionalRemoval(ct::ConditionBase::Ptr con);
+    void GridMinimum(const float resolution);
+    void LocalMaximum(float radius);
+    void ShadowPoints(float threshold);
 
 public slots:
     void filterResult(const ct::Cloud::Ptr& cloud, float time);

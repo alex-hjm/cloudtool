@@ -36,7 +36,7 @@ namespace ct
     typedef pcl::ConditionOr<PointXYZRGBN>      ConditionOr;
     typedef pcl::FieldComparison<PointXYZRGBN>  FieldComparison;
     typedef pcl::ComparisonOps::CompareOp       CompareOp;
-    
+
     class CT_EXPORT Filters : public QObject
     {
         Q_OBJECT
@@ -67,6 +67,22 @@ namespace ct
 
     public slots:
 
+        /*  filter */
+        /**
+         * @brief 直通滤波器
+         * @param field_name 提供要用于过滤数据的字段的名称
+         * @param limit_min 为过滤数据的字段设置数值限制
+         * @param limit_max 为过滤数据的字段设置数值限制
+         * @param negative  是否返回指定的限制间隔之外的数据
+         */
+        void PassThrough(const std::string& field_name, float limit_min, float limit_max);
+
+        /**
+         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样 + 过滤
+         * @param lx ly lz 设置体素网格叶大小
+         */
+        void VoxelGrid(float lx, float ly, float lz);
+
         /**
          * @brief 在给定的 PointCloud 上组装本地 3D 网格，并对数据进行下采样 + 过滤
          * @param lx ly lz 设置体素网格叶大小
@@ -74,14 +90,94 @@ namespace ct
         void ApproximateVoxelGrid(float lx, float ly, float lz);
 
         /**
+         * @brief 统计滤波器
+         * @param nr_k 设置用于平均距离估计的最近邻的数量
+         * @param stddev_mult 设置距离阈值计算的标准偏差乘数
+         */
+        void StatisticalOutlierRemoval(int nr_k, double stddev_mult);
+
+        /**
+         * @brief 离群点滤波
+         * @param radius 设置将确定哪些点是邻居的球体的半径
+         * @param min_pts 设置为了被分类为内点而需要存在的邻居的数量
+         */
+        void RadiusOutlierRemoval(double radius, int min_pts);
+
+        /**
          * @brief 条件滤波器
-         * @param val 设置过滤后的点是否应保留并设置为通过 setUserFilterValue 给出的值（默认值：NaN）， 
+         * @param val 设置过滤后的点是否应保留并设置为通过 setUserFilterValue 给出的值（默认值：NaN），
          *            或者从 PointCloud 中删除，从而可能破坏其组织结构。
          * @param val1 提供一个值，过滤点应设置为而不是删除它们。
          * @param con 设置过滤器将使用的条件
          */
         void ConditionalRemoval(ConditionBase::Ptr con);
 
+        /**
+         * @brief 在给定的 PointCloud 上组装一个本地 2D 网格，并对数据进行下采样
+         * @param resolution 设置网格分辨率
+         */
+        void GridMinimum(const float resolution);
+
+        /**
+         * @brief 通过消除局部最大值来对云进行下采样
+         * @param radius 设置用于确定点是否为局部最大值的半径
+         */
+        void LocalMaximum(float radius);
+
+        /**
+         * @brief 去除出现在边缘不连续处的鬼点
+         * @param threshold 设置阴影点拒绝的阈值
+         */
+        void ShadowPoints(float threshold);
+
+        /*  sample */
+        /**
+         * @brief 对数据进行下采样过滤
+         * @param radius 设置 3D 网格叶子大小
+         */
+        void DownSampling(float radius);        
+
+        /**
+         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样+ 过滤
+         * @param radius 设置 3D 网格叶子大小
+         */
+        void UniformSampling(float radius);
+
+        /**
+         * @brief 具有均匀概率的随机抽样
+         * @param sample 设置要采样的索引数
+         * @param seed 设置随机函数的种子
+         */
+        void RandomSampling(int sample, int seed);
+
+        /**
+         * @brief 移动最小二乘算法，用于数据平滑和改进的法线估计。
+         * @param computer_normals 设置算法是否还应存储计算的法线
+         * @param polynomial_order 设置要拟合的多项式的阶数
+         * @param radius 设置用于确定用于拟合的 k 最近邻的球体半径。
+         * @param sqr_gauss_param 设置用于基于距离的邻居加权的参数（搜索半径的平方通常效果最好）
+         * @param method1 设置要使用的上采样方法
+         * @param method2 设置将点投影到 MLS 表面时使用的方法
+         */
+        void ReSampling(float radius,int polynomial_order);
+        
+        /**
+         * @brief 将输入空间划分为网格，直到每个网格包含最多N个点，并在每个网格内随机采样点
+         * @param sample 设置每个网格中的最大样本数
+         * @param seed 设置随机函数的种子
+         * @param ratio 设置每个网格中要采样的点的比率
+         */
+        void SamplingSurfaceNormal(int sample, int seed, float ratio);
+
+        /**
+         * @brief 在每个点计算的法线方向空间中对输入点云进行采样
+         * @param sample 设置要采样的索引数
+         * @param seed 设置随机函数的种子
+         * @param bin 设置 x,y,z 方向的 bin 数量
+         */
+        void NormalSpaceSampling(int sample, int seed, int bin);
+
+        /*  TODO: */
         /**
          * @brief 高斯滤波器
          * @param sigma 设置高斯的 sigma 参数
@@ -120,51 +216,11 @@ namespace ct
         void FrustumCulling(const Eigen::Matrix4f& camera_pose, float hfov, float vfov, float np_dist, float fp_dist);
 
         /**
-         * @brief 在给定的 PointCloud 上组装一个本地 2D 网格，并对数据进行下采样
-         * @param resolution 设置网格分辨率
-         */
-        void GridMinimum(const float resolution);
-
-        /**
-         * @brief 通过消除局部最大值来对云进行下采样
-         * @param radius 设置用于确定点是否为局部最大值的半径
-         */
-        void LocalMaximum(float radius);
-
-        /**
          * @brief 中值滤波器
          * @param window_size 设置过滤器的窗口大小
          * @param max_allowed_movement 设置一个dexel允许移动的最大值
          */
         void MedianFilter(int window_size, float max_allowed_movement);
-
-        /**
-         * @brief 移动最小二乘算法，用于数据平滑和改进的法线估计。
-         * @param computer_normals 设置算法是否还应存储计算的法线
-         * @param polynomial_order 设置要拟合的多项式的阶数
-         * @param radius 设置用于确定用于拟合的 k 最近邻的球体半径。
-         * @param sqr_gauss_param 设置用于基于距离的邻居加权的参数（搜索半径的平方通常效果最好）
-         * @param method1 设置要使用的上采样方法
-         * @param method2 设置将点投影到 MLS 表面时使用的方法
-         */
-        void MovingLeastSquares(bool computer_normals, int polynomial_order, float radius);
-
-        /**
-         * @brief 在每个点计算的法线方向空间中对输入点云进行采样
-         * @param sample 设置要采样的索引数
-         * @param seed 设置随机函数的种子
-         * @param binsx binsy binsz设置 x,y,z 方向的 bin 数量
-         */
-        void NormalSpaceSampling(int sample, int seed, int binsx, int binsy, int binsz);
-
-        /**
-         * @brief 直通滤波器
-         * @param field_name 提供要用于过滤数据的字段的名称
-         * @param limit_min 为过滤数据的字段设置数值限制
-         * @param limit_max 为过滤数据的字段设置数值限制
-         * @param negative  是否返回指定的限制间隔之外的数据
-         */
-        void PassThrough(const std::string& field_name, float limit_min, float limit_max);
 
         /**
          * @brief 3D 平面剪裁器
@@ -179,53 +235,6 @@ namespace ct
          * @param va 设置是返回所有数据，还是只返回投影的内点。
          */
         void ProjectInliers(int type, const pcl::ModelCoefficients::Ptr& model, bool va);
-
-        /**
-         * @brief 离群点滤波
-         * @param radius 设置将确定哪些点是邻居的球体的半径
-         * @param min_pts 设置为了被分类为内点而需要存在的邻居的数量
-         */
-        void RadiusOutlierRemoval(double radius, int min_pts);
-
-        /**
-         * @brief 具有均匀概率的随机抽样
-         * @param sample 设置要采样的索引数
-         * @param seed 设置随机函数的种子
-         */
-        void RandomSample(int sample, int seed);
-
-        /**
-         * @brief 将输入空间划分为网格，直到每个网格包含最多N个点，并在每个网格内随机采样点
-         * @param sample 设置每个网格中的最大样本数
-         * @param seed 设置随机函数的种子
-         * @param ratio 设置每个网格中要采样的点的比率
-         */
-        void SamplingSurfaceNormal(int sample, int seed, float ratio);
-
-        /**
-         * @brief 去除出现在边缘不连续处的鬼点
-         * @param threshold 设置阴影点拒绝的阈值
-         */
-        void ShadowPoints(float threshold);
-
-        /**
-         * @brief 统计滤波器
-         * @param nr_k 设置用于平均距离估计的最近邻的数量
-         * @param stddev_mult 设置距离阈值计算的标准偏差乘数
-         */
-        void StatisticalOutlierRemoval(int nr_k, double stddev_mult);
-
-        /**
-         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样+ 过滤
-         * @param radius 设置 3D 网格叶子大小
-         */
-        void UniformSampling(double radius);
-
-        /**
-         * @brief 在给定的 PointCloud 上组装一个本地 3D 网格，并对数据进行下采样 + 过滤
-         * @param lx ly lz 设置体素网格叶大小
-         */
-        void VoxelGrid(float lx, float ly, float lz);
     };
 } // namespace ct
 

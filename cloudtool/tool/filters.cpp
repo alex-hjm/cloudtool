@@ -12,14 +12,12 @@
 #define FILTER_TYPE_StatisticalOutlierRemoval       (2)
 #define FILTER_TYPE_RadiusOutlierRemoval            (3)
 #define FILTER_TYPE_ConditionalRemoval              (4)
-#define FILTER_TYPE_MovingLeastSquares              (5)
-#define FILTER_TYPE_GridMinimum                     (7)
-#define FILTER_TYPE_LocalMaximum                    (8)
-#define FILTER_TYPE_ShadowPoints                    (9)
+#define FILTER_TYPE_GridMinimum                     (5)
+#define FILTER_TYPE_LocalMaximum                    (6)
+#define FILTER_TYPE_ShadowPoints                    (7)
 
 #define FILTER_PRE_FLAG                             "-filter"
 #define FILTER_ADD_FLAG                             "filtered-"
-
 
 Filters::Filters(QWidget* parent)
     : CustomDock(parent), ui(new Ui::Filters),
@@ -40,16 +38,15 @@ Filters::Filters(QWidget* parent)
     m_filters = new ct::Filters;
     m_filters->moveToThread(&m_thread);
     connect(&m_thread, &QThread::finished, m_filters, &QObject::deleteLater);
-    connect(this, &Filters::passThrough, m_filters, &ct::Filters::PassThrough);
-    connect(this, &Filters::voxelGrid, m_filters, &ct::Filters::VoxelGrid);
-    connect(this, &Filters::approximateVoxelGrid, m_filters, &ct::Filters::ApproximateVoxelGrid);
-    connect(this, &Filters::statisticalOutlierRemoval, m_filters, &ct::Filters::StatisticalOutlierRemoval);
-    connect(this, &Filters::radiusOutlierRemoval, m_filters, &ct::Filters::RadiusOutlierRemoval);
-    connect(this, &Filters::conditionalRemoval, m_filters, &ct::Filters::ConditionalRemoval);
-    connect(this, &Filters::movingLeastSquares, m_filters, &ct::Filters::MovingLeastSquares);
-    connect(this, &Filters::gridMinimum, m_filters, &ct::Filters::GridMinimum);
-    connect(this, &Filters::localMaximum, m_filters, &ct::Filters::LocalMaximum);
-    connect(this, &Filters::shadowPoints, m_filters, &ct::Filters::ShadowPoints);
+    connect(this, &Filters::PassThrough, m_filters, &ct::Filters::PassThrough);
+    connect(this, &Filters::VoxelGrid, m_filters, &ct::Filters::VoxelGrid);
+    connect(this, &Filters::ApproximateVoxelGrid, m_filters, &ct::Filters::ApproximateVoxelGrid);
+    connect(this, &Filters::StatisticalOutlierRemoval, m_filters, &ct::Filters::StatisticalOutlierRemoval);
+    connect(this, &Filters::RadiusOutlierRemoval, m_filters, &ct::Filters::RadiusOutlierRemoval);
+    connect(this, &Filters::ConditionalRemoval, m_filters, &ct::Filters::ConditionalRemoval);
+    connect(this, &Filters::GridMinimum, m_filters, &ct::Filters::GridMinimum);
+    connect(this, &Filters::LocalMaximum, m_filters, &ct::Filters::LocalMaximum);
+    connect(this, &Filters::ShadowPoints, m_filters, &ct::Filters::ShadowPoints);
     connect(m_filters, &ct::Filters::filterResult, this, &Filters::filterResult);
     m_thread.start();
 
@@ -183,15 +180,6 @@ Filters::Filters(QWidget* parent)
             {
                 if (ui->check_refresh->isChecked())this->preview();
             });
-    //MovingLeastSquares
-    connect(ui->dspin_radius_2, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=]
-            {
-                if (ui->check_refresh->isChecked()) this->preview();
-            });
-    connect(ui->spin_polynomial_order, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), [=]
-            {
-                if (ui->check_refresh->isChecked()) this->preview();
-            });
     //GridMinimum
     connect(ui->dspin_resolution, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [=]
             {
@@ -239,36 +227,31 @@ void Filters::preview()
         {
         case FILTER_TYPE_PassThrough:
             m_cloudview->showInfo("PassThrough", 1);
-            emit passThrough(ui->cbox_field_name->currentText().toStdString(), (float)ui->slider_min->value() / 1000, (float)ui->slider_max->value() / 1000);
+            emit PassThrough(ui->cbox_field_name->currentText().toStdString(), (float)ui->slider_min->value() / 1000, (float)ui->slider_max->value() / 1000);
             break;
         case FILTER_TYPE_VoxelGrid:
             m_cloudview->showInfo("VoxelGrid", 1);
-            emit voxelGrid(ui->dspin_leafx->value(), ui->dspin_leafy->value(), ui->dspin_leafz->value());
+            emit VoxelGrid(ui->dspin_leafx->value(), ui->dspin_leafy->value(), ui->dspin_leafz->value());
             break;
         case FILTER_TYPE_StatisticalOutlierRemoval:
             m_cloudview->showInfo("StatisticalOutlierRemoval", 1);
-            emit statisticalOutlierRemoval(ui->spin_meank->value(), ui->dspin_stddevmulthresh->value());
+            emit StatisticalOutlierRemoval(ui->spin_meank->value(), ui->dspin_stddevmulthresh->value());
             break;
         case FILTER_TYPE_RadiusOutlierRemoval:
             m_cloudview->showInfo("RadiusOutlierRemoval", 1);
-            emit radiusOutlierRemoval(ui->dspin_radius->value(), ui->spin_minneiborsinradius->value());
+            emit RadiusOutlierRemoval(ui->dspin_radius->value(), ui->spin_minneiborsinradius->value());
             break;
         case FILTER_TYPE_ConditionalRemoval:
             m_cloudview->showInfo("ConditionalRemoval", 1);
-            emit conditionalRemoval(this->getCondition());
-            break;
-        case FILTER_TYPE_MovingLeastSquares:
-            m_cloudview->showInfo("MovingLeastSquares", 1);
-            emit movingLeastSquares(ui->check_compute_normals->isChecked(), ui->spin_polynomial_order->value(), ui->dspin_radius_2->value());
-            break;
+            emit ConditionalRemoval(this->getCondition());
             break;
         case FILTER_TYPE_GridMinimum:
             m_cloudview->showInfo("GridMinimum", 1);
-            emit gridMinimum(ui->dspin_resolution->value());
+            emit GridMinimum(ui->dspin_resolution->value());
             break;
         case FILTER_TYPE_LocalMaximum:
             m_cloudview->showInfo("LocalMaximum", 1);
-            emit localMaximum(ui->dspin_radius_3->value());
+            emit LocalMaximum(ui->dspin_radius_3->value());
             break;
         case FILTER_TYPE_ShadowPoints:
             if (!cloud->hasNormals())
@@ -277,7 +260,7 @@ void Filters::preview()
                 return;
             }
             m_cloudview->showInfo("ShadowPoints", 1);
-            emit shadowPoints(ui->dspin_threshold->value());
+            emit ShadowPoints(ui->dspin_threshold->value());
             break;
         }
         if (!ui->check_refresh->isChecked()) m_cloudtree->showProgressBar();

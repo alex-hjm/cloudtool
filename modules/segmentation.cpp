@@ -65,6 +65,179 @@ namespace ct
         return segmented_clouds;
     }
 
+    void Segmentation::SACSegmentation(int model, int method, double threshold, int max_iterations, double probability,
+                                       bool optimize, double min_radius, double max_radius)
+    {
+        TicToc time;
+        time.tic();
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
+        pcl::PointIndicesPtr indices(new pcl::PointIndices);
+        pcl::ModelCoefficients::Ptr cofes(new pcl::ModelCoefficients);
+
+        pcl::SACSegmentation<PointXYZRGBN> sacseg;
+        sacseg.setInputCloud(cloud_);
+        sacseg.setModelType(model);
+        sacseg.setMethodType(method);
+        sacseg.setDistanceThreshold(threshold);
+        sacseg.setMaxIterations(max_iterations);
+        sacseg.setOptimizeCoefficients(optimize);
+        sacseg.setRadiusLimits(min_radius, max_radius);
+        sacseg.setProbability(probability);
+        sacseg.setNumberOfThreads(12);
+
+        sacseg.segment(*indices, *cofes);
+        emit segmentationResult(cloud_->id(), getClusters(indices), time.toc(), cofes);
+    }
+
+    void Segmentation::SACSegmentationFromNormals(int model, int method, double threshold, int max_iterations,
+                                                  double probability, bool optimize, double min_radius, double max_radius,
+                                                  double distance_weight, double d)
+    {
+        TicToc time;
+        time.tic();
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(
+            new pcl::search::KdTree<PointXYZRGBN>);
+        pcl::PointIndicesPtr indices(new pcl::PointIndices);
+        pcl::ModelCoefficients::Ptr cofes(new pcl::ModelCoefficients);
+
+        pcl::SACSegmentationFromNormals<PointXYZRGBN, PointXYZRGBN> sacseg;
+        sacseg.setInputCloud(cloud_);
+        sacseg.setInputNormals(cloud_);
+        sacseg.setModelType(model);
+        sacseg.setMethodType(method);
+        sacseg.setDistanceThreshold(threshold);
+        sacseg.setMaxIterations(max_iterations);
+        sacseg.setOptimizeCoefficients(optimize);
+        sacseg.setRadiusLimits(min_radius, max_radius);
+        sacseg.setProbability(probability);
+        sacseg.setNormalDistanceWeight(distance_weight);
+        sacseg.setDistanceFromOrigin(d);
+        sacseg.setNumberOfThreads(12);
+
+        sacseg.segment(*indices, *cofes);
+        emit segmentationResult(cloud_->id(), getClusters(indices), time.toc(), cofes);
+    }
+
+    void Segmentation::EuclideanClusterExtraction(double tolerance, int min_cluster_size, int max_cluster_size)
+    {
+        TicToc time;
+        time.tic();
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
+        IndicesClustersPtr clusters(new IndicesClusters);
+
+        pcl::EuclideanClusterExtraction<PointXYZRGBN> seg;
+        seg.setInputCloud(cloud_);
+        seg.setSearchMethod(tree);
+        seg.setClusterTolerance(tolerance);
+        seg.setMinClusterSize(min_cluster_size);
+        seg.setMaxClusterSize(max_cluster_size);
+        seg.extract(*clusters);
+        emit segmentationResult(cloud_->id(), getClusters(clusters), time.toc());
+    }
+
+    void Segmentation::RegionGrowing(int min_cluster_size, int max_cluster_size, bool smooth_mode, bool curvature_test,
+                                     bool residual_test, float smoothness_threshold, float residual_threshold,
+                                     float curvature_threshold, int neighbours)
+    {
+        TicToc time;
+        time.tic();
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
+        IndicesClustersPtr clusters(new IndicesClusters);
+
+        pcl::RegionGrowing<PointXYZRGBN, PointXYZRGBN> reg;
+        reg.setInputCloud(cloud_);
+        reg.setInputNormals(cloud_);
+        reg.setSearchMethod(tree);
+        reg.setMinClusterSize(min_cluster_size);
+        reg.setMaxClusterSize(max_cluster_size);
+        reg.setMinClusterSize(min_cluster_size);
+        reg.setMaxClusterSize(max_cluster_size);
+        reg.setSearchMethod(tree);
+        reg.setSmoothModeFlag(smooth_mode);
+        reg.setSmoothnessThreshold(pcl::deg2rad(smoothness_threshold));
+        reg.setCurvatureTestFlag(curvature_test);
+        reg.setCurvatureThreshold(curvature_threshold);
+        reg.setResidualTestFlag(residual_test);
+        reg.setResidualThreshold(residual_threshold);
+        reg.setNumberOfNeighbours(neighbours);
+        reg.extract(*clusters);
+        emit segmentationResult(cloud_->id(), getClusters(clusters), time.toc());
+    }
+
+    void Segmentation::RegionGrowingRGB(int min_cluster_size, int max_cluster_size, bool smooth_mode,
+                                        bool curvature_test, bool residual_test, float smoothness_threshold,
+                                        float residual_threshold, float curvature_threshold, int neighbours,
+                                        float pt_thresh, float re_thresh, float dis_thresh, int nghbr_number)
+    {
+        TicToc time;
+        time.tic();
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
+        IndicesClustersPtr clusters(new IndicesClusters);
+
+        pcl::RegionGrowingRGB<PointXYZRGBN, PointXYZRGBN> reg;
+        reg.setInputCloud(cloud_);
+        reg.setInputNormals(cloud_);
+        reg.setSearchMethod(tree);
+        reg.setMinClusterSize(min_cluster_size);
+        reg.setMaxClusterSize(max_cluster_size);
+        reg.setMinClusterSize(min_cluster_size);
+        reg.setMaxClusterSize(max_cluster_size);
+        reg.setSearchMethod(tree);
+        reg.setSmoothModeFlag(smooth_mode);
+        reg.setSmoothnessThreshold(pcl::deg2rad(smoothness_threshold));
+        reg.setCurvatureTestFlag(curvature_test);
+        reg.setCurvatureThreshold(curvature_threshold);
+        reg.setResidualTestFlag(residual_test);
+        reg.setResidualThreshold(residual_threshold);
+        reg.setNumberOfNeighbours(neighbours);
+        reg.setPointColorThreshold(pt_thresh);
+        reg.setRegionColorThreshold(re_thresh);
+        reg.setDistanceThreshold(dis_thresh);
+        reg.setNumberOfRegionNeighbours(nghbr_number);
+        reg.extract(*clusters);
+        emit segmentationResult(cloud_->id(), getClusters(clusters), time.toc());
+    }
+
+    void Segmentation::SupervoxelClustering(float voxel_resolution, float seed_resolution, float color_importance,
+                                            float spatial_importance, float normal_importance, bool camera_transform)
+    {
+        TicToc time;
+        time.tic();
+
+        pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_xyzrgba(new pcl::PointCloud<pcl::PointXYZRGBA>);
+        pcl::copyPointCloud(*cloud_, *cloud_xyzrgba);
+
+        pcl::SupervoxelClustering<pcl::PointXYZRGBA> super(voxel_resolution, seed_resolution);
+        super.setInputCloud(cloud_xyzrgba);
+        super.setVoxelResolution(voxel_resolution);
+        super.setSeedResolution(seed_resolution);
+        super.setColorImportance(color_importance);
+        super.setSpatialImportance(spatial_importance);
+        super.setNormalImportance(normal_importance);
+        super.setUseSingleCameraTransform(camera_transform);
+
+        std::map<std::uint32_t, pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr> supervoxel_clusters;
+        super.extract(supervoxel_clusters);
+
+        std::multimap<uint32_t, uint32_t> supervoxel_adjacency;
+        super.getSupervoxelAdjacency(supervoxel_adjacency);
+
+        std::vector<Cloud::Ptr> segmented_clouds;
+
+        std::multimap<uint32_t, uint32_t>::iterator label_itr = supervoxel_adjacency.begin();
+        for (; label_itr != supervoxel_adjacency.end();)
+        {
+            uint32_t supervoxel_label = label_itr->first;
+            pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr supervoxel = supervoxel_clusters.at(supervoxel_label);
+            Cloud::Ptr supervoxel_cloud(new Cloud);
+            pcl::copyPointCloud(*supervoxel->voxels_, *supervoxel_cloud);
+            segmented_clouds.push_back(supervoxel_cloud);
+            label_itr = supervoxel_adjacency.upper_bound(supervoxel_label);
+        }
+
+        emit segmentationResult(cloud_->id(), segmented_clouds, time.toc());
+    }
+    
     void Segmentation::ConditionalEuclideanClustering(ConditionFunction func, float cluster_tolerance,
                                                       int min_cluster_size, int max_cluster_size)
     {
@@ -140,23 +313,6 @@ namespace ct
         emit segmentationResult(cloud_->id(), getClusters(cluster_indices), time.toc());
     }
 
-    void Segmentation::EuclideanClusterExtraction(double tolerance, int min_cluster_size, int max_cluster_size)
-    {
-        TicToc time;
-        time.tic();
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
-        IndicesClustersPtr clusters(new IndicesClusters);
-
-        pcl::EuclideanClusterExtraction<PointXYZRGBN> seg;
-        seg.setInputCloud(cloud_);
-        seg.setSearchMethod(tree);
-        seg.setClusterTolerance(tolerance);
-        seg.setMinClusterSize(min_cluster_size);
-        seg.setMaxClusterSize(max_cluster_size);
-        seg.extract(*clusters);
-        emit segmentationResult(cloud_->id(), getClusters(clusters), time.toc());
-    }
-
     void Segmentation::ExtractPolygonalPrismData(const Cloud::Ptr& hull, double height_min, double height_max, float vpx,
                                                  float vpy, float vpz)
     {
@@ -218,123 +374,6 @@ namespace ct
         emit segmentationResult(cloud_->id(), getClusters(inliers), time.toc());
     }
 
-
-    void Segmentation::RegionGrowing(int min_cluster_size, int max_cluster_size, bool smooth_mode, bool curvature_test,
-                                     bool residual_test, float smoothness_threshold, float residual_threshold,
-                                     float curvature_threshold, int neighbours)
-    {
-        TicToc time;
-        time.tic();
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
-        IndicesClustersPtr clusters(new IndicesClusters);
-
-        pcl::RegionGrowing<PointXYZRGBN, PointXYZRGBN> reg;
-        reg.setInputCloud(cloud_);
-        reg.setInputNormals(cloud_);
-        reg.setSearchMethod(tree);
-        reg.setMinClusterSize(min_cluster_size);
-        reg.setMaxClusterSize(max_cluster_size);
-        reg.setMinClusterSize(min_cluster_size);
-        reg.setMaxClusterSize(max_cluster_size);
-        reg.setSearchMethod(tree);
-        reg.setSmoothModeFlag(smooth_mode);
-        reg.setSmoothnessThreshold(pcl::deg2rad(smoothness_threshold));
-        reg.setCurvatureTestFlag(curvature_test);
-        reg.setCurvatureThreshold(curvature_threshold);
-        reg.setResidualTestFlag(residual_test);
-        reg.setResidualThreshold(residual_threshold);
-        reg.setNumberOfNeighbours(neighbours);
-        reg.extract(*clusters);
-        emit segmentationResult(cloud_->id(), getClusters(clusters), time.toc());
-    }
-
-    void Segmentation::RegionGrowingRGB(int min_cluster_size, int max_cluster_size, bool smooth_mode,
-                                        bool curvature_test, bool residual_test, float smoothness_threshold,
-                                        float residual_threshold, float curvature_threshold, int neighbours,
-                                        float pt_thresh, float re_thresh, float dis_thresh, int nghbr_number)
-    {
-        TicToc time;
-        time.tic();
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
-        IndicesClustersPtr clusters(new IndicesClusters);
-
-        pcl::RegionGrowingRGB<PointXYZRGBN, PointXYZRGBN> reg;
-        reg.setInputCloud(cloud_);
-        reg.setInputNormals(cloud_);
-        reg.setSearchMethod(tree);
-        reg.setMinClusterSize(min_cluster_size);
-        reg.setMaxClusterSize(max_cluster_size);
-        reg.setMinClusterSize(min_cluster_size);
-        reg.setMaxClusterSize(max_cluster_size);
-        reg.setSearchMethod(tree);
-        reg.setSmoothModeFlag(smooth_mode);
-        reg.setSmoothnessThreshold(pcl::deg2rad(smoothness_threshold));
-        reg.setCurvatureTestFlag(curvature_test);
-        reg.setCurvatureThreshold(curvature_threshold);
-        reg.setResidualTestFlag(residual_test);
-        reg.setResidualThreshold(residual_threshold);
-        reg.setNumberOfNeighbours(neighbours);
-        reg.setPointColorThreshold(pt_thresh);
-        reg.setRegionColorThreshold(re_thresh);
-        reg.setDistanceThreshold(dis_thresh);
-        reg.setNumberOfRegionNeighbours(nghbr_number);
-        reg.extract(*clusters);
-        emit segmentationResult(cloud_->id(), getClusters(clusters), time.toc());
-    }
-
-    void Segmentation::SACSegmentation(int model, int method, double threshold, int max_iterations, double probability,
-                                       bool optimize, double min_radius, double max_radius)
-    {
-        TicToc time;
-        time.tic();
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
-        pcl::PointIndicesPtr indices(new pcl::PointIndices);
-        pcl::ModelCoefficients::Ptr cofes(new pcl::ModelCoefficients);
-
-        pcl::SACSegmentation<PointXYZRGBN> sacseg;
-        sacseg.setInputCloud(cloud_);
-        sacseg.setModelType(model);
-        sacseg.setMethodType(method);
-        sacseg.setDistanceThreshold(threshold);
-        sacseg.setMaxIterations(max_iterations);
-        sacseg.setOptimizeCoefficients(optimize);
-        sacseg.setRadiusLimits(min_radius, max_radius);
-        sacseg.setProbability(probability);
-        sacseg.setNumberOfThreads(12);
-
-        sacseg.segment(*indices, *cofes);
-        emit segmentationResult(cloud_->id(), getClusters(indices), time.toc(), cofes);
-    }
-
-    void Segmentation::SACSegmentationFromNormals(int model, int method, double threshold, int max_iterations,
-                                                  double probability, bool optimize, double min_radius, double max_radius,
-                                                  double distance_weight, double d)
-    {
-        TicToc time;
-        time.tic();
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(
-            new pcl::search::KdTree<PointXYZRGBN>);
-        pcl::PointIndicesPtr indices(new pcl::PointIndices);
-        pcl::ModelCoefficients::Ptr cofes(new pcl::ModelCoefficients);
-
-        pcl::SACSegmentationFromNormals<PointXYZRGBN, PointXYZRGBN> sacseg;
-        sacseg.setInputCloud(cloud_);
-        sacseg.setInputNormals(cloud_);
-        sacseg.setModelType(model);
-        sacseg.setMethodType(method);
-        sacseg.setDistanceThreshold(threshold);
-        sacseg.setMaxIterations(max_iterations);
-        sacseg.setOptimizeCoefficients(optimize);
-        sacseg.setRadiusLimits(min_radius, max_radius);
-        sacseg.setProbability(probability);
-        sacseg.setNormalDistanceWeight(distance_weight);
-        sacseg.setDistanceFromOrigin(d);
-        sacseg.setNumberOfThreads(12);
-
-        sacseg.segment(*indices, *cofes);
-        emit segmentationResult(cloud_->id(), getClusters(indices), time.toc(), cofes);
-    }
-
     void Segmentation::SeededHueSegmentation(double tolerance, float delta_hue)
     {
         TicToc time;
@@ -370,46 +409,6 @@ namespace ct
         seg.segment(*diff);
         std::vector<Cloud::Ptr> segmented_clouds;
         segmented_clouds.push_back(diff);
-        emit segmentationResult(cloud_->id(), segmented_clouds, time.toc());
-    }
-
-    void Segmentation::SupervoxelClustering(float voxel_resolution, float seed_resolution, float color_importance,
-                                            float spatial_importance, float normal_importance, bool camera_transform)
-    {
-        TicToc time;
-        time.tic();
-
-        pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_xyzrgba(new pcl::PointCloud<pcl::PointXYZRGBA>);
-        pcl::copyPointCloud(*cloud_, *cloud_xyzrgba);
-
-        pcl::SupervoxelClustering<pcl::PointXYZRGBA> super(voxel_resolution, seed_resolution);
-        super.setInputCloud(cloud_xyzrgba);
-        super.setVoxelResolution(voxel_resolution);
-        super.setSeedResolution(seed_resolution);
-        super.setColorImportance(color_importance);
-        super.setSpatialImportance(spatial_importance);
-        super.setNormalImportance(normal_importance);
-        super.setUseSingleCameraTransform(camera_transform);
-
-        std::map<std::uint32_t, pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr> supervoxel_clusters;
-        super.extract(supervoxel_clusters);
-
-        std::multimap<uint32_t, uint32_t> supervoxel_adjacency;
-        super.getSupervoxelAdjacency(supervoxel_adjacency);
-
-        std::vector<Cloud::Ptr> segmented_clouds;
-
-        std::multimap<uint32_t, uint32_t>::iterator label_itr = supervoxel_adjacency.begin();
-        for (; label_itr != supervoxel_adjacency.end();)
-        {
-            uint32_t supervoxel_label = label_itr->first;
-            pcl::Supervoxel<pcl::PointXYZRGBA>::Ptr supervoxel = supervoxel_clusters.at(supervoxel_label);
-            Cloud::Ptr supervoxel_cloud(new Cloud);
-            pcl::copyPointCloud(*supervoxel->voxels_, *supervoxel_cloud);
-            segmented_clouds.push_back(supervoxel_cloud);
-            label_itr = supervoxel_adjacency.upper_bound(supervoxel_label);
-        }
-
         emit segmentationResult(cloud_->id(), segmented_clouds, time.toc());
     }
 

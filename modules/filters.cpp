@@ -36,6 +36,39 @@
 
 namespace ct
 {
+
+    void Filters::PassThrough(const std::string& field_name, float limit_min, float limit_max)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::PassThrough<PointXYZRGBN> pfilter;
+        pfilter.setInputCloud(cloud_);
+        pfilter.setFilterFieldName(field_name);
+        pfilter.setFilterLimits(limit_min, limit_max);
+        pfilter.setFilterLimitsNegative(negative_);
+        pfilter.filter(*cloud_filtered);
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::VoxelGrid(float lx, float ly, float lz)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::VoxelGrid<PointXYZRGBN> vfilter;
+        vfilter.setInputCloud(cloud_);
+        vfilter.setLeafSize(lx, ly, lz);
+        vfilter.setFilterLimitsNegative(negative_);
+        vfilter.filter(*cloud_filtered);
+
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
     void Filters::ApproximateVoxelGrid(float lx, float ly, float lz)
     {
         TicToc time;
@@ -59,6 +92,38 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
+    void Filters::StatisticalOutlierRemoval(int nr_k, double stddev_mult)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::StatisticalOutlierRemoval<PointXYZRGBN> sfilter;
+        sfilter.setInputCloud(cloud_);
+        sfilter.setMeanK(nr_k);
+        sfilter.setStddevMulThresh(stddev_mult);
+        sfilter.setNegative(negative_);
+        sfilter.filter(*cloud_filtered);
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::RadiusOutlierRemoval(double radius, int min_pts)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::RadiusOutlierRemoval<PointXYZRGBN> rfilter;
+        rfilter.setInputCloud(cloud_);
+        rfilter.setRadiusSearch(radius);
+        rfilter.setMinNeighborsInRadius(min_pts);
+        rfilter.setNegative(negative_);
+        rfilter.filter(*cloud_filtered);
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
     void Filters::ConditionalRemoval(ConditionBase::Ptr con)
     {
         TicToc time;
@@ -78,6 +143,172 @@ namespace ct
             extract.setIndices(bfilter.getRemovedIndices());
             extract.filter(*cloud_filtered);
         }
+
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::GridMinimum(const float resolution)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::GridMinimum<PointXYZRGBN> filter(resolution);
+        filter.setInputCloud(cloud_);
+        filter.setResolution(resolution);
+        filter.setNegative(negative_);
+        filter.filter(*cloud_filtered);
+
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::LocalMaximum(float radius)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::LocalMaximum<PointXYZRGBN> filter;
+        filter.setInputCloud(cloud_);
+        filter.setRadius(radius);
+        filter.setNegative(negative_);
+        filter.filter(*cloud_filtered);
+
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::ShadowPoints(float threshold)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::ShadowPoints<PointXYZRGBN, PointXYZRGBN> rfilter;
+        rfilter.setInputCloud(cloud_);
+        rfilter.setNormals(cloud_);
+        rfilter.setThreshold(threshold);
+        rfilter.setNegative(negative_);
+        rfilter.filter(*cloud_filtered);
+
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::DownSampling(float radius)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::VoxelGrid<PointXYZRGBN> vfilter;
+        vfilter.setInputCloud(cloud_);
+        vfilter.setLeafSize(radius, radius, radius);
+        vfilter.setFilterLimitsNegative(negative_);
+        vfilter.filter(*cloud_filtered);
+
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::UniformSampling(float radius)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::UniformSampling<PointXYZRGBN> sfilter;
+        sfilter.setInputCloud(cloud_);
+        sfilter.setRadiusSearch(radius);
+        sfilter.filter(*cloud_filtered);
+
+        if (negative_)
+        {
+            pcl::ExtractIndices<PointXYZRGBN> extract;
+            extract.setInputCloud(cloud_);
+            extract.setIndices(sfilter.getRemovedIndices());
+            extract.filter(*cloud_filtered);
+        }
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::RandomSampling(int sample, int seed)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::RandomSample<PointXYZRGBN> rfilter;
+        rfilter.setInputCloud(cloud_);
+        rfilter.setSample(sample);
+        rfilter.setSeed(seed);
+        rfilter.setNegative(negative_);
+        rfilter.filter(*cloud_filtered);
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::ReSampling(float radius, int polynomial_order)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
+
+        pcl::MovingLeastSquaresOMP<PointXYZRGBN, PointXYZRGBN> mfilter;
+        mfilter.setInputCloud(cloud_);
+        mfilter.setSearchRadius(radius);
+        if (!cloud_->hasNormals())mfilter.setComputeNormals(true);
+        mfilter.setPolynomialOrder(polynomial_order);
+        mfilter.setSearchMethod(tree);
+        mfilter.setNumberOfThreads(14);
+        mfilter.process(*cloud_filtered);
+
+        emit filterResult(cloud_filtered, time.toc());
+    }
+    
+    void Filters::SamplingSurfaceNormal(int sample, int seed, float ratio)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::SamplingSurfaceNormal<PointXYZRGBN> rfilter;
+        rfilter.setInputCloud(cloud_);
+        rfilter.setSample(sample);
+        rfilter.setSeed(seed);
+        rfilter.setRatio(ratio);
+        rfilter.filter(*cloud_filtered);
+
+        if (negative_)
+        {
+            pcl::ExtractIndices<PointXYZRGBN> extract;
+            extract.setInputCloud(cloud_);
+            extract.setIndices(rfilter.getRemovedIndices());
+            extract.filter(*cloud_filtered);
+        }
+        emit filterResult(cloud_filtered, time.toc());
+    }
+
+    void Filters::NormalSpaceSampling(int sample, int seed, int bin)
+    {
+        TicToc time;
+        time.tic();
+        Cloud::Ptr cloud_filtered(new Cloud);
+        cloud_filtered->setId(cloud_->id());
+
+        pcl::NormalSpaceSampling<PointXYZRGBN, PointXYZRGBN> filter;
+        filter.setInputCloud(cloud_);
+        filter.setNormals(cloud_);
+        filter.setSample(sample);
+        filter.setSeed(seed);
+        filter.setBins(bin, bin, bin);
+        filter.setNegative(negative_);
+        filter.filter(*cloud_filtered);
 
         emit filterResult(cloud_filtered, time.toc());
     }
@@ -161,38 +392,6 @@ namespace ct
         emit filterResult(cloud_filtered, time.toc());
     }
 
-    void Filters::GridMinimum(const float resolution)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::GridMinimum<PointXYZRGBN> filter(resolution);
-        filter.setInputCloud(cloud_);
-        filter.setResolution(resolution);
-        filter.setNegative(negative_);
-        filter.filter(*cloud_filtered);
-
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::LocalMaximum(float radius)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::LocalMaximum<PointXYZRGBN> filter;
-        filter.setInputCloud(cloud_);
-        filter.setRadius(radius);
-        filter.setNegative(negative_);
-        filter.filter(*cloud_filtered);
-
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
     void Filters::MedianFilter(int window_size, float max_allowed_movement)
     {
         TicToc time;
@@ -213,62 +412,6 @@ namespace ct
             extract.setIndices(filter.getRemovedIndices());
             extract.filter(*cloud_filtered);
         }
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::MovingLeastSquares(bool computer_normals, int polynomial_order, float radius)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-        pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
-
-        pcl::MovingLeastSquaresOMP<PointXYZRGBN, PointXYZRGBN> mfilter;
-        mfilter.setInputCloud(cloud_);
-        mfilter.setSearchRadius(radius);
-        mfilter.setComputeNormals(computer_normals);
-        mfilter.setPolynomialOrder(polynomial_order);
-        mfilter.setSearchMethod(tree);
-        mfilter.setNumberOfThreads(14);
-        mfilter.process(*cloud_filtered);
-
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::NormalSpaceSampling(int sample, int seed, int binsx, int binsy, int binsz)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::NormalSpaceSampling<PointXYZRGBN, PointXYZRGBN> filter;
-        filter.setInputCloud(cloud_);
-        filter.setNormals(cloud_);
-        filter.setSample(sample);
-        filter.setSeed(seed);
-        filter.setBins(binsx, binsy, binsz);
-        filter.setNegative(negative_);
-        filter.filter(*cloud_filtered);
-
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::PassThrough(const std::string& field_name, float limit_min,
-                              float limit_max)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::PassThrough<PointXYZRGBN> pfilter;
-        pfilter.setInputCloud(cloud_);
-        pfilter.setFilterFieldName(field_name);
-        pfilter.setFilterLimits(limit_min, limit_max);
-        pfilter.setFilterLimitsNegative(negative_);
-        pfilter.filter(*cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }
 
@@ -317,132 +460,4 @@ namespace ct
 
         emit filterResult(cloud_filtered, time.toc());
     }
-
-    void Filters::RadiusOutlierRemoval(double radius, int min_pts)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::RadiusOutlierRemoval<PointXYZRGBN> rfilter;
-        rfilter.setInputCloud(cloud_);
-        rfilter.setRadiusSearch(radius);
-        rfilter.setMinNeighborsInRadius(min_pts);
-        rfilter.setNegative(negative_);
-        rfilter.filter(*cloud_filtered);
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::RandomSample(int sample, int seed)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::RandomSample<PointXYZRGBN> rfilter;
-        rfilter.setInputCloud(cloud_);
-        rfilter.setSample(sample);
-        rfilter.setSeed(seed);
-        rfilter.setNegative(negative_);
-        rfilter.filter(*cloud_filtered);
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::SamplingSurfaceNormal(int sample, int seed, float ratio)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::SamplingSurfaceNormal<PointXYZRGBN> rfilter;
-        rfilter.setInputCloud(cloud_);
-        rfilter.setSample(sample);
-        rfilter.setSeed(seed);
-        rfilter.setRatio(ratio);
-        rfilter.filter(*cloud_filtered);
-
-        if (negative_)
-        {
-            pcl::ExtractIndices<PointXYZRGBN> extract;
-            extract.setInputCloud(cloud_);
-            extract.setIndices(rfilter.getRemovedIndices());
-            extract.filter(*cloud_filtered);
-        }
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::ShadowPoints(float threshold)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::ShadowPoints<PointXYZRGBN, PointXYZRGBN> rfilter;
-        rfilter.setInputCloud(cloud_);
-        rfilter.setNormals(cloud_);
-        rfilter.setThreshold(threshold);
-        rfilter.setNegative(negative_);
-        rfilter.filter(*cloud_filtered);
-
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::StatisticalOutlierRemoval(int nr_k, double stddev_mult)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::StatisticalOutlierRemoval<PointXYZRGBN> sfilter;
-        sfilter.setInputCloud(cloud_);
-        sfilter.setMeanK(nr_k);
-        sfilter.setStddevMulThresh(stddev_mult);
-        sfilter.setNegative(negative_);
-        sfilter.filter(*cloud_filtered);
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::UniformSampling(double radius)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::UniformSampling<PointXYZRGBN> sfilter;
-        sfilter.setInputCloud(cloud_);
-        sfilter.setRadiusSearch(radius);
-        sfilter.filter(*cloud_filtered);
-
-        if (negative_)
-        {
-            pcl::ExtractIndices<PointXYZRGBN> extract;
-            extract.setInputCloud(cloud_);
-            extract.setIndices(sfilter.getRemovedIndices());
-            extract.filter(*cloud_filtered);
-        }
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
-    void Filters::VoxelGrid(float lx, float ly, float lz)
-    {
-        TicToc time;
-        time.tic();
-        Cloud::Ptr cloud_filtered(new Cloud);
-        cloud_filtered->setId(cloud_->id());
-
-        pcl::VoxelGrid<PointXYZRGBN> vfilter;
-        vfilter.setInputCloud(cloud_);
-        vfilter.setLeafSize(lx, ly, lz);
-        vfilter.setFilterLimitsNegative(negative_);
-        vfilter.filter(*cloud_filtered);
-
-        emit filterResult(cloud_filtered, time.toc());
-    }
-
 } // namespace ct
