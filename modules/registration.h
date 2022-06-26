@@ -26,6 +26,8 @@ namespace ct
     typedef pcl::registration::CorrespondenceEstimationBase<PointXYZRGBN, PointXYZRGBN, float>  CorreEst; /*表示对应估计方法的类*/
     typedef pcl::registration::CorrespondenceRejector                                           CorreRej; /*表示对应拒绝方法的类*/
 
+    typedef pcl::CorrespondencesPtr CorrespondencesPtr;
+
     class CT_EXPORT Registration : public QObject
     {
         Q_OBJECT
@@ -177,8 +179,8 @@ namespace ct
             pcl::registration::CorrespondenceEstimation<Type, Type, float> ce;
             ce.setInputSource(source);
             ce.setInputTarget(target);
-            KdTree<Type>::Ptr target_tree(new KdTree<Type>);
-            KdTree<Type>::Ptr source_tree(new KdTree<Type>);
+            pcl::search::KdTree<Type>::Ptr target_tree(new pcl::search::KdTree<Type>);
+            pcl::search::KdTree<Type>::Ptr source_tree(new pcl::search::KdTree<Type>);
             ce.setSearchMethodSource(source_tree);
             ce.setSearchMethodTarget(target_tree);
             ce.determineCorrespondences(*corr);

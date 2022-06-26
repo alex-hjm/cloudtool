@@ -37,19 +37,19 @@ namespace ct
         using Ptr = std::shared_ptr<FeatureType>;
         using ConstPtr = std::shared_ptr<const FeatureType>;
 
-        PFHFeature::Ptr     pfh;
-        FPFHFeature::Ptr    fpfh;
-        VFHFeature::Ptr     vfh;
-        ESFFeature::Ptr     esf;
-        SC3DFeature::Ptr    sc3d;
-        GASDFeature::Ptr    gasd;
-        CRHFeature::Ptr     crh;
-        GRSDFeature::Ptr    grsd;
-        GASDCFeature::Ptr   gasdc;
-        RSDFeature::Ptr     rsd;
-        SHOTFeature::Ptr    shot;
-        SHOTCFeature::Ptr   shotc;
-        USCFeature::Ptr     usc;
+        PFHFeature::Ptr     pfh = nullptr;
+        FPFHFeature::Ptr    fpfh = nullptr;
+        VFHFeature::Ptr     vfh = nullptr;
+        ESFFeature::Ptr     esf = nullptr;
+        SC3DFeature::Ptr    sc3d = nullptr;
+        GASDFeature::Ptr    gasd = nullptr;
+        CRHFeature::Ptr     crh = nullptr;
+        GRSDFeature::Ptr    grsd = nullptr;
+        GASDCFeature::Ptr   gasdc = nullptr;
+        RSDFeature::Ptr     rsd = nullptr;
+        SHOTFeature::Ptr    shot = nullptr;
+        SHOTCFeature::Ptr   shotc = nullptr;
+        USCFeature::Ptr     usc = nullptr;
     };
 
     class CT_EXPORT Features : public QObject
@@ -255,7 +255,7 @@ namespace ct
          */
         void UniqueShapeContext(const ReferenceFrame::Ptr& lrf, double min_radius,
                                 double pt_radius, double loc_radius);
-                                
+
         /**
          * @brief 局部参考帧估计实现边界感知可重复方向算法
          * @param radius 设置用于估计给定点的板参考框架的 x 轴和 y 轴的点的最大距离。

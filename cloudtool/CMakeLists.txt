@@ -18,6 +18,7 @@ set(Srcs
         tool/sampling.cpp
         tool/descriptor.cpp
         tool/surface.cpp
+        tool/registration.cpp
         )
 
 set(MOC_Hdrs 
@@ -39,6 +40,7 @@ set(MOC_Hdrs
         tool/sampling.h
         tool/descriptor.h
         tool/surface.h
+        tool/registration.h
         )
 
 set(UIs 

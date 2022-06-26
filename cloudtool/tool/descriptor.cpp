@@ -103,7 +103,6 @@ void Descriptor::preview()
         printW("Please select a cloud!");
         return;
     }
-    if (!m_plotter->wasStopped()) m_plotter->close();
     m_plotter.reset(new pcl::visualization::PCLPlotter);
     for (auto& cloud : selected_clouds)
     {

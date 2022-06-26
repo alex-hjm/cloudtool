@@ -162,15 +162,15 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addCorrespondences(const Cloud::Ptr& source_points, const Cloud::Ptr& target_points,
-                                       const pcl::CorrespondencesPtr& correspondences, const QString& id)
-    {
-        if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
-        else
-            m_viewer->updateCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
-        m_viewer->getRenderWindow()->Render();
-    }
+    // void CloudView::addCorrespondences(const Cloud::Ptr& source_points, const Cloud::Ptr& target_points,
+    //                                    const pcl::CorrespondencesPtr& correspondences, const QString& id)
+    // {
+    //     if (!m_viewer->contains(id.toStdString()))
+    //         m_viewer->addCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
+    //     else
+    //         m_viewer->updateCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
+    //     m_viewer->getRenderWindow()->Render();
+    // }
 
     void CloudView::addPolygon(const Cloud::Ptr& cloud, const QString& id, const QColor& rgb)
     {
@@ -666,14 +666,14 @@ namespace ct
 
     void CloudView::showInfo(const QString& text, int level, const QColor& rgb)
     {
-        m_info_level = level;
+        m_info_level = std::max(m_info_level, level);
         std::string id = INFO_TEXT + std::to_string(level);
         if (!m_viewer->contains(id))
-            m_viewer->addText(text.toStdString(), 10, this->height() - 30 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id);
+            m_viewer->addText(text.toStdString(), 10, this->height() - 25 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id);
         else
-            m_viewer->updateText(text.toStdString(), 10, this->height() - 30 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id);
+            m_viewer->updateText(text.toStdString(), 10, this->height() - 25 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id);
         connect(this, &CloudView::sizeChanged, [=](QSize size)
-                { m_viewer->updateText(text.toStdString(), 10, size.height() - 30 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id); });
+                { m_viewer->updateText(text.toStdString(), 10, size.height() - 25 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id); });
         m_viewer->getRenderWindow()->Render();
     }
 
@@ -691,12 +691,11 @@ namespace ct
         if (!m_show_id)
             return;
         if (!m_viewer->contains(INFO_CLOUD_ID))
-            m_viewer->addText(id.toStdString(), this->width() - id.length() * 6 - 20, this->height() - 30, 12, 1, 1, 1, INFO_CLOUD_ID);
+            m_viewer->addText(id.toStdString(), this->width() - id.length() * 6 - 20, this->height() - 25, 12, 1, 1, 1, INFO_CLOUD_ID);
         else
-            m_viewer->updateText(id.toStdString(), this->width() - id.length() * 6 - 20,
-                                 this->height() - 30, 12, 1, 1, 1, INFO_CLOUD_ID);
+            m_viewer->updateText(id.toStdString(), this->width() - id.length() * 6 - 20, this->height() - 25, 12, 1, 1, 1, INFO_CLOUD_ID);
         connect(this, &CloudView::sizeChanged, [=](QSize size)
-                { m_viewer->updateText(id.toStdString(), size.width() - id.length() * 6 - 20, size.height() - 30, 12, 1, 1, 1, INFO_CLOUD_ID); });
+                { m_viewer->updateText(id.toStdString(), size.width() - id.length() * 6 - 20, size.height() - 25, 12, 1, 1, 1, INFO_CLOUD_ID); });
         m_viewer->getRenderWindow()->Render();
     }
 

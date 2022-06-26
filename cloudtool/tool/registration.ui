@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Registration</class>
+ <widget class="QDockWidget" name="Registration">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>260</width>
+    <height>532</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>260</width>
+    <height>532</height>
+   </size>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font: 10pt &quot;微软雅黑&quot;;</string>
+  </property>
+  <property name="windowTitle">
+   <string>Registration</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>3</number>
+       </property>
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>6</number>
+       </property>
+       <property name="bottomMargin">
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QComboBox" name="cbox_type">
+         <item>
+          <property name="text">
+           <string>CorrespondenceEstimation</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>CorrespondenceRejector</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>TransformationEstimation</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Registration</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="stackedWidget_2">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="CorrespondenceEstimation">
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QComboBox" name="cbox_correEst">
+             <item>
+              <property name="text">
+               <string>CorrespondenceEstimationBase</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>CorrespondenceEstimationBackProjection</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>CorrespondenceEstimationNormalShooting</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QStackedWidget" name="stackedWidget_3">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="page">
+              <layout class="QVBoxLayout" name="verticalLayout_11">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>Type: </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cbox_ce_type">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>PointCloud</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>PFHFeature</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>FPFHFeature</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_7">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_2">
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QLabel" name="label_3">
+                   <property name="text">
+                    <string>KSearch: </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spin_k1"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_8">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>301</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_3">
+              <layout class="QVBoxLayout" name="verticalLayout_13">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>KSearch: </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spin_k2_2"/>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>301</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="CorrespondenceRejector"/>
+         <widget class="QWidget" name="TransformationEstimation"/>
+         <widget class="QWidget" name="Registration_">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>3</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QComboBox" name="cbox_registration">
+             <item>
+              <property name="text">
+               <string>IterativeClosestPoint</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>IterativeClosestPointWithNormals</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>IterativeClosestPointNonLinear</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>NormalDistributionsTransform</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>SampleConsensusPrerejective</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>SampleConsensusInitialAlignment</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>FPCSInitialAlignment</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>KFPCSInitialAlignment</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spin_ransac_iterations">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="suffix">
+              <string/>
+             </property>
+             <property name="prefix">
+              <string>RANSACIterations: </string>
+             </property>
+             <property name="maximum">
+              <number>99999</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="dspin_inlier_threshold">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="prefix">
+              <string>InlierThreshold: </string>
+             </property>
+             <property name="decimals">
+              <number>3</number>
+             </property>
+             <property name="maximum">
+              <double>99999.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.050000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="dspin_distance_threshold">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="prefix">
+              <string>DistanceThreshold: </string>
+             </property>
+             <property name="decimals">
+              <number>6</number>
+             </property>
+             <property name="maximum">
+              <double>99999.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>1.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDoubleSpinBox" name="dspin_fitness_epsilon">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="prefix">
+              <string>FitnessEpsilon: </string>
+             </property>
+             <property name="decimals">
+              <number>6</number>
+             </property>
+             <property name="minimum">
+              <double>0.000000000000000</double>
+             </property>
+             <property name="maximum">
+              <double>99999.000000000000000</double>
+             </property>
+             <property name="value">
+              <double>0.000001000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spin_nr_samples">
+             <property name="prefix">
+              <string>NumberOfSample: </string>
+             </property>
+             <property name="maximum">
+              <number>99999</number>
+             </property>
+             <property name="value">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QStackedWidget" name="stackedWidget">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="IterativeClosestPoint">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QCheckBox" name="check_use_reciprocal">
+                 <property name="text">
+                  <string>UseReciprocalCorrespondences</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="check_use_symmetric">
+                 <property name="text">
+                  <string>UseSymmetricObjective</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="check_enforce_samedirection">
+                 <property name="text">
+                  <string>EnforceSameDirectionNormals</string>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="check_continus">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/res.qrc">
+                   <normaloff>:/res/icon/real-time.svg</normaloff>:/res/icon/real-time.svg</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spin_nr_iterations">
+                 <property name="prefix">
+                  <string/>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>99999</number>
+                 </property>
+                 <property name="value">
+                  <number>10</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="NormalDistributionsTransform">
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_resolution">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>Resolution: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_step_size">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>StepSize: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.100000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_outlier_ratio">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>OulierRatio: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.550000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="SampleConsensusPrerejective">
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QComboBox" name="cbox_feature">
+                 <item>
+                  <property name="text">
+                   <string>FPFHFeature</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>SHOTFeature</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spin_k">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="suffix">
+                  <string/>
+                 </property>
+                 <property name="prefix">
+                  <string>CorrRandomness: </string>
+                 </property>
+                 <property name="maximum">
+                  <number>99999</number>
+                 </property>
+                 <property name="value">
+                  <number>2</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_similarity_threshold">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>SimilarityThreshold: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.600000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_inlier_fraction">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>InlierFraction: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_4">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="SampleConsensusInitialAlignment">
+              <layout class="QVBoxLayout" name="verticalLayout_8">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QComboBox" name="cbox_feature2">
+                 <item>
+                  <property name="text">
+                   <string>FPFHFeature</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>SHOTFeature</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spin_k2">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="suffix">
+                  <string/>
+                 </property>
+                 <property name="prefix">
+                  <string>CorrRandomness: </string>
+                 </property>
+                 <property name="maximum">
+                  <number>99999</number>
+                 </property>
+                 <property name="value">
+                  <number>10</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_min_sample_distance">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>MinSampleDistance: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="FPCSInitialAlignment">
+              <layout class="QVBoxLayout" name="verticalLayout_4">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_delta">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>Delta: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_approx_overlap">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>ApproxOverlap: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.500000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_score_threshold">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>ScoreThreshold: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>99999.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="KFPCSInitialAlignment">
+              <layout class="QVBoxLayout" name="verticalLayout_7">
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>Inherit From FPCSInitialAlignment</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_upper_trl_boundary">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>UpperThreshold: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>3</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-1.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>-1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_lower_trl_boundary">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>LowerThreshold: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-1.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>-1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="dspin_lambda">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="prefix">
+                  <string>Lambda: </string>
+                 </property>
+                 <property name="decimals">
+                  <number>4</number>
+                 </property>
+                 <property name="maximum">
+                  <double>99999.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>0.500000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="txt_matrix">
+             <property name="lineWrapMode">
+              <enum>QTextEdit::NoWrap</enum>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'微软雅黑'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="placeholderText">
+              <string>Fitness Score:                 Transformation Matrix:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="styleSheet">
+          <string notr="true">border:2px solid lightgray;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <item>
+          <widget class="QPushButton" name="btn_setTarget">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provide a pointer to the input target &lt;/p&gt;&lt;p&gt;(e.g., the point cloud that we want to align to the target)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>SetTarget</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/res.qrc">
+             <normaloff>:/res/icon/target.svg</normaloff>:/res/icon/target.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_setSource">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Provide a pointer to the input source &lt;/p&gt;&lt;p&gt;(e.g., the point cloud that we want to align to the target)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="text">
+            <string>SetSource</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/res.qrc">
+             <normaloff>:/res/icon/source.svg</normaloff>:/res/icon/source.svg</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="btn_preview">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Preview</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/res.qrc">
+             <normaloff>:/res/icon/preview.svg</normaloff>:/res/icon/preview.svg</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="btn_add">
+           <property name="text">
+            <string>Add</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/res.qrc">
+             <normaloff>:/res/icon/add.svg</normaloff>:/res/icon/add.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_apply">
+           <property name="text">
+            <string>Apply</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/res.qrc">
+             <normaloff>:/res/icon/apply1.svg</normaloff>:/res/icon/apply1.svg</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_reset">
+           <property name="text">
+            <string>Reset</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../resources/res.qrc">
+             <normaloff>:/res/icon/reset.svg</normaloff>:/res/icon/reset.svg</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../resources/res.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>cbox_type</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_2</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>129</x>
+     <y>54</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>129</x>
+     <y>231</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbox_correEst</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stackedWidget_3</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>129</x>
+     <y>79</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>129</x>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

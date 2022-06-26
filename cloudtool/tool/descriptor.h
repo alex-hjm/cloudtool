@@ -31,6 +31,14 @@ public:
     void preview();
     virtual void reset();
 
+    ct::FeatureType::Ptr getDescriptor(const QString& id)
+    {
+        if (m_descriptor_map.find(id) == m_descriptor_map.end())
+            return nullptr;
+        else
+            return m_descriptor_map.find(id)->second;
+    }
+
 signals:
     void PFHEstimation();
     void FPFHEstimation();

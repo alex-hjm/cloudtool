@@ -95,10 +95,18 @@ namespace ct
         /**
          * @brief 添加点对的对应关系
          */
-        void addCorrespondences(const Cloud::Ptr& source_points, const Cloud::Ptr& target_points,
+        template <typename Type>
+        void addCorrespondences(const typename pcl::PointCloud<Type>::ConstPtr& source_points,
+                                const typename pcl::PointCloud<Type>::ConstPtr& target_points,
                                 const pcl::CorrespondencesPtr& correspondences,
-                                const QString& id = "correspondences");
-
+                                const QString& id = "correspondences")
+        {
+            if (!m_viewer->contains(id.toStdString()))
+                m_viewer->addCorrespondences<Type>(source_points, target_points, *correspondences, id.toStdString());
+            else
+                m_viewer->updateCorrespondences<Type>(source_points, target_points, *correspondences, id.toStdString());
+            m_viewer->getRenderWindow()->Render();
+        }
         /**
          * @brief 添加多边形
          */

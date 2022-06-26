@@ -47,7 +47,7 @@ namespace ct
         pcl::search::KdTree<PointXYZRGBN>::Ptr target_tree(new pcl::search::KdTree<PointXYZRGBN>);
         pcl::search::KdTree<PointXYZRGBN>::Ptr source_tree(new pcl::search::KdTree<PointXYZRGBN>);
 
-        pcl::registration::CorrespondenceEstimationBackProjection< PointXYZRGBN, PointXYZRGBN, PointXYZRGBN>cebp;
+        pcl::registration::CorrespondenceEstimationBackProjection<PointXYZRGBN, PointXYZRGBN, PointXYZRGBN>cebp;
         cebp.setInputTarget(target_cloud_);
         cebp.setInputSource(source_cloud_);
         cebp.setSourceNormals(source_cloud_);

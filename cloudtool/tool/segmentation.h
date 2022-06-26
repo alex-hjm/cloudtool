@@ -4,8 +4,8 @@
  * @version 3.0
  * @date 2022-05-10
  */
-#ifndef CT_TOOL_SEGMENTATIONS_H
-#define CT_TOOL_SEGMENTATIONS_H
+#ifndef CT_TOOL_SEGMENTATION_H
+#define CT_TOOL_SEGMENTATION_H
 
 #include "base/customdock.h"
 

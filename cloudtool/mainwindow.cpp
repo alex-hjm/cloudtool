@@ -19,6 +19,7 @@
 #include "tool/sampling.h"
 #include "tool/descriptor.h"
 #include "tool/surface.h"
+#include "tool/registration.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -106,7 +107,7 @@ MainWindow::MainWindow(QWidget* parent)
                 if (ct::getDock<KeyPoints>("KeyPoints"))
                     ct::getDock<KeyPoints>("KeyPoints")->setRangeImage(ct::getDialog<RangeImage>("RangeImage"));
             });
-     connect(ui->actionSegmentation, &QAction::triggered, [=] { this->createLeftDock<Segmentation>("Segmentation"); });
+    connect(ui->actionSegmentation, &QAction::triggered, [=] { this->createLeftDock<Segmentation>("Segmentation"); });
 
     connect(ui->actionCutting, &QAction::triggered, [=] { this->createDialog<Cutting>("Cutting"); });
 
@@ -114,9 +115,21 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->actionSampling, &QAction::triggered, [=] { this->createDialog<Sampling>("Sampling"); });
 
-    connect(ui->actionDescriptor, &QAction::triggered, [=] { this->createLeftDock<Descriptor>("Descriptor"); });
-
     connect(ui->actionSurface, &QAction::triggered, [=] { this->createLeftDock<Surface>("Surface"); });
+
+    connect(ui->actionDescriptor, &QAction::triggered, [=]
+            {
+                this->createLeftDock<Descriptor>("Descriptor");
+                if (ct::getDock<Registration>("Registration"))
+                    ct::getDock<Registration>("Registration")->setDescriptor(ct::getDock<Descriptor>("Descriptor"));
+            });
+
+    connect(ui->actionRegistration, &QAction::triggered, [=]
+            {
+                this->createRightDock<Registration>("Registration");
+                if (ct::getDock<Registration>("Registration"))
+                    ct::getDock<Registration>("Registration")->setDescriptor(ct::getDock<Descriptor>("Descriptor"));
+            });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });

@@ -16,6 +16,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace ct
 {
@@ -58,6 +59,8 @@ namespace ct
     };
 
     static std::unordered_map<QString, CustomDock*> registed_docks;
+    static std::unordered_set<QString> left_label;
+    static std::unordered_set<QString> right_label;
     static std::unordered_map<QString, bool> docks_visible;
 
     /**
@@ -91,10 +94,22 @@ namespace ct
             QObject::connect(registed_docks[label], &QDockWidget::destroyed, [=]
                              { registed_docks[label] = nullptr; });
             parent->addDockWidget(area, registed_docks[label]);
+            if (area == Qt::LeftDockWidgetArea)
+                left_label.insert(label);
+            else
+                right_label.insert(label);
             if (dock == nullptr)
                 for (auto& dock : registed_docks)
                 {
-                    if (dock.first != label && dock.second != nullptr)
+                    //left
+                    if (dock.first != label && (left_label.count(dock.first) > 0) &&
+                        area == Qt::LeftDockWidgetArea && dock.second != nullptr)
+                    {
+                        parent->tabifyDockWidget(dock.second, registed_docks[label]);
+                        break;
+                    }
+                    if (dock.first != label && (right_label.count(dock.first) > 0) &&
+                        area == Qt::RightDockWidgetArea && dock.second != nullptr)
                     {
                         parent->tabifyDockWidget(dock.second, registed_docks[label]);
                         break;
