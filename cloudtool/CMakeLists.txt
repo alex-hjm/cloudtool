@@ -17,6 +17,7 @@ set(Srcs
         tool/boundary.cpp
         tool/sampling.cpp
         tool/descriptor.cpp
+        tool/surface.cpp
         )
 
 set(MOC_Hdrs 
@@ -37,6 +38,7 @@ set(MOC_Hdrs
         tool/boundary.h
         tool/sampling.h
         tool/descriptor.h
+        tool/surface.h
         )
 
 set(UIs 

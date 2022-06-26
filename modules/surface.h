@@ -34,30 +34,9 @@ namespace ct
 
     signals:
 
-        void surfaceResult(const PolygonMesh::Ptr& surface, float time);
+        void surfaceResult(const QString& id, const PolygonMesh::Ptr& surface, float time);
 
     public slots:
-
-        /**
-         * @brief 使用 libqhull 库的 ConcaveHull（alpha 形状）
-         * @param alpha 设置 alpha 值，该值限制生成的船体段的大小（船体越小越详细）
-         * @param value 如果 keep_information_is 设置为
-         * true，则凸包点会保留其他信息，例如 rgb、法线
-         * @param dimensio 设置输入数据的维度，2D 或 3D。
-         */
-        void ConcaveHull(double alpha, bool value, int dimensio);
-
-        /**
-         * @brief ConvexHull 使用 libqhull 库
-         * @param value 如果设置为 true，则调用 qhull 库来计算凸包的总面积和体积
-         * @param dimensio 设置输入数据的维度，2D 或 3D
-         */
-        void ConvexHull(bool value, int dimensio);
-
-        /**
-         * @brief 剪耳三角测量算法
-         */
-        void EarClipping(PolygonMesh::Ptr& surface);
 
         /**
          * @brief 基于局部 2D 投影的 3D 点的贪心三角剖分算法的实现
@@ -84,31 +63,7 @@ namespace ct
          * @param k 仅在使用 k 最近邻搜索而不是查找点联合时才设置此项
          * @param max_binary_search_level 二分搜索用于投影
          */
-        void GridProjection(double resolution, int padding_size, int k,
-                            int max_binary_search_level);
-
-        /**
-         * @brief 行进立方体表面重建算法，使用基于切平面距离的有符号距离函数，由 Hoppe
-         * 等提出
-         * @param iso_level 设置要提取的表面的 iso 级别的方法
-         * @param res_x res_y res_z 设置行进立方体网格分辨率的方法
-         * @param percentage
-         * 设置参数的方法，该参数定义在点云的边界框和网格限制之间的网格内应保留多少可用空间
-         * @param dist_ignore 设置忽略远离点云的体素的距离的方法
-         */
-        void MarchingCubesHoppe(float iso_level, int res_x, int res_y, int res_z,
-                                float percentage, float dist_ignore);
-
-        /**
-         * @brief 行进立方体表面重建算法，使用基于径向基函数的有符号距离函数
-         * @param iso_level 设置要提取的表面的 iso 级别的方法
-         * @param res_x res_y res_z 设置行进立方体网格分辨率的方法
-         * @param percentage
-         * 设置参数的方法，该参数定义在点云的边界框和网格限制之间的网格内应保留多少可用空间
-         * @param epsilon 设置离面点位移值
-         */
-        void MarchingCubesRBF(float iso_level, int res_x, int res_y, int res_z,
-                              float percentage, float epsilon);
+        void GridProjection(double resolution, int padding_size, int k,int max_binary_search_level);
 
         /**
          * @brief 泊松曲面重建算法
@@ -128,6 +83,51 @@ namespace ct
         void Poisson(int depth, int min_depth, float point_weight, float scale,
                      int solver_divide, int iso_divide, float samples_per_node,
                      bool confidence, bool output_polygons, bool manifold);
+
+        /**
+         * @brief 行进立方体表面重建算法，使用基于径向基函数的有符号距离函数
+         * @param iso_level 设置要提取的表面的 iso 级别的方法
+         * @param res_x res_y res_z 设置行进立方体网格分辨率的方法
+         * @param percentage
+         * 设置参数的方法，该参数定义在点云的边界框和网格限制之间的网格内应保留多少可用空间
+         * @param epsilon 设置离面点位移值
+         */
+        void MarchingCubesRBF(float iso_level, int res_x, int res_y, int res_z,
+                              float percentage, float epsilon);
+
+        /**
+         * @brief 行进立方体表面重建算法，使用基于切平面距离的有符号距离函数，由 Hoppe
+         * 等提出
+         * @param iso_level 设置要提取的表面的 iso 级别的方法
+         * @param res_x res_y res_z 设置行进立方体网格分辨率的方法
+         * @param percentage
+         * 设置参数的方法，该参数定义在点云的边界框和网格限制之间的网格内应保留多少可用空间
+         * @param dist_ignore 设置忽略远离点云的体素的距离的方法
+         */
+        void MarchingCubesHoppe(float iso_level, int res_x, int res_y, int res_z,
+                                float percentage, float dist_ignore);
+
+        /**
+         * @brief ConvexHull 使用 libqhull 库
+         * @param value 如果设置为 true，则调用 qhull 库来计算凸包的总面积和体积
+         * @param dimensio 设置输入数据的维度，2D 或 3D
+         */
+        void ConvexHull(bool value, int dimensio);
+        
+        /**
+         * @brief 使用 libqhull 库的 ConcaveHull（alpha 形状）
+         * @param alpha 设置 alpha 值，该值限制生成的船体段的大小（船体越小越详细）
+         * @param value 如果 keep_information_is 设置为 true，则凸包点会保留其他信息，例如 rgb、法线
+         * @param dimensio 设置输入数据的维度，2D 或 3D。
+         */
+        void ConcaveHull(double alpha, bool value, int dimensio);
+
+        /**
+         * @brief 剪耳三角测量算法
+         */
+        void EarClipping(PolygonMesh::Ptr& surface);
+
+
     };
 }  // namespace pca
 

@@ -18,6 +18,7 @@
 #include "tool/boundary.h"
 #include "tool/sampling.h"
 #include "tool/descriptor.h"
+#include "tool/surface.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -114,6 +115,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionSampling, &QAction::triggered, [=] { this->createDialog<Sampling>("Sampling"); });
 
     connect(ui->actionDescriptor, &QAction::triggered, [=] { this->createLeftDock<Descriptor>("Descriptor"); });
+
+    connect(ui->actionSurface, &QAction::triggered, [=] { this->createLeftDock<Surface>("Surface"); });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });
