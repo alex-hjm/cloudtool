@@ -162,15 +162,15 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    // void CloudView::addCorrespondences(const Cloud::Ptr& source_points, const Cloud::Ptr& target_points,
-    //                                    const pcl::CorrespondencesPtr& correspondences, const QString& id)
-    // {
-    //     if (!m_viewer->contains(id.toStdString()))
-    //         m_viewer->addCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
-    //     else
-    //         m_viewer->updateCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
-    //     m_viewer->getRenderWindow()->Render();
-    // }
+    void CloudView::addCorrespondences(const Cloud::Ptr& source_points, const Cloud::Ptr& target_points,
+                                       const pcl::CorrespondencesPtr& correspondences, const QString& id)
+    {
+        if (!m_viewer->contains(id.toStdString()))
+            m_viewer->addCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
+        else
+            m_viewer->updateCorrespondences<PointXYZRGBN>(source_points, target_points, *correspondences, id.toStdString());
+        m_viewer->getRenderWindow()->Render();
+    }
 
     void CloudView::addPolygon(const Cloud::Ptr& cloud, const QString& id, const QColor& rgb)
     {
