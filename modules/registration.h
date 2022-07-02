@@ -34,9 +34,9 @@ namespace ct
     public:
         explicit Registration(QObject* parent = nullptr)
             : QObject(parent),
-            target_cloud_(new Cloud),
-            source_cloud_(new Cloud),
-            corr(new pcl::Correspondences),
+            target_cloud_(nullptr),
+            source_cloud_(nullptr),
+            corr_(nullptr),
             te_(nullptr),
             ce_(nullptr),
             nr_iterations_(10),
@@ -71,17 +71,17 @@ namespace ct
         /**
          * @brief 将新的对应拒绝器添加到列表中
          */
-        void addCorrespondenceRejector(const QString& name, CorreRej::Ptr& cr)
+        void addCorrespondenceRejector(int index, CorreRej::Ptr& cr)
         {
-            cr_map[name] = cr;
+            cr_map[index] = cr;
         }
 
         /**
          * @brief 删除列表中的对应拒绝器
          */
-        void removeCorrespondenceRejector(const QString& name)
+        void removeCorrespondenceRejector(int index)
         {
-            if (cr_map.find(name) != cr_map.end()) cr_map.erase(name);
+            if (cr_map.find(index) != cr_map.end()) cr_map.erase(index);
         }
 
         /**
@@ -141,13 +141,21 @@ namespace ct
             euclidean_fitness_epsilon_ = epsilon;
         }
 
+        /**
+         * @brief 设置输入对应关系
+         */
+        void setInputCorrespondences (const CorrespondencesPtr &corr) 
+        { 
+            corr_ = corr; 
+        };
+
     private:
         Cloud::Ptr target_cloud_;
         Cloud::Ptr source_cloud_;
-        pcl::CorrespondencesPtr corr;
+        pcl::CorrespondencesPtr corr_;
         TransEst::Ptr te_;
         CorreEst::Ptr ce_;
-        std::unordered_map<QString, CorreRej::Ptr> cr_map;
+        std::unordered_map<int, CorreRej::Ptr> cr_map;
         int nr_iterations_;
         int ransac_iterations_;
         double inlier_threshold_;
@@ -160,11 +168,11 @@ namespace ct
 
         void registrationResult(bool success, const Cloud::Ptr& ail_cloud, double score, const Eigen::Matrix4f& matrix, float time);
 
-        void correspondenceEstimationResult(const pcl::CorrespondencesPtr& corr, float time);
+        void correspondenceEstimationResult(const CorrespondencesPtr& corr, float time, const CorreEst::Ptr& ce = nullptr);
 
-        void correspondenceRejectorResult(const pcl::CorrespondencesPtr& corr, float time);
+        void correspondenceRejectorResult(const CorrespondencesPtr& corr, float time, const CorreRej::Ptr& cj = nullptr);
 
-        void transformationEstimationResult(const Eigen::Matrix4f& matrix, float time);
+        void transformationEstimationResult(const Eigen::Matrix4f& matrix, float time, const TransEst::Ptr& te = nullptr);
 
     public:
         /**
@@ -177,6 +185,7 @@ namespace ct
             TicToc time;
             time.tic();
             pcl::registration::CorrespondenceEstimation<Type, Type, float> ce;
+            pcl::CorrespondencesPtr corr(new pcl::Correspondences);
             ce.setInputSource(source);
             ce.setInputTarget(target);
             pcl::search::KdTree<Type>::Ptr target_tree(new pcl::search::KdTree<Type>);
@@ -194,22 +203,22 @@ namespace ct
         template <typename Feature>
         void CorrespondenceRejectorFeatures(const typename pcl::PointCloud<Feature>::Ptr& source,
                                             const typename pcl::PointCloud<Feature>::Ptr& target,
-                                            double thresh_src, double thresh_tar)
+                                            double thresh, const std::string &key)
         {
             TicToc time;
             time.tic();
-            KdTree<PointXYZRGBN>::Ptr target_tree(new KdTree<PointXYZRGBN>);
+            pcl::search::KdTree<Feature>::Ptr target_tree(new pcl::search::KdTree<Feature>);
+            pcl::CorrespondencesPtr corr(new pcl::Correspondences);
 
-            pcl::registration::CorrespondenceRejectorFeatures cj;
-            cj.setSourceFeature<Feature>(source, source_cloud_->id().toStdString());
-            cj.setTargetFeature<Feature>(target, target_cloud_->id().toStdString());
-            cj.setSourceNormals(source_cloud_);
-            cj.setTargetNormals(target_cloud_);
-            cj.setDistanceThreshold(thresh_src, source_cloud_->id().toStdString());
-            cj.setDistanceThreshold(thresh_tar, target_cloud_->id().toStdString());
-            cj.setInputCorrespondences(corr);
-            cj.getCorrespondences(corr);
-            emit correspondenceRejectorResult(corr, time.toc());
+            pcl::registration::CorrespondenceRejectorFeatures::Ptr cj(new pcl::registration::CorrespondenceRejectorFeatures);
+            cj->setSourceFeature<Feature>(source, source_cloud_->id().toStdString());
+            cj->setTargetFeature<Feature>(target, target_cloud_->id().toStdString());
+            //cj.setSourceNormals(source_cloud_);
+            //cj.setTargetNormals(target_cloud_);
+            cj->setDistanceThreshold<Feature>(thresh, key);
+            cj->setInputCorrespondences(corr_);
+            cj->getRemainingCorrespondences(*corr_, *corr);
+            emit correspondenceRejectorResult(corr, time.toc(), cj);
         }
 
         /**
@@ -227,8 +236,8 @@ namespace ct
             TicToc time;
             time.tic();
             Cloud::Ptr ail_cloud(new Cloud);
-            pcl::KdTree<PointXYZRGBN>::Ptr target_tree(new pcl::KdTree<PointXYZRGBN>);
-            pcl::KdTree<PointXYZRGBN>::Ptr source_tree(new pcl::KdTree<PointXYZRGBN>);
+            pcl::search::KdTree<PointXYZRGBN>::Ptr target_tree(new pcl::search::KdTree<PointXYZRGBN>);
+            pcl::search::KdTree<PointXYZRGBN>::Ptr source_tree(new pcl::search::KdTree<PointXYZRGBN>);
             pcl::SampleConsensusInitialAlignment<PointXYZRGBN, PointXYZRGBN, Feature> reg;
 
             reg.setInputTarget(target_cloud_);
@@ -237,9 +246,9 @@ namespace ct
             reg.setTargetFeatures(target);
             reg.setSearchMethodTarget(target_tree);
             reg.setSearchMethodSource(source_tree);
-            reg.setTransformationEstimation(te_);
-            reg.setCorrespondenceEstimation(ce_);
-            for (auto& cj : cr_map) reg.addCorrespondenceRejector(cj->second);
+            if(te_!=nullptr) reg.setTransformationEstimation(te_);
+            if(ce_!=nullptr) reg.setCorrespondenceEstimation(ce_);
+            for (auto& cj : cr_map) reg.addCorrespondenceRejector(cj.second);
             reg.setMaximumIterations(nr_iterations_);
             reg.setRANSACIterations(ransac_iterations_);
             reg.setRANSACOutlierRejectionThreshold(inlier_threshold_);
@@ -273,8 +282,8 @@ namespace ct
             TicToc time;
             time.tic();
             Cloud::Ptr ail_cloud(new Cloud);
-            pcl::KdTree<PointXYZRGBN>::Ptr target_tree(new pcl::KdTree<PointXYZRGBN>);
-            pcl::KdTree<PointXYZRGBN>::Ptr source_tree(new pcl::KdTree<PointXYZRGBN>);
+            pcl::search::KdTree<PointXYZRGBN>::Ptr target_tree(new pcl::search::KdTree<PointXYZRGBN>);
+            pcl::search::KdTree<PointXYZRGBN>::Ptr source_tree(new pcl::search::KdTree<PointXYZRGBN>);
             pcl::SampleConsensusPrerejective<PointXYZRGBN, PointXYZRGBN, Feature> reg;
 
             reg.setInputTarget(target_cloud_);
@@ -283,9 +292,9 @@ namespace ct
             reg.setTargetFeatures(target);
             reg.setSearchMethodTarget(target_tree);
             reg.setSearchMethodSource(source_tree);
-            reg.setTransformationEstimation(te_);
-            reg.setCorrespondenceEstimation(ce_);
-            for (auto& cj : cr_map) reg.addCorrespondenceRejector(cj->second);
+            if(te_!=nullptr) reg.setTransformationEstimation(te_);
+            if(ce_!=nullptr) reg.setCorrespondenceEstimation(ce_);
+            for (auto& cj : cr_map) reg.addCorrespondenceRejector(cj.second);
             reg.setMaximumIterations(nr_iterations_);
             reg.setRANSACIterations(ransac_iterations_);
             reg.setRANSACOutlierRejectionThreshold(inlier_threshold_);
