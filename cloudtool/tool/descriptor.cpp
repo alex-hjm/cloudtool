@@ -37,7 +37,7 @@ Descriptor::Descriptor(QWidget* parent)
     qRegisterMetaType<ct::ReferenceFrame::Ptr>("ReferenceFrame::Ptr &");
     qRegisterMetaType<ct::ReferenceFrame::Ptr>("ReferenceFrame::Ptr");
 
-    connect(ui->btn_preview, &QPushButton::clicked, this, &Descriptor::preview);
+    connect(ui->btn_apply, &QPushButton::clicked, this, &Descriptor::preview);
     connect(ui->btn_reset, &QPushButton::clicked, this, &Descriptor::reset);
 
     m_features = new ct::Features;
@@ -103,7 +103,8 @@ void Descriptor::preview()
         printW("Please select a cloud!");
         return;
     }
-    m_plotter.reset(new pcl::visualization::PCLPlotter);
+    m_plotter->clearPlots();
+    if (ui->check_show_histogram->isChecked()) m_plotter.reset(new pcl::visualization::PCLPlotter);
     for (auto& cloud : selected_clouds)
     {
         if (ui->spin_k->value() == 0 && ui->dspin_r->value() == 0)
@@ -298,9 +299,13 @@ void Descriptor::featureResult(const QString& id, const ct::FeatureType::Ptr& fe
         //m_plotter->addFeatureHistogram(*feature->usc, 1000);
         break;
     }
-    QPoint pos = m_cloudview->mapToGlobal(QPoint((m_cloudview->width() - 640) / 2, (m_cloudview->height() - 200) / 2));
-    m_plotter->setWindowPosition(pos.x(), pos.y());
-    m_plotter->plot();
+    if (ui->check_show_histogram->isChecked())
+    {
+        QPoint pos = m_cloudview->mapToGlobal(QPoint((m_cloudview->width() - 640) / 2, (m_cloudview->height() - 200) / 2));
+        m_plotter->setWindowPosition(pos.x(), pos.y());
+        m_plotter->plot();
+    }
+
 }
 
 void Descriptor::lrfResult(const QString& id, const ct::ReferenceFrame::Ptr& cloud, float time)
