@@ -8,9 +8,7 @@
 #define CT_TOOL_SAMPLING_H
 
 #include "base/customdialog.h"
-
 #include "modules/filters.h"
-
 #include <QThread>
 
 namespace Ui

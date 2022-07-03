@@ -105,8 +105,8 @@ void Cutting::start()
         }
 
         is_picking = true;
-        m_cloudview->setInteractorEnable(false);
         m_cloudtree->setEnabled(false);
+        m_cloudview->setInteractorEnable(false);
 
         for (auto& cloud : selected_clouds)
             m_cloudview->removeShape(cloud->boxId());
@@ -127,11 +127,11 @@ void Cutting::start()
     else
     {
         is_picking = false;
+        m_cloudtree->setEnabled(true);
         disconnect(m_cloudview, &ct::CloudView::mouseLeftPressed, this, &Cutting::mouseLeftPressed);
         disconnect(m_cloudview, &ct::CloudView::mouseLeftReleased, this, &Cutting::mouseLeftReleased);
         disconnect(m_cloudview, &ct::CloudView::mouseRightReleased, this, &Cutting::mouseRightReleased);
         disconnect(m_cloudview, &ct::CloudView::mouseMoved, this, &Cutting::mouseMoved);
-        m_cloudtree->setEnabled(true);
         ui->btn_start->setIcon(QIcon(":/res/icon/start.svg"));
         this->updateInfo(ui->cbox_type->currentIndex());
     }

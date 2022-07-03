@@ -19,6 +19,7 @@ set(Srcs
         tool/descriptor.cpp
         tool/surface.cpp
         tool/registration.cpp
+        tool/pickpoints.cpp
         )
 
 set(MOC_Hdrs 
@@ -41,6 +42,7 @@ set(MOC_Hdrs
         tool/descriptor.h
         tool/surface.h
         tool/registration.h
+        tool/pickpoints.h
         )
 
 set(UIs 

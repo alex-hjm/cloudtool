@@ -143,8 +143,8 @@
     <addaction name="actionRegistration"/>
     <addaction name="actionDescriptor"/>
     <addaction name="actionRecognition"/>
+    <addaction name="actionPickPoints"/>
     <addaction name="actionSurface"/>
-    <addaction name="actionPointPick"/>
     <addaction name="actionCutting"/>
     <addaction name="actionSampling"/>
     <addaction name="actionCorrespondence"/>
@@ -587,7 +587,7 @@
    <addaction name="actionRegistration"/>
    <addaction name="actionRecognition"/>
    <addaction name="actionSurface"/>
-   <addaction name="actionMeasure"/>
+   <addaction name="actionPickPoints"/>
    <addaction name="actionCutting"/>
   </widget>
   <widget class="QToolBar" name="ViewBar">
@@ -921,16 +921,16 @@
     <string>Scale</string>
    </property>
   </action>
-  <action name="actionPointPick">
+  <action name="actionPickPoints">
    <property name="icon">
     <iconset resource="resources/res.qrc">
      <normaloff>:/res/icon/select-points.svg</normaloff>:/res/icon/select-points.svg</iconset>
    </property>
    <property name="text">
-    <string>PointPick</string>
+    <string>PickPoints</string>
    </property>
    <property name="toolTip">
-    <string>PointPick</string>
+    <string>PickPoints</string>
    </property>
   </action>
   <action name="actionScreenShot">

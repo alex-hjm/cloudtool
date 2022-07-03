@@ -8,9 +8,7 @@
 #define CT_TOOL_FILTERS_H
 
 #include "base/customdock.h"
-
 #include "modules/filters.h"
-
 #include <QThread>
 
 namespace Ui

@@ -20,6 +20,7 @@
 #include "tool/descriptor.h"
 #include "tool/surface.h"
 #include "tool/registration.h"
+#include "tool/pickpoints.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -130,6 +131,8 @@ MainWindow::MainWindow(QWidget* parent)
                 if (ct::getDock<Registration>("Registration"))
                     ct::getDock<Registration>("Registration")->setDescriptor(ct::getDock<Descriptor>("Descriptor"));
             });
+
+    connect(ui->actionPickPoints, &QAction::triggered, [=] { this->createDialog<PickPoints>("PickPoints"); });
 
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });
