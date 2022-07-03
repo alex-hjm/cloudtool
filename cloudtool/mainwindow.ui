@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1320</width>
+    <width>1300</width>
     <height>845</height>
    </rect>
   </property>
@@ -18,8 +18,8 @@
   </property>
   <property name="baseSize">
    <size>
-    <width>1254</width>
-    <height>783</height>
+    <width>1300</width>
+    <height>845</height>
    </size>
   </property>
   <property name="acceptDrops">
@@ -88,7 +88,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1320</width>
+     <width>1300</width>
      <height>24</height>
     </rect>
    </property>
@@ -583,12 +583,12 @@
    <addaction name="actionFilters"/>
    <addaction name="actionSampling"/>
    <addaction name="actionSegmentation"/>
-   <addaction name="actionCorrespondence"/>
    <addaction name="actionRegistration"/>
-   <addaction name="actionRecognition"/>
    <addaction name="actionSurface"/>
    <addaction name="actionPickPoints"/>
    <addaction name="actionCutting"/>
+   <addaction name="actionBoundary"/>
+   <addaction name="actionRangeImage"/>
   </widget>
   <widget class="QToolBar" name="ViewBar">
    <property name="windowTitle">
@@ -600,10 +600,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionTopView"/>
+   <addaction name="actionFrontView"/>
+   <addaction name="actionLeftSideView"/>
+   <addaction name="actionBackView"/>
+   <addaction name="actionRightSideView"/>
+   <addaction name="actionBottomView"/>
    <addaction name="actionResetcamera"/>
-   <addaction name="actionBoundary"/>
-   <addaction name="actionRangeImage"/>
-   <addaction name="actionTest"/>
+   <addaction name="actionScreenShot"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
@@ -1153,7 +1157,7 @@
   <action name="actionBoundary">
    <property name="icon">
     <iconset resource="resources/res.qrc">
-     <normaloff>:/res/icon/snap-nodes-cusp.svg</normaloff>:/res/icon/snap-nodes-cusp.svg</iconset>
+     <normaloff>:/res/icon/tool_elliptical_selection.svg</normaloff>:/res/icon/tool_elliptical_selection.svg</iconset>
    </property>
    <property name="text">
     <string>Boundary</string>

@@ -26,6 +26,8 @@
 #include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
+#include <QDateTime>
+#include <QFileDialog>
 
 #include "ui_mainwindow.h"
 
@@ -146,6 +148,7 @@ MainWindow::MainWindow(QWidget* parent)
     ShortcutKey* shortcutKey = new ShortcutKey(this);
     connect(ui->actionAbout, &QAction::triggered, about, &QDialog::show);
     connect(ui->actionShortcutKey, &QAction::triggered, shortcutKey, &QDialog::show);
+    connect(ui->actionScreenShot, &QAction::triggered, this, &MainWindow::saveScreenshot);
 
     this->changeTheme(1);
     ui->progress_bar->close();
@@ -184,6 +187,7 @@ void MainWindow::changeTheme(int index)
 }
 
 void MainWindow::changeLanguage(int index)
+
 {
     switch (index)
     {
@@ -204,6 +208,17 @@ void MainWindow::changeLanguage(int index)
         ui->retranslateUi(this);
         break;
     }
+}
+void MainWindow::saveScreenshot()
+{
+    QString filename = "screenshot" + QDateTime::currentDateTime().toString("-hh-mm-ss");
+    QString filepath = QFileDialog::getSaveFileName(this, tr("Save Screenshot"), filename, "PNG(*.png)");
+    if (filepath.isEmpty()) return;
+    if (filepath.endsWith(".png", Qt::CaseInsensitive))
+        ui->cloudview->saveScreenshot(filepath.toLocal8Bit());
+    else
+        ui->cloudview->saveScreenshot(filepath.append(".png").toLocal8Bit());
+    ui->console->print(ct::LOG_INFO, tr("The screenshot(%1) save done!").arg(filepath));
 }
 
 void MainWindow::moveEvent(QMoveEvent* event)

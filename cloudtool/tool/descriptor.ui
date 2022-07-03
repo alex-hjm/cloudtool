@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>312</height>
+    <height>243</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>260</width>
-    <height>312</height>
+    <height>243</height>
    </size>
   </property>
   <property name="styleSheet">
@@ -214,8 +214,14 @@
        </item>
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>7</number>
          </property>
          <widget class="QWidget" name="PFH"/>
          <widget class="QWidget" name="FPFH"/>
@@ -1011,7 +1017,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>228</width>
+                <width>209</width>
                 <height>173</height>
                </rect>
               </property>
@@ -1467,7 +1473,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>228</width>
+                <width>208</width>
                 <height>75</height>
                </rect>
               </property>
@@ -1611,7 +1617,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>228</width>
+                <width>215</width>
                 <height>148</height>
                </rect>
               </property>
@@ -1804,7 +1810,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>228</width>
+                <width>207</width>
                 <height>100</height>
                </rect>
               </property>

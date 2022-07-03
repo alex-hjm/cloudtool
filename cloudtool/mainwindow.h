@@ -23,6 +23,7 @@ public:
 
     void changeTheme(int);
     void changeLanguage(int);
+    void saveScreenshot();
 
     template <class T>
     void createLeftDock(const QString& label)
