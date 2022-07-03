@@ -51,6 +51,8 @@ set(UIs
         
 set(QRCs resources/res.qrc)     
 
+set(IRCs resources/logo/logo.rc)
+
 find_package(VTK COMPONENTS 
         vtkGUISupportQt
         vtkGUISupportQtOpenGL
@@ -59,7 +61,7 @@ find_package(VTK COMPONENTS
 
 qt5_add_resources(QRC_Srcs ${QRCs})
 
-add_executable(cloudtool  ${Srcs} ${MOC_Hdrs} ${UIs} ${QRC_Srcs})
+add_executable(cloudtool WIN32 ${Srcs} ${MOC_Hdrs} ${UIs} ${QRC_Srcs} ${IRCs})
 
 target_link_libraries(cloudtool PRIVATE ct_base ct_modules Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
 
