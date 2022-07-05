@@ -333,7 +333,7 @@ void Filters::filterResult(const ct::Cloud::Ptr& cloud, float time)
     QString id = cloud->id();
     cloud->setId(id + FILTER_PRE_FLAG);
     m_cloudview->addPointCloud(cloud);
-    m_cloudview->setPointCloudColor(cloud->id(), QColorConstants::Green);
+    m_cloudview->setPointCloudColor(cloud->id(), ct::Color::Green);
     m_cloudview->setPointCloudSize(cloud->id(), cloud->pointSize() + 2);
     m_filter_map[id] = cloud;
     if (!ui->check_refresh->isChecked()) m_cloudtree->closeProgressBar();

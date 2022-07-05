@@ -84,9 +84,9 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addPointCloudFromRangeImage(const pcl::RangeImage::Ptr& image, const QString& id, const QColor& rgb)
+    void CloudView::addPointCloudFromRangeImage(const pcl::RangeImage::Ptr& image, const QString& id, const RGB& rgb)
     {
-        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> range_image_color(image, rgb.red(), rgb.green(), rgb.blue());
+        pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> range_image_color(image, rgb.r, rgb.g, rgb.b);
         if (!m_viewer->contains(id.toStdString()))
             m_viewer->addPointCloud(image, range_image_color, id.toStdString());
         else
@@ -102,23 +102,23 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addText(const QString& text, int xpos, int ypos, const QString& id, int fontsize, const QColor& rgb)
+    void CloudView::addText(const QString& text, int xpos, int ypos, const QString& id, int fontsize, const RGB& rgb)
     {
         if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addText(text.toStdString(), xpos, ypos, fontsize, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addText(text.toStdString(), xpos, ypos, fontsize, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         else
-            m_viewer->updateText(text.toStdString(), xpos, ypos, fontsize, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->updateText(text.toStdString(), xpos, ypos, fontsize, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addText3D(const QString& text, const PointXYZRGBN& position, const QString& id, double textScale, const QColor& rgb)
+    void CloudView::addText3D(const QString& text, const PointXYZRGBN& position, const QString& id, double textScale, const RGB& rgb)
     {
         if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addText3D(text.toStdString(), position, textScale, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addText3D(text.toStdString(), position, textScale, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         else
         {
             m_viewer->removeShape(id.toStdString());
-            m_viewer->addText3D(text.toStdString(), position, textScale, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addText3D(text.toStdString(), position, textScale, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         }
         m_viewer->getRenderWindow()->Render();
     }
@@ -133,8 +133,8 @@ namespace ct
             m_viewer->addPointCloudNormals<PointXYZRGBN>(cloud, level, scale, cloud->normalId().toStdString());
         }
         m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR,
-                                                   cloud->normalColor().redF(), cloud->normalColor().greenF(),
-                                                   cloud->normalColor().blueF(), cloud->normalId().toStdString());
+                                                   cloud->normalColor().rf(), cloud->normalColor().gf(),
+                                                   cloud->normalColor().bf(), cloud->normalId().toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 
@@ -172,48 +172,48 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addPolygon(const Cloud::Ptr& cloud, const QString& id, const QColor& rgb)
+    void CloudView::addPolygon(const Cloud::Ptr& cloud, const QString& id, const RGB& rgb)
     {
         if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addPolygon<PointXYZRGBN>(cloud, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addPolygon<PointXYZRGBN>(cloud, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         else
         {
             m_viewer->removeShape(id.toStdString());
-            m_viewer->addPolygon<PointXYZRGBN>(cloud, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addPolygon<PointXYZRGBN>(cloud, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         }
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addLine(const PointXYZRGBN& pt1, const PointXYZRGBN& pt2, const QString& id, const QColor& rgb)
+    void CloudView::addLine(const PointXYZRGBN& pt1, const PointXYZRGBN& pt2, const QString& id, const RGB& rgb)
     {
         if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addLine(pt1, pt2, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addLine(pt1, pt2, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         else
         {
             m_viewer->removeShape(id.toStdString());
-            m_viewer->addLine(pt1, pt2, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addLine(pt1, pt2, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         }
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addArrow(const PointXYZRGBN& pt1, const PointXYZRGBN& pt2, const QString& id, bool display_length, const QColor& rgb)
+    void CloudView::addArrow(const PointXYZRGBN& pt1, const PointXYZRGBN& pt2, const QString& id, bool display_length, const RGB& rgb)
     {
         if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addArrow(pt1, pt2, rgb.redF(), rgb.greenF(), rgb.blueF(), display_length, id.toStdString());
+            m_viewer->addArrow(pt1, pt2, rgb.rf(), rgb.gf(), rgb.bf(), display_length, id.toStdString());
         else
         {
             m_viewer->removeShape(id.toStdString());
-            m_viewer->addArrow(pt1, pt2, rgb.redF(), rgb.greenF(), rgb.blueF(), display_length, id.toStdString());
+            m_viewer->addArrow(pt1, pt2, rgb.rf(), rgb.gf(), rgb.bf(), display_length, id.toStdString());
             m_viewer->getRenderWindow()->Render();
         }
     }
 
-    void CloudView::addSphere(const PointXYZRGBN& center, double radius, const QString& id, const QColor& rgb)
+    void CloudView::addSphere(const PointXYZRGBN& center, double radius, const QString& id, const RGB& rgb)
     {
         if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addSphere(center, radius, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addSphere(center, radius, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         else
-            m_viewer->updateSphere(center, radius, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->updateSphere(center, radius, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 
@@ -302,14 +302,14 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::addCube(const PointXYZRGBN& min, PointXYZRGBN& max, const QString& id, const QColor& rgb)
+    void CloudView::addCube(const PointXYZRGBN& min, PointXYZRGBN& max, const QString& id, const RGB& rgb)
     {
         if (!m_viewer->contains(id.toStdString()))
-            m_viewer->addCube(min.x, max.x, min.y, max.y, min.z, max.z, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addCube(min.x, max.x, min.y, max.y, min.z, max.z, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         else
         {
             m_viewer->removeShape(id.toStdString());
-            m_viewer->addCube(min.x, max.x, min.y, max.y, min.z, max.z, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            m_viewer->addCube(min.x, max.x, min.y, max.y, min.z, max.z, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         }
         m_viewer->getRenderWindow()->Render();
     }
@@ -342,8 +342,8 @@ namespace ct
         m_viewer->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_REPRESENTATION,
                                               pcl::visualization::PCL_VISUALIZER_REPRESENTATION_WIREFRAME,
                                               cloud->boxId().toStdString());
-        m_viewer->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, cloud->boxColor().redF(),
-                                              cloud->boxColor().greenF(), cloud->boxColor().blueF(), cloud->boxId().toStdString());
+        m_viewer->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, cloud->boxColor().rf(),
+                                              cloud->boxColor().gf(), cloud->boxColor().bf(), cloud->boxId().toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 
@@ -365,14 +365,14 @@ namespace ct
         return PointXY(pos[0], pos[1]);
     }
 
-    void CloudView::addLine2D(const PointXY& start, const PointXY& end, const QString& id, const QColor& rgb)
+    void CloudView::addLine2D(const PointXY& start, const PointXY& end, const QString& id, const RGB& rgb)
     {
         PointXYZRGBN startPoint = this->displayToWorld(start);
         PointXYZRGBN endPoint = this->displayToWorld(end);
         this->addLine(startPoint, endPoint, id, rgb);
     }
 
-    void CloudView::addPolygon2D(const std::vector<PointXY>& points, const QString& id, const QColor& rgb)
+    void CloudView::addPolygon2D(const std::vector<PointXY>& points, const QString& id, const RGB& rgb)
     {
         Cloud::Ptr cloud(new Cloud);
         for (auto& i : points)
@@ -383,7 +383,7 @@ namespace ct
         this->addPolygon(cloud, id, rgb);
     }
 
-    void CloudView::addArrow2D(const PointXY& start, const PointXY& end, const QString& id, const QColor& rgb)
+    void CloudView::addArrow2D(const PointXY& start, const PointXY& end, const QString& id, const RGB& rgb)
     {
         PointXYZRGBN startPoint = this->displayToWorld(start);
         PointXYZRGBN endPoint = this->displayToWorld(end);
@@ -526,17 +526,17 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::setPointCloudColor(const Cloud::Ptr& cloud, const QColor& rgb)
+    void CloudView::setPointCloudColor(const Cloud::Ptr& cloud, const RGB& rgb)
     {
-        pcl::visualization::PointCloudColorHandlerCustom<PointXYZRGBN> color(cloud, rgb.red(), rgb.green(), rgb.blue());
+        pcl::visualization::PointCloudColorHandlerCustom<PointXYZRGBN> color(cloud, rgb.r, rgb.g, rgb.b);
         m_viewer->updatePointCloud(cloud, color, cloud->id().toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::setPointCloudColor(const QString& id, const QColor& rgb)
+    void CloudView::setPointCloudColor(const QString& id, const RGB& rgb)
     {
         m_viewer->setPointCloudRenderingProperties(
-            pcl::visualization::PCL_VISUALIZER_COLOR, rgb.redF(), rgb.greenF(), rgb.blueF(), id.toStdString());
+            pcl::visualization::PCL_VISUALIZER_COLOR, rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 
@@ -569,9 +569,9 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::setBackgroundColor(const QColor& rgb)
+    void CloudView::setBackgroundColor(const RGB& rgb)
     {
-        m_viewer->setBackgroundColor(rgb.redF(), rgb.greenF(), rgb.blueF());
+        m_viewer->setBackgroundColor(rgb.rf(), rgb.gf(), rgb.bf());
         m_viewer->getRenderWindow()->Render();
     }
 
@@ -581,10 +581,10 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::setShapeColor(const QString& shapeid, const QColor& rgb)
+    void CloudView::setShapeColor(const QString& shapeid, const RGB& rgb)
     {
         m_viewer->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR,
-                                              rgb.redF(), rgb.greenF(), rgb.blueF(), shapeid.toStdString());
+                                              rgb.rf(), rgb.gf(), rgb.bf(), shapeid.toStdString());
         m_viewer->getRenderWindow()->Render();
     }
 
@@ -664,16 +664,16 @@ namespace ct
         m_viewer->getRenderWindow()->Render();
     }
 
-    void CloudView::showInfo(const QString& text, int level, const QColor& rgb)
+    void CloudView::showInfo(const QString& text, int level, const RGB& rgb)
     {
         m_info_level = std::max(m_info_level, level);
         std::string id = INFO_TEXT + std::to_string(level);
         if (!m_viewer->contains(id))
-            m_viewer->addText(text.toStdString(), 10, this->height() - 25 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id);
+            m_viewer->addText(text.toStdString(), 10, this->height() - 25 * level, 12, rgb.rf(), rgb.gf(), rgb.bf(), id);
         else
-            m_viewer->updateText(text.toStdString(), 10, this->height() - 25 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id);
+            m_viewer->updateText(text.toStdString(), 10, this->height() - 25 * level, 12, rgb.rf(), rgb.gf(), rgb.bf(), id);
         connect(this, &CloudView::sizeChanged, [=](QSize size)
-                { m_viewer->updateText(text.toStdString(), 10, size.height() - 25 * level, 12, rgb.redF(), rgb.greenF(), rgb.blueF(), id); });
+                { m_viewer->updateText(text.toStdString(), 10, size.height() - 25 * level, 12, rgb.rf(), rgb.gf(), rgb.bf(), id); });
         m_viewer->getRenderWindow()->Render();
     }
 

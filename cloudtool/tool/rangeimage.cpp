@@ -29,7 +29,7 @@ RangeImage::RangeImage(QWidget* parent) :
             {
                 if (checked && !m_cloud->empty())
                 {
-                    m_cloudview->addPointCloudFromRangeImage(m_range_image, RANGE_IMAGE_FLAG, QColorConstants::Green);
+                    m_cloudview->addPointCloudFromRangeImage(m_range_image, RANGE_IMAGE_FLAG, ct::Color::Green);
                     m_cloudview->setPointCloudSize(RANGE_IMAGE_FLAG, m_cloud->pointSize() + 2);
                 }
                 else
@@ -70,7 +70,7 @@ void RangeImage::updateRangeImage(Eigen::Affine3f& viewer_pose)
     ui->qvtkwidget->GetRenderWindow()->Render();
     if (ui->checkBox->isChecked())
     {
-        m_cloudview->addPointCloudFromRangeImage(m_range_image, RANGE_IMAGE_FLAG, QColorConstants::Green);
+        m_cloudview->addPointCloudFromRangeImage(m_range_image, RANGE_IMAGE_FLAG, ct::Color::Green);
         m_cloudview->setPointCloudSize(RANGE_IMAGE_FLAG, m_cloud->pointSize() + 2);
     }
 }
