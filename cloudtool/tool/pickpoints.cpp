@@ -148,15 +148,15 @@ void PickPoints::mouseLeftPressed(const ct::PointXY& pt)
         m_pick_cloud->setId(m_selected_cloud->id() + PICKING_PRE_FLAG);
         m_cloudview->removeShape(ARROW_ID);
         m_cloudview->addPointCloud(m_pick_cloud);
-        m_cloudview->setPointCloudColor(m_pick_cloud, QColorConstants::Red);
+        m_cloudview->setPointCloudColor(m_pick_cloud, ct::Color::Red);
         m_cloudview->setPointCloudSize(m_pick_cloud->id(), m_pick_cloud->pointSize() + 3);
         pick_start = true;
         if (ui->cbox_type->currentIndex() == PICK_TYPE_TWOPOINTS)
             m_cloudview->showInfo(tr("Start Point[%1]: %2, %3, %4").arg(start).arg(start_pt.x, 0, 'g', 3).
-                                  arg(start_pt.y, 0, 'g', 3).arg(start_pt.z, 0, 'g', 3), 3, QColorConstants::Yellow);
+                                  arg(start_pt.y, 0, 'g', 3).arg(start_pt.z, 0, 'g', 3), 3, ct::Color::Yellow);
         else
             m_cloudview->showInfo(tr("Pick Point[%1]: %2, %3, %4").arg(start).arg(start_pt.x, 0, 'g', 3).
-                                  arg(start_pt.y, 0, 'g', 3).arg(start_pt.z, 0, 'g', 3), 3, QColorConstants::Yellow);
+                                  arg(start_pt.y, 0, 'g', 3).arg(start_pt.z, 0, 'g', 3), 3, ct::Color::Yellow);
     }
 }
 
@@ -174,19 +174,19 @@ void PickPoints::mouseLeftReleased(const ct::PointXY& pt)
             m_pick_cloud->push_back(end_pt);
             m_cloudview->removeShape(POLYGONAL_ID);
             m_cloudview->addPointCloud(m_pick_cloud);
-            m_cloudview->setPointCloudColor(m_pick_cloud, QColorConstants::Red);
+            m_cloudview->setPointCloudColor(m_pick_cloud, ct::Color::Red);
             m_cloudview->setPointCloudSize(m_pick_cloud->id(), m_pick_cloud->pointSize() + 3);
             if (ui->cbox_type->currentIndex() == PICK_TYPE_TWOPOINTS)
             {
                 ct::PointXYZRGBN start_pt = m_pick_cloud->points.front();
-                m_cloudview->addArrow(end_pt, start_pt, ARROW_ID, true, QColorConstants::Green);
+                m_cloudview->addArrow(end_pt, start_pt, ARROW_ID, true, ct::Color::Green);
                 float x = start_pt.x - end_pt.x;
                 float y = start_pt.y - end_pt.y;
                 float z = start_pt.z - end_pt.z;
                 float distance = sqrt(x * x + y * y + z * z);
                 m_cloudview->showInfo(tr("End Point[%1]: %2, %3, %4").arg(end).arg(end_pt.x, 0, 'g', 3).
-                                      arg(end_pt.y, 0, 'g', 3).arg(end_pt.z, 0, 'g', 3), 4, QColorConstants::Yellow);
-                m_cloudview->showInfo(tr("Distance: %1").arg(distance, 0, 'g', 3), 5, QColorConstants::Yellow);
+                                      arg(end_pt.y, 0, 'g', 3).arg(end_pt.z, 0, 'g', 3), 4, ct::Color::Yellow);
+                m_cloudview->showInfo(tr("Distance: %1").arg(distance, 0, 'g', 3), 5, ct::Color::Yellow);
                 pick_start = false;
             }
         }
@@ -201,9 +201,9 @@ void PickPoints::mouseRightReleased(const ct::PointXY& pt)
         {
             m_cloudview->removeShape(POLYGONAL_ID);
             m_cloudview->addPointCloud(m_pick_cloud);
-            m_cloudview->setPointCloudColor(m_pick_cloud, QColorConstants::Red);
+            m_cloudview->setPointCloudColor(m_pick_cloud, ct::Color::Red);
             m_cloudview->setPointCloudSize(m_pick_cloud->id(), m_pick_cloud->pointSize() + 3);
-            m_cloudview->addPolygon(m_pick_cloud, POLYGONAL_ID, QColorConstants::Green);
+            m_cloudview->addPolygon(m_pick_cloud, POLYGONAL_ID, ct::Color::Green);
             pick_start = false;
         }
     }
@@ -217,7 +217,7 @@ void PickPoints::mouseMoved(const ct::PointXY& pt)
         if (tmp == -1 || tmp == 1) return;
         ct::Cloud::Ptr tmp_cloud = m_pick_cloud->makeShared();
         tmp_cloud->push_back(m_selected_cloud->points[tmp]);
-        m_cloudview->addPolygon(tmp_cloud, POLYGONAL_ID, QColorConstants::Green);
+        m_cloudview->addPolygon(tmp_cloud, POLYGONAL_ID, ct::Color::Green);
     }
 }
 

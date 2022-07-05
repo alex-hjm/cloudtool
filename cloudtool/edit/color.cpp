@@ -5,8 +5,9 @@
  * @date 2022-05-12
  */
 #include "color.h"
-
 #include "ui_color.h"
+
+#include <QColorDialog>
 
 #define COLOR_POINTCLOUD    (0)
 #define COLOR_BACKGROUNG    (1)
@@ -37,7 +38,7 @@ const QColor colors[5][10] =
 };
 
 Color::Color(QWidget* parent)
-    : CustomDock(parent), ui(new Ui::Color), m_field(""), m_rgb(QColorConstants::White)
+    : CustomDock(parent), ui(new Ui::Color), m_field(""), m_rgb(QColor(255,255,255))
 {
     ui->setupUi(this);
     ui->gridLayout->setSpacing(0);
@@ -55,8 +56,7 @@ Color::Color(QWidget* parent)
                                       "QPushButton:pressed{background-color:lightgray;}"));
                 connect(btn, &QPushButton::clicked, [=]
                         {
-                            QColor color = QColorDialog::getColor(Qt::white, this, tr("select color"));
-                            emit rgb(QColor(color.red(), color.green(), color.blue()));
+                            emit rgb(QColorDialog::getColor(Qt::white, this, tr("select color")));
                         });
             }
             else
@@ -68,8 +68,7 @@ Color::Color(QWidget* parent)
                                    .arg((colors[row][column]).blue()));
                 connect(btn, &QPushButton::clicked, [=]
                         {
-                            QColor color = colors[row][column];
-                            emit rgb(QColor(color.red(), color.green(), color.blue()));
+                            emit rgb(colors[row][column]);
                         });
             }
             ui->gridLayout->addWidget(btn, row, column);
@@ -80,8 +79,8 @@ Color::Color(QWidget* parent)
     connect(ui->btn_z, &QPushButton::clicked, [=] { emit field("z"); });
     connect(ui->btn_apply, &QPushButton::clicked, this, &Color::apply);
     connect(ui->btn_reset, &QPushButton::clicked, this, &Color::reset);
-    connect(this, SIGNAL(rgb(const QColor&)), this, SLOT(setColor(const QColor&)));
-    connect(this, SIGNAL(field(const QString&)), this, SLOT(setColor(const QString&)));
+    connect(this, &Color::rgb, this, &Color::setColorRGB);
+    connect(this, &Color::field, this, &Color::setColorField);
 }
 
 Color::~Color() { delete ui; }
@@ -106,7 +105,7 @@ void Color::apply()
             }
             else
             {
-                cloud->setCloudColor(m_rgb);
+                cloud->setCloudColor({m_rgb.red(),m_rgb.green(),m_rgb.blue()});
                 printI(QString("Apply cloud[id:%1] point color[r:%2, g:%3, b:%4] done.")
                        .arg(cloud->id()).arg(m_rgb.red()).arg(m_rgb.green()).arg(m_rgb.blue()));
             }
@@ -115,12 +114,12 @@ void Color::apply()
         case COLOR_BACKGROUNG:
             break;
         case COLOR_NORMALS:
-            cloud->setNormalColor(m_rgb);
+            cloud->setNormalColor({m_rgb.red(),m_rgb.green(),m_rgb.blue()});
             printI(QString("Apply cloud[id:%1] normals color[r:%2, g:%3, b:%4] done.")
                    .arg(cloud->id()).arg(m_rgb.red()).arg(m_rgb.green()).arg(m_rgb.blue()));
             break;
         case COLOR_BOUNDINGBOX:
-            cloud->setBoxColor(m_rgb);
+            cloud->setBoxColor({m_rgb.red(),m_rgb.green(),m_rgb.blue()});
             printI(QString("Apply cloud[id:%1] box color[r:%2, g:%3, b:%4] done.")
                    .arg(cloud->id()).arg(m_rgb.red()).arg(m_rgb.green()).arg(m_rgb.blue()));
             break;
@@ -130,7 +129,7 @@ void Color::apply()
 
 void Color::reset()
 {
-    m_rgb == QColorConstants::White, m_field = "";
+    m_rgb = QColor(255,255,255), m_field = "";
     for (auto& cloud : m_cloudtree->getSelectedClouds())
     {
         switch (ui->cbox_type->currentIndex())
@@ -153,7 +152,7 @@ void Color::reset()
         m_cloudview->resetBackgroundColor();
 }
 
-void Color::setColor(const QColor& rgb)
+void Color::setColorRGB(const QColor& rgb)
 {
     m_rgb = rgb, m_field = "";
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
@@ -166,27 +165,27 @@ void Color::setColor(const QColor& rgb)
     {
     case COLOR_POINTCLOUD:
         for (auto& cloud : selected_clouds)
-            m_cloudview->setPointCloudColor(cloud, rgb);
+            m_cloudview->setPointCloudColor(cloud, {rgb.red(),rgb.green(),rgb.blue()});
         break;
     case COLOR_BACKGROUNG:
-        m_cloudview->setBackgroundColor(rgb);
+        m_cloudview->setBackgroundColor({rgb.red(),rgb.green(),rgb.blue()});
         break;
     case COLOR_NORMALS:
         for (auto& cloud : selected_clouds)
             if (m_cloudview->contains(cloud->normalId()))
-                m_cloudview->setPointCloudColor(cloud->normalId(), rgb);
+                m_cloudview->setPointCloudColor(cloud->normalId(), {rgb.red(),rgb.green(),rgb.blue()});
         break;
     case COLOR_BOUNDINGBOX:
         for (auto& cloud : selected_clouds)
             if (m_cloudview->contains(cloud->boxId()))
-                m_cloudview->setShapeColor(cloud->boxId(), rgb);
+                m_cloudview->setShapeColor(cloud->boxId(), {rgb.red(),rgb.green(),rgb.blue()});
         break;
     }
 }
 
-void Color::setColor(const QString& field)
+void Color::setColorField(const QString& field)
 {
-    m_field = field, m_rgb = QColorConstants::White;
+    m_field = field, m_rgb = QColor(255,255,255);
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
     if (selected_clouds.empty())
     {

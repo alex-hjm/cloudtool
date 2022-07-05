@@ -196,7 +196,7 @@ void Cutting::cuttingCloud(bool select_in)
         cut_cloud->update();
         m_cloudview->addPointCloud(cut_cloud);
         m_cloudview->addBox(cut_cloud);
-        m_cloudview->setPointCloudColor(cut_cloud->id(), QColorConstants::Green);
+        m_cloudview->setPointCloudColor(cut_cloud->id(), ct::Color::Green);
         m_cloudview->setPointCloudSize(cut_cloud->id(), cut_cloud->pointSize() + 2);
         m_cutting_map[cloud->id()] = cut_cloud;
     }
@@ -227,7 +227,7 @@ void Cutting::mouseLeftReleased(const ct::PointXY& pt)
                 m_pick_points.push_back(p1);
                 m_pick_points.push_back(pt);
                 m_pick_points.push_back(p2);
-                m_cloudview->addPolygon2D(m_pick_points, POLYGONAL_ID, QColorConstants::Green);
+                m_cloudview->addPolygon2D(m_pick_points, POLYGONAL_ID, ct::Color::Green);
                 pick_start = false;
             }
             else
@@ -254,7 +254,7 @@ void Cutting::mouseRightReleased(const ct::PointXY& pt)
         else
         {
             if (m_pick_points.size() == 2)  m_pick_points.push_back(pt);
-            m_cloudview->addPolygon2D(m_pick_points, POLYGONAL_ID, QColorConstants::Green);
+            m_cloudview->addPolygon2D(m_pick_points, POLYGONAL_ID, ct::Color::Green);
             pick_start = false;
         }
     }
@@ -273,13 +273,13 @@ void Cutting::mouseMoved(const ct::PointXY& pt)
             pre_points.push_back(p1);
             pre_points.push_back(pt);
             pre_points.push_back(p2);
-            m_cloudview->addPolygon2D(pre_points, POLYGONAL_ID, QColorConstants::Green);
+            m_cloudview->addPolygon2D(pre_points, POLYGONAL_ID, ct::Color::Green);
         }
         else
         {
             std::vector<ct::PointXY> pre_points = m_pick_points;
             pre_points.push_back(pt);
-            m_cloudview->addPolygon2D(pre_points, POLYGONAL_ID, QColorConstants::Green);
+            m_cloudview->addPolygon2D(pre_points, POLYGONAL_ID, ct::Color::Green);
         }
     }
 }

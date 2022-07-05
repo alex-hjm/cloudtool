@@ -133,7 +133,7 @@ void Boundary::boundaryResult(const ct::Cloud::Ptr& cloud, float time)
     QString id = cloud->id();
     cloud->setId(id + BOUNDARY_PRE_FLAG);
     m_cloudview->addPointCloud(cloud);
-    m_cloudview->setPointCloudColor(cloud->id(), QColorConstants::Green);
+    m_cloudview->setPointCloudColor(cloud->id(), ct::Color::Green);
     m_cloudview->setPointCloudSize(cloud->id(), cloud->pointSize() + 2);
     m_boundary_map[id] = cloud;
     m_cloudtree->closeProgressBar();

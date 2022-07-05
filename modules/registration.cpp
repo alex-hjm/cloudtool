@@ -1,6 +1,5 @@
 #include "modules/registration.h"
 
-#include <pcl/console/time.h>
 #include <pcl/registration/correspondence_estimation_backprojection.h>
 #include <pcl/registration/correspondence_estimation_normal_shooting.h>
 #include <pcl/registration/correspondence_estimation_organized_projection.h>

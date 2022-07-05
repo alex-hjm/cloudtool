@@ -194,6 +194,11 @@ void Normals::updateNormals()
     }
     for (auto& cloud : selected_clouds)
     {
+        if (m_normals_map.find(cloud->id()) == m_normals_map.end())
+        {
+            printW(QString("The cloud[id:%1] has no estimated normals !").arg(cloud->id()));
+            continue;
+        }
         ct::Cloud::Ptr cloud_with_normals = m_normals_map.find(cloud->id())->second;
         m_cloudview->addPointCloudNormals(cloud_with_normals, ui->spin_level->value(), ui->dspin_scale->value());
     }

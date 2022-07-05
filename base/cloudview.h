@@ -56,7 +56,7 @@ namespace ct
         /**
          * @brief 从深度图中添加点云
          */
-        void addPointCloudFromRangeImage(const pcl::RangeImage::Ptr& image, const QString& id, const QColor& rgb = QColor(255, 255, 255));
+        void addPointCloudFromRangeImage(const pcl::RangeImage::Ptr& image, const QString& id, const RGB& rgb = Color::White);
 
         /**
          * @brief 添加坐标系
@@ -67,13 +67,13 @@ namespace ct
          * @brief 添加文本
          */
         void addText(const QString& text, int xpos, int ypos,
-                     const QString& id = "text", int fontsize = 11, const QColor& rgb = QColor(255, 255, 255));
+                     const QString& id = "text", int fontsize = 11, const RGB& rgb = Color::White);
 
         /**
          * @brief 添加3D文本
          */
         void addText3D(const QString& text, const PointXYZRGBN& position,
-                       const QString& id = "text3d", double textScale = 10, const QColor& rgb = QColor(255, 255, 255));
+                       const QString& id = "text3d", double textScale = 10, const RGB& rgb = Color::White);
 
         /**
          * @brief 添加点云法线
@@ -101,25 +101,25 @@ namespace ct
          * @brief 添加多边形
          */
         void addPolygon(const Cloud::Ptr& cloud,
-                        const QString& id = "polygon", const QColor& rgb = QColor(255, 255, 255));
+                        const QString& id = "polygon", const RGB& rgb = Color::White);
 
         /**
          * @brief 添加线段
          */
         void addLine(const PointXYZRGBN& pt1, const PointXYZRGBN& pt2,
-                     const QString& id = "line", const QColor& rgb = QColor(255, 255, 255));
+                     const QString& id = "line", const RGB& rgb = Color::White);
 
         /**
          * @brief 添加箭头
          */
         void addArrow(const PointXYZRGBN& pt1, const PointXYZRGBN& pt2,
-                      const QString& id = "arrow", bool display_length = false, const QColor& rgb = QColor(255, 255, 255));
+                      const QString& id = "arrow", bool display_length = false, const RGB& rgb = Color::White);
 
         /**
          * @brief 添加球体
          */
         void addSphere(const PointXYZRGBN& center, double radius,
-                       const QString& id = "sphere", const QColor& rgb = QColor(255, 255, 255));
+                       const QString& id = "sphere", const RGB& rgb = Color::White);
 
         /**
          * @brief 添加圆柱体
@@ -167,7 +167,7 @@ namespace ct
          * @brief 添加立方体
          */
         void addCube(const PointXYZRGBN& min, PointXYZRGBN& max,
-                     const QString& id = "cude", const QColor& rgb = QColor(255, 255, 255));
+                     const QString& id = "cude", const RGB& rgb = Color::White);
 
         /**
          * @brief 添加立方体
@@ -195,19 +195,19 @@ namespace ct
          * @brief 添加相对屏幕的2D线段 -
          */
         void addLine2D(const PointXY& start, const PointXY& end,
-                       const QString& id = "line", const QColor& rgb = QColor(255, 255, 255));
+                       const QString& id = "line", const RGB& rgb = Color::White);
 
         /**
          * @brief 添加相对屏幕的2D多边形
          */
         void addPolygon2D(const std::vector<PointXY>& points,
-                          const QString& id = "polyline", const QColor& rgb = QColor(255, 255, 255));
+                          const QString& id = "polyline", const RGB& rgb = Color::White);
 
         /**
          * @brief 添加相对屏幕的2D箭头
          */
         void addArrow2D(const PointXY& start, const PointXY& end,
-                        const QString& id = "arrow", const QColor& rgb = QColor(255, 255, 255));
+                        const QString& id = "arrow", const RGB& rgb = Color::White);
 
         // point pick
         /**
@@ -300,12 +300,12 @@ namespace ct
         /**
          * @brief 设置点云颜色 (rgb)
          */
-        void setPointCloudColor(const Cloud::Ptr& cloud, const QColor& rgb = QColor(255, 255, 255));
+        void setPointCloudColor(const Cloud::Ptr& cloud, const RGB& rgb = Color::White);
 
         /**
          * @brief 设置点云颜色  (rgb)
          */
-        void setPointCloudColor(const QString& id, const QColor& rgb = QColor(255, 255, 255));
+        void setPointCloudColor(const QString& id, const RGB& rgb = Color::White);
 
         /**
          * @brief 设置点云颜色  (维度)
@@ -330,7 +330,7 @@ namespace ct
         /**
          * @brief 设置背景颜色
          */
-        void setBackgroundColor(const QColor& rgb = QColor(255, 255, 255));
+        void setBackgroundColor(const RGB& rgb = Color::White);
 
         /**
          * @brief 重置背景颜色
@@ -340,7 +340,7 @@ namespace ct
         /**
          * @brief 设置模型颜色
          */
-        void setShapeColor(const QString& shapeid, const QColor& rgb = QColor(255, 255, 255));
+        void setShapeColor(const QString& shapeid, const RGB& rgb = Color::White);
 
         /**
          * @brief 设置模型点大小
@@ -489,7 +489,7 @@ namespace ct
          * @brief 显示信息
          * @param level 信息位置 1-10
          */
-        void showInfo(const QString& text, int level, const QColor& rgb = QColor(255, 255, 255));
+        void showInfo(const QString& text, int level, const RGB& rgb = Color::White);
         /**
          * @brief 清除信息
          */

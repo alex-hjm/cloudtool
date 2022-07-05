@@ -76,14 +76,14 @@ void BoundingBox::preview()
         {
             box = ct::Features::boundingBoxAABB(cloud);
             m_cloudview->addCube(box, cloud->boxId());
-            m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::Red);
+            m_cloudview->setShapeColor(cloud->boxId(), ct::Color::Red);
             m_cloudview->showInfo("Axis-Aligned Bounding Box", 1);
         }
         else
         {
             box = ct::Features::boundingBoxOBB(cloud);
             m_cloudview->addCube(box, cloud->boxId());
-            m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::Green);
+            m_cloudview->setShapeColor(cloud->boxId(), ct::Color::Green);
             m_cloudview->showInfo("Oriented Bounding Box", 1);
         }
         m_cloudview->setShapeRepersentation(cloud->boxId(), m_box_type);
@@ -169,7 +169,7 @@ void BoundingBox::adjustBox(float r, float p, float y)
         Eigen::Affine3f affine = ct::getTransformation(cloud->center()[0], cloud->center()[1], cloud->center()[2], r, p, y);
         ct::Box box = ct::Features::boundingBoxAdjust(cloud, affine.inverse());
         m_cloudview->addCube(box, cloud->boxId());
-        m_cloudview->setShapeColor(cloud->boxId(), QColorConstants::Blue);
+        m_cloudview->setShapeColor(cloud->boxId(), ct::Color::Blue);
         m_cloudview->setShapeRepersentation(cloud->boxId(), m_box_type);
         switch (m_box_type)
         {

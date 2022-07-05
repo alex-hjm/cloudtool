@@ -159,7 +159,7 @@ void Registration::setTarget()
         return;
     }
     m_cloudview->removeShape(m_target_cloud->boxId());
-    m_cloudview->setPointCloudColor(m_target_cloud, QColorConstants::Red);
+    m_cloudview->setPointCloudColor(m_target_cloud, ct::Color::Red);
     m_cloudview->showInfo("Target Cloud(Red): " + m_target_cloud->id(), 1);
     if (m_source_cloud)
     {
@@ -184,7 +184,7 @@ void Registration::setSource()
         return;
     }
     m_cloudview->removeShape(m_source_cloud->boxId());
-    m_cloudview->setPointCloudColor(m_source_cloud, QColorConstants::Green);
+    m_cloudview->setPointCloudColor(m_source_cloud, ct::Color::Green);
     m_cloudview->showInfo("Source Cloud(Green): " + m_source_cloud->id(), 2);
     if (m_target_cloud)
     {
@@ -647,7 +647,7 @@ void Registration::transformationEstimationResult(const Eigen::Matrix4f& matrix,
     cloud->setId(m_source_cloud->id() + REG_TRANS_PRE_FLAG);
     m_cloudview->addPointCloud(cloud);
     m_cloudview->setPointCloudSize(cloud->id(), cloud->pointSize() + 2);
-    m_cloudview->setPointCloudColor(cloud->id(), QColorConstants::Blue);
+    m_cloudview->setPointCloudColor(cloud->id(), ct::Color::Blue);
     m_te = te;
 }
 
@@ -663,7 +663,7 @@ void Registration::registrationResult(bool success, const ct::Cloud::Ptr& ail_cl
     ail_cloud->setId(m_source_cloud->id() + REG_ALIGN_PRE_FLAG);
     m_cloudview->addPointCloud(ail_cloud);
     m_cloudview->setPointCloudSize(ail_cloud->id(), ail_cloud->pointSize() + 2);
-    m_cloudview->setPointCloudColor(ail_cloud->id(), QColorConstants::Blue);
+    m_cloudview->setPointCloudColor(ail_cloud->id(), ct::Color::Blue);
     ui->txt_matrix->clear();
     ui->txt_matrix->append(tr("Fitness Score: %1 ").arg(score));
     ui->txt_matrix->append(tr("Transformation Matrix:"));

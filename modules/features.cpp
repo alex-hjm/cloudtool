@@ -9,6 +9,7 @@
 #include <pcl/console/time.h>
 #include <pcl/features/boundary.h>
 
+#ifdef __WIN32__
 #include <pcl/features/impl/3dsc.hpp>
 #include <pcl/features/impl/board.hpp>
 #include <pcl/features/impl/crh.hpp>
@@ -30,6 +31,7 @@
 #include <pcl/features/impl/shot_omp.hpp>
 #include <pcl/features/impl/usc.hpp>
 #include <pcl/features/impl/vfh.hpp>
+#endif
 
 namespace ct
 {

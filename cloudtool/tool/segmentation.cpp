@@ -286,7 +286,7 @@ void Segmentation::segmentationResult(const QString& id, const std::vector<ct::C
         if (cloud[i]->points.size() <= 0)continue;
         cloud[i]->setId(id + SEG_PRE_FLAG + QString::number(i));
         m_cloudview->addPointCloud(cloud[i]);
-        m_cloudview->setPointCloudColor(cloud[i]->id(), QColor(rand() % 256, rand() % 256, rand() % 256));
+        m_cloudview->setPointCloudColor(cloud[i]->id(), {rand() % 256, rand() % 256, rand() % 256});
         m_cloudview->setPointCloudSize(cloud[i]->id(), cloud[i]->pointSize() + 2);
     }
     m_segmentation_map[id] = cloud;

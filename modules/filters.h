@@ -16,6 +16,7 @@
 #include <pcl/filters/conditional_removal.h>
 #include <pcl/surface/mls.h>
 
+#ifdef __WIN32__
 #include <pcl/sample_consensus/impl/sac_model_circle.hpp>
 #include <pcl/sample_consensus/impl/sac_model_cylinder.hpp>
 #include <pcl/sample_consensus/impl/sac_model_cone.hpp>
@@ -28,6 +29,7 @@
 #include <pcl/sample_consensus/impl/sac_model_perpendicular_plane.hpp>
 #include <pcl/sample_consensus/impl/sac_model_plane.hpp>
 #include <pcl/sample_consensus/impl/sac_model_sphere.hpp>
+#endif
 
 namespace ct
 {

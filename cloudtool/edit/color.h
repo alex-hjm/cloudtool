@@ -7,8 +7,6 @@
 #ifndef CT_EDIT_COLORS_H
 #define CT_EDIT_COLORS_H
 
-#include <QColorDialog>
-
 #include "base/customdock.h"
 
 namespace Ui
@@ -32,8 +30,8 @@ signals:
     void field(const QString& field);
 
 public slots:
-    void setColor(const QColor& rgb);
-    void setColor(const QString& field);
+    void setColorRGB(const QColor& rgb);
+    void setColorField(const QString& field);
 
 private:
     Ui::Color* ui;

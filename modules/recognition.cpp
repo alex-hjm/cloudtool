@@ -6,11 +6,13 @@
  */
 #include "modules/recognition.h"
 
+#ifdef __WIN32__
 #include <pcl/features/impl/board.hpp>
 #include <pcl/features/impl/normal_3d.hpp>
 #include <pcl/features/impl/normal_3d_omp.hpp>
 #include <pcl/recognition/impl/cg/geometric_consistency.hpp>
 #include <pcl/recognition/impl/cg/hough_3d.hpp>
+#endif
 
 namespace ct
 {

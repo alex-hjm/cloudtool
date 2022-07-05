@@ -14,10 +14,10 @@
 
 namespace ct
 {
-    void Cloud::setCloudColor(const QColor& rgb)
+    void Cloud::setCloudColor(const RGB& rgb)
     {
         std::uint32_t rgb_ =
-            ((std::uint32_t)rgb.red() << 16 | (std::uint32_t)rgb.green() << 8 | (std::uint32_t)rgb.blue());
+            ((std::uint32_t)rgb.r << 16 | (std::uint32_t)rgb.g << 8 | (std::uint32_t)rgb.b);
         for (auto& i : points) i.rgb = *reinterpret_cast<float*>(&rgb_);
     }
 
