@@ -148,6 +148,7 @@ void Normals::apply()
         ct::Cloud::Ptr new_cloud = m_normals_map.find(cloud->id())->second;
         m_cloudview->removePointCloud(new_cloud->normalId());
         m_cloudtree->updateCloud(cloud, new_cloud);
+        m_cloudtree->setCloudSelected(cloud,true);
         m_normals_map.erase(cloud->id());
         printI(QString("Apply cloud[id:%1] estimated normals done.").arg(cloud->id()));
     }
@@ -194,6 +195,11 @@ void Normals::updateNormals()
     }
     for (auto& cloud : selected_clouds)
     {
+        if (m_normals_map.find(cloud->id()) == m_normals_map.end())
+        {
+            printW(QString("The cloud[id:%1] has no estimated normals !").arg(cloud->id()));
+            continue;
+        }
         ct::Cloud::Ptr cloud_with_normals = m_normals_map.find(cloud->id())->second;
         m_cloudview->addPointCloudNormals(cloud_with_normals, ui->spin_level->value(), ui->dspin_scale->value());
     }
