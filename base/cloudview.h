@@ -611,7 +611,7 @@ namespace ct
 
     signals:
         void dropFilePath(const QStringList& filepath);
-        void viewerPose(Eigen::Affine3f&);
+        void viewerPose(Eigen::Affine3f);
         void sizeChanged(const QSize& size);
         void posChanged(const QPoint& pos);
         void mouseLeftPressed(const PointXY& pt);

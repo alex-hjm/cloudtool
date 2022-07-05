@@ -45,12 +45,12 @@ namespace ct
     {
     public:
         Cloud() : m_id("cloud"),
+            m_box_rgb(QColorConstants::White),
+            m_normals_rgb(QColorConstants::White),
             m_type(CLOUD_TYPE_XYZ),
             m_point_size(1),
             m_opacity(1.0),
-            m_resolution(0.0),
-            m_box_rgb(QColorConstants::White),
-            m_normals_rgb(QColorConstants::White)
+            m_resolution(0.0)
         {}
 
         Cloud(const Cloud& cloud, const Indices& indices)

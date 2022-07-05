@@ -33,7 +33,7 @@ public:
     ct::RangeImage::Ptr getRangeImage() { return m_range_image; }
 
 public slots:
-    void updateRangeImage(Eigen::Affine3f&);
+    void updateRangeImage(Eigen::Affine3f);
 
 private:
     Ui::RangeImage* ui;

@@ -43,8 +43,8 @@ namespace ct
 
     CloudView::CloudView(QWidget* parent)
         : QVTKOpenGLNativeWidget(parent),
-        m_info_level(0),
         m_show_id(true),
+        m_info_level(0),
         m_last_id(""),
         m_render(vtkSmartPointer<vtkRenderer>::New()),
         m_renderwindow(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New()),

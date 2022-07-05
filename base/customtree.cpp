@@ -9,10 +9,10 @@
 namespace ct
 {
     CustomTree::CustomTree(QWidget* parent) : QTreeWidget(parent),
-        m_progress_bar(nullptr),
-        m_table(nullptr),
+        m_cloudview(nullptr),
         m_console(nullptr),
-        m_cloudview(nullptr)
+        m_table(nullptr),
+        m_progress_bar(nullptr)
     {
         this->setSelectionMode(QAbstractItemView::ExtendedSelection);
         connect(this, &CustomTree::itemSelectionChanged, this, &CustomTree::itemSelectionChangedEvent);
