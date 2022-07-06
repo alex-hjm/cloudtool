@@ -89,7 +89,11 @@ namespace ct
 
     bool getTransformation(const QString& text, Eigen::Affine3f& t)
     {
+#if (QT_VERSION <= QT_VERSION_CHECK(5,14,0))
+        QStringList valuesStr = text.simplified().split(QRegExp(",|\\s+"), QString::SkipEmptyParts);
+#else
         QStringList valuesStr = text.simplified().split(QRegExp(",|\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
+#endif
         if (valuesStr.size() == MATRIX_SIZE)
         {
             Eigen::Matrix4f mat;

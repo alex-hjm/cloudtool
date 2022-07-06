@@ -16,7 +16,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QResizeEvent>
-#include <unordered_map>
+#include <map>
 
 namespace ct
 {
@@ -68,8 +68,8 @@ namespace ct
         Console* m_console;
     };
 
-    static std::unordered_map<QString, CustomDialog*> registed_dialogs;
-    static std::unordered_map<QString, bool> dialogs_visible;
+    static std::map<QString, CustomDialog*> registed_dialogs;
+    static std::map<QString, bool> dialogs_visible;
 
     /**
      * @brief 创建弹出窗口

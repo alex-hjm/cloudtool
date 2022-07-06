@@ -15,8 +15,8 @@
 #include <QDockWidget>
 #include <QMainWindow>
 #include <QPushButton>
-#include <unordered_map>
-#include <unordered_set>
+#include <map>
+#include <set>
 
 namespace ct
 {
@@ -58,10 +58,10 @@ namespace ct
         Console* m_console;
     };
 
-    static std::unordered_map<QString, CustomDock*> registed_docks;
-    static std::unordered_set<QString> left_label;
-    static std::unordered_set<QString> right_label;
-    static std::unordered_map<QString, bool> docks_visible;
+    static std::map<QString, CustomDock*> registed_docks;
+    static std::set<QString> left_label;
+    static std::set<QString> right_label;
+    static std::map<QString, bool> docks_visible;
 
     /**
      * @brief 创建停靠窗口
