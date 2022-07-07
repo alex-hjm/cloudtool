@@ -50,7 +50,7 @@ namespace ct
         pfilter.setInputCloud(cloud_);
         pfilter.setFilterFieldName(field_name);
         pfilter.setFilterLimits(limit_min, limit_max);
-        pfilter.setFilterLimitsNegative(negative_);
+        pfilter.setNegative(negative_);
         pfilter.filter(*cloud_filtered);
         emit filterResult(cloud_filtered, time.toc());
     }
@@ -260,7 +260,7 @@ namespace ct
         cloud_filtered->setId(cloud_->id());
         pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
 
-        pcl::MovingLeastSquaresOMP<PointXYZRGBN, PointXYZRGBN> mfilter;
+        pcl::MovingLeastSquares<PointXYZRGBN, PointXYZRGBN> mfilter;
         mfilter.setInputCloud(cloud_);
         mfilter.setSearchRadius(radius);
         if (!cloud_->hasNormals())mfilter.setComputeNormals(true);

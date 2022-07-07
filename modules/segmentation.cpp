@@ -16,7 +16,6 @@
 #include <pcl/segmentation/supervoxel_clustering.h>
 #include <pcl/segmentation/min_cut_segmentation.h>
 
-#ifdef __WIN32__
 #include <pcl/segmentation/impl/progressive_morphological_filter.hpp>
 #include <pcl/features/impl/don.hpp>
 #include <pcl/features/impl/normal_3d.hpp>
@@ -29,7 +28,6 @@
 #include <pcl/segmentation/impl/sac_segmentation.hpp>
 #include <pcl/segmentation/impl/seeded_hue_segmentation.hpp>
 #include <pcl/segmentation/impl/segment_differences.hpp>
-#endif
 
 namespace ct
 {
@@ -355,7 +353,7 @@ namespace ct
     }
 
     void Segmentation::MorphologicalFilter(int max_window_size, float slope, float max_distance, float initial_distance,
-                                           float cell_size, float base, bool negative)
+                                           float cell_size, float base)
     {
         TicToc time;
         time.tic();

@@ -193,7 +193,7 @@ void PickPoints::mouseLeftReleased(const ct::PointXY& pt)
     }
 }
 
-void PickPoints::mouseRightReleased(const ct::PointXY& pt)
+void PickPoints::mouseRightReleased(const ct::PointXY&)
 {
     if (pick_start)
     {

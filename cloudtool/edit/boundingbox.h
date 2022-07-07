@@ -36,7 +36,7 @@ public slots:
 private:
     Ui::BoundingBox* ui;
     int m_box_type;
-    std::unordered_map<QString, ct::Box> m_box_map;
+    std::map<QString, ct::Box> m_box_map;
 };
 
 #endif // CT_EDIT_BOUNDINGBOX_H

@@ -7,9 +7,6 @@
 #include "base/cloud.h"
 #include "base/common.h"
 
-#include <pcl/common/common.h>
-#include <pcl/common/eigen.h>
-#include <pcl/common/transforms.h>
 #include <pcl/search/kdtree.h>
 
 namespace ct

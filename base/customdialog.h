@@ -40,6 +40,8 @@ namespace ct
 
         virtual void deinit() {}
 
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
     signals:
         void sizeChanged(const QSize&);
 

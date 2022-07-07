@@ -51,7 +51,7 @@ private:
     Ui::Filters* ui;
     QThread m_thread;
     ct::Filters* m_filters;
-    std::unordered_map<QString, ct::Cloud::Ptr> m_filter_map;
+    std::map<QString, ct::Cloud::Ptr> m_filter_map;
 };
 
 #endif  // CT_TOOL_FILTERS_H

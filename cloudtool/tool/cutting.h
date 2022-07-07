@@ -46,7 +46,7 @@ private:
     bool is_picking;
     bool pick_start;
     std::vector<ct::PointXY> m_pick_points;
-    std::unordered_map<QString, ct::Cloud::Ptr> m_cutting_map;
+    std::map<QString, ct::Cloud::Ptr> m_cutting_map;
 };
 
 #endif // CUTTING_H

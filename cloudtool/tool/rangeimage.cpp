@@ -41,7 +41,7 @@ RangeImage::~RangeImage() { delete ui; }
 
 void RangeImage::init() { connect(m_cloudview, &ct::CloudView::viewerPose, this, &RangeImage::updateRangeImage); }
 
-void RangeImage::updateRangeImage(Eigen::Affine3f& viewer_pose)
+void RangeImage::updateRangeImage(Eigen::Affine3f viewer_pose)
 {
     std::vector<ct::Cloud::Ptr> selected_clouds = m_cloudtree->getSelectedClouds();
     if (selected_clouds.empty())

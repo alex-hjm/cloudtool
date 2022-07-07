@@ -35,7 +35,7 @@ public slots:
 private:
     Ui::Transformation* ui;
     Eigen::Affine3f m_affine;
-    std::unordered_map<QString, Eigen::Affine3f> m_trans_map;
+    std::map<QString, Eigen::Affine3f> m_trans_map;
 };
 
 #endif  // CT_EDIT_TRANSFORMATION_H

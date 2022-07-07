@@ -97,8 +97,8 @@ private:
     ct::CorrespondencesPtr m_corr;
     ct::CorreEst::Ptr m_ce;
     ct::TransEst::Ptr m_te;
-    std::unordered_map<int, ct::CorreRej::Ptr> m_cr_map;
-    std::unordered_map<QString, ct::Cloud::Ptr> m_reg_map;
+    std::map<int, ct::CorreRej::Ptr> m_cr_map;
+    std::map<QString, ct::Cloud::Ptr> m_reg_map;
 };
 
 #endif // REGISTRATIONS_H

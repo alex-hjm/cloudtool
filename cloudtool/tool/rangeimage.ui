@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>122</width>
-    <height>41</height>
+    <height>42</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,7 +72,7 @@
   <customwidget>
    <class>QVTKOpenGLWidget</class>
    <extends>QWidget</extends>
-   <header>qvtkopenglwidget.h</header>
+   <header>QVTKOpenGLWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

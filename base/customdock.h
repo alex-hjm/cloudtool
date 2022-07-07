@@ -40,6 +40,8 @@ namespace ct
 
         virtual void deinit() {}
 
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
     protected:
         void printI(const QString& message) { m_console->print(LOG_INFO, message); }
         void printW(const QString& message) { m_console->print(LOG_WARNING, message); }

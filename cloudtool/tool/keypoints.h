@@ -49,7 +49,7 @@ private:
     QThread m_thread;
     RangeImage* m_rangeimage;
     ct::Keypoints* m_keypoints;
-    std::unordered_map<QString, ct::Cloud::Ptr> m_keypoints_map;
+    std::map<QString, ct::Cloud::Ptr> m_keypoints_map;
 };
 
 #endif  // KEYPOINTS_H

@@ -5,11 +5,9 @@
  * @date 2022-05-10
  */
 #include "modules/features.h"
+#include "base/common.h"
 
-#include <pcl/console/time.h>
 #include <pcl/features/boundary.h>
-
-#ifdef __WIN32__
 #include <pcl/features/impl/3dsc.hpp>
 #include <pcl/features/impl/board.hpp>
 #include <pcl/features/impl/crh.hpp>
@@ -31,7 +29,6 @@
 #include <pcl/features/impl/shot_omp.hpp>
 #include <pcl/features/impl/usc.hpp>
 #include <pcl/features/impl/vfh.hpp>
-#endif
 
 namespace ct
 {
@@ -285,7 +282,7 @@ namespace ct
         est.setShapeHistsInterpMethod(pcl::HistogramInterpolationMethod(interp));
         est.setColorHalfGridSize(chgs);
         est.setColorHistsSize(chs);
-        est.setColorHistsInterpMethod(pcl::HistogramInterpolationMethod(interp));
+        est.setColorHistsInterpMethod(pcl::HistogramInterpolationMethod(cinterp));
         est.compute(*feature->gasdc);
         emit featureResult(cloud_->id(), feature, time.toc());
     }

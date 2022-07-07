@@ -9,6 +9,7 @@
 
 #include "base/exports.h"
 
+#include <pcl/common/common.h>
 #include <pcl/common/io.h>
 #include <pcl/common/eigen.h>
 #include <pcl/common/angles.h>

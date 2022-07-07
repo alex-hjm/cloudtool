@@ -41,7 +41,7 @@ private:
     Ui::Boundary* ui;
     QThread m_thread;
     ct::Features* m_feature;
-    std::unordered_map<QString, ct::Cloud::Ptr> m_boundary_map;
+    std::map<QString, ct::Cloud::Ptr> m_boundary_map;
 };
 
 #endif  // CT_TOOL_BOUNDARY_H

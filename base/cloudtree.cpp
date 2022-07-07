@@ -20,7 +20,7 @@ namespace ct
 {
     CloudTree::CloudTree(QWidget* parent)
         : CustomTree(parent),
-        m_path(INIT_PATH),
+        m_path(ROOT_PATH),
         m_thread(this),
         m_tree_menu(nullptr)
     {

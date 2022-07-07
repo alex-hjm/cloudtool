@@ -50,7 +50,7 @@ private:
     Ui::Surface* ui;
     QThread m_thread;
     ct::Surface* m_surface;
-    std::unordered_map<QString, ct::PolygonMesh::Ptr> m_surface_map;
+    std::map<QString, ct::PolygonMesh::Ptr> m_surface_map;
 };
 
 #endif // CT_TOOL_SURFACE_H

@@ -9,7 +9,7 @@
 
 #include "base/cloud.h"
 #include "base/exports.h"
-//#include "modules/features.h"
+#include "modules/features.h"
 
 #include <pcl/registration/correspondence_estimation.h>
 #include <pcl/registration/correspondence_rejection.h>
@@ -155,7 +155,7 @@ namespace ct
         pcl::CorrespondencesPtr corr_;
         TransEst::Ptr te_;
         CorreEst::Ptr ce_;
-        std::unordered_map<int, CorreRej::Ptr> cr_map;
+        std::map<int, CorreRej::Ptr> cr_map;
         int nr_iterations_;
         int ransac_iterations_;
         double inlier_threshold_;
@@ -188,8 +188,8 @@ namespace ct
             pcl::CorrespondencesPtr corr(new pcl::Correspondences);
             ce.setInputSource(source);
             ce.setInputTarget(target);
-            pcl::search::KdTree<Type>::Ptr target_tree(new pcl::search::KdTree<Type>);
-            pcl::search::KdTree<Type>::Ptr source_tree(new pcl::search::KdTree<Type>);
+            typename pcl::search::KdTree<Type>::Ptr target_tree(new pcl::search::KdTree<Type>);
+            typename pcl::search::KdTree<Type>::Ptr source_tree(new pcl::search::KdTree<Type>);
             ce.setSearchMethodSource(source_tree);
             ce.setSearchMethodTarget(target_tree);
             ce.determineCorrespondences(*corr);
@@ -207,7 +207,7 @@ namespace ct
         {
             TicToc time;
             time.tic();
-            pcl::search::KdTree<Feature>::Ptr target_tree(new pcl::search::KdTree<Feature>);
+            typename pcl::search::KdTree<Feature>::Ptr target_tree(new pcl::search::KdTree<Feature>);
             pcl::CorrespondencesPtr corr(new pcl::Correspondences);
 
             pcl::registration::CorrespondenceRejectorFeatures::Ptr cj(new pcl::registration::CorrespondenceRejectorFeatures);
@@ -263,7 +263,7 @@ namespace ct
 
             reg.align(*ail_cloud);
             emit registrationResult(reg.hasConverged(), ail_cloud, reg.getFitnessScore(),
-                                    reg.getFinalTransformation().cast<float>(), time.toc());
+                                    reg.getFinalTransformation(), time.toc());
         }
 
         /**
@@ -310,7 +310,7 @@ namespace ct
 
             reg.align(*ail_cloud);
             emit registrationResult(reg.hasConverged(), ail_cloud, reg.getFitnessScore(),
-                                    reg.getFinalTransformation().cast<float>(), time.toc());
+                                    reg.getFinalTransformation(), time.toc());
         }
 
     public slots:

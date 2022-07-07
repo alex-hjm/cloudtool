@@ -29,8 +29,6 @@
 #include <QDateTime>
 #include <QFileDialog>
 
-#include "ui_mainwindow.h"
-
 #define PARENT_ICON_PATH    ":/res/icon/document-open.svg"
 #define CHILD_ICON_PATH     ":/res/icon/view-calendar.svg"
 

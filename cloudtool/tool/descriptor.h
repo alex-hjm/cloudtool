@@ -72,8 +72,8 @@ private:
     QThread m_thread;
     ct::Features* m_features;
     pcl::visualization::PCLPlotter::Ptr m_plotter;
-    std::unordered_map<QString, ct::FeatureType::Ptr> m_descriptor_map;
-    std::unordered_map<QString, ct::ReferenceFrame::Ptr> m_lrf_map;
+    std::map<QString, ct::FeatureType::Ptr> m_descriptor_map;
+    std::map<QString, ct::ReferenceFrame::Ptr> m_lrf_map;
 
 };
 

@@ -278,7 +278,7 @@ void Segmentation::reset()
     m_cloudview->clearInfo();
 }
 
-void Segmentation::segmentationResult(const QString& id, const std::vector<ct::Cloud::Ptr>& cloud, float time, const ct::ModelCoefficients::Ptr& cofe)
+void Segmentation::segmentationResult(const QString& id, const std::vector<ct::Cloud::Ptr>& cloud, float time, const ct::ModelCoefficients::Ptr&)
 {
     printI(QString("Segmented cloud[%1] to %2 cloud(s) done, take time %3 ms.").arg(id).arg(cloud.size()).arg(time));
     for (size_t i = 0;i < cloud.size();i++)

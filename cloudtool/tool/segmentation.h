@@ -53,7 +53,7 @@ private:
     Ui::Segmentation* ui;
     QThread m_thread;
     ct::Segmentation* m_seg;
-    std::unordered_map<QString, std::vector<ct::Cloud::Ptr>> m_segmentation_map;
+    std::map<QString, std::vector<ct::Cloud::Ptr>> m_segmentation_map;
 
 };
 

@@ -17,9 +17,6 @@
 #define CLONE_ADD_FLAG  "clone-"
 #define MERGE_ADD_FLAG  "merge-"
 
-#define INIT_PATH       "../../../data"
-#define SAMPLE_PATH     "../../../data/rabbit.pcd"
-
 namespace ct
 {
     class CT_EXPORT CloudTree : public CustomTree
@@ -38,7 +35,7 @@ namespace ct
         /**
          * @brief 添加实例点云
          */
-        void addSampleCloud() { this->loadPointCloud(SAMPLE_PATH); }
+        void addSampleCloud() { this->loadPointCloud(QString(DATA_PATH) + "rabbit.pcd"); }
 
         /**
          * @brief 更新点云

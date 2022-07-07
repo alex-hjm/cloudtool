@@ -199,7 +199,7 @@ namespace ct
          * @param negative
          */
         void MorphologicalFilter(int max_window_size, float slope, float max_distance, float initial_distance,
-                                 float cell_size, float base, bool negative);
+                                 float cell_size, float base);
 
         /**
          * @brief 种子色调分割

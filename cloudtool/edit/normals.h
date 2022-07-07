@@ -42,7 +42,7 @@ private:
   Ui::Normals* ui;
   QThread m_thread;
   ct::Features* m_feature;
-  std::unordered_map<QString, ct::Cloud::Ptr> m_normals_map;
+  std::map<QString, ct::Cloud::Ptr> m_normals_map;
 };
 
 #endif  // NORMALS_H

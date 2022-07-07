@@ -44,7 +44,7 @@ private:
     Ui::Sampling* ui;
     QThread m_thread;
     ct::Filters* m_filters;
-    std::unordered_map<QString, ct::Cloud::Ptr> m_sampling_map;
+    std::map<QString, ct::Cloud::Ptr> m_sampling_map;
 };
 
 #endif // SAMPLINGS_H

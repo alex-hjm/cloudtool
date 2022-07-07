@@ -34,7 +34,7 @@ public slots:
 
 private:
     Ui::Scale* ui;
-    std::unordered_map<QString, ct::Cloud::Ptr> m_scale_map;
+    std::map<QString, ct::Cloud::Ptr> m_scale_map;
 };
 
 #endif  // CT_EDIT_SCALE_H

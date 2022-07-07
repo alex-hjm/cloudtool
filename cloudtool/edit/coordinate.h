@@ -32,7 +32,7 @@ public:
 private:
     Ui::Coordinate* ui;
     ct::Coord m_origin_coord; // origin_coord
-    std::unordered_map<QString, ct::Coord> m_coord_map; // cloud coord
+    std::map<QString, ct::Coord> m_coord_map; // cloud coord
 };
 
 #endif  // COORDS_H

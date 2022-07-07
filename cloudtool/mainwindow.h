@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QTranslator>
 
+#include "ui_mainwindow.h"
+
 #include "base/customdock.h"
 #include "base/customdialog.h"
 
