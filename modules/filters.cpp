@@ -31,10 +31,8 @@
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/surface/mls.h>
 
-#ifdef __WIN32__
 #include <pcl/filters/impl/local_maximum.hpp>
 #include <pcl/filters/impl/project_inliers.hpp>
-#endif
 
 namespace ct
 {
