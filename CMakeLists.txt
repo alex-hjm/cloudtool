@@ -18,6 +18,10 @@ if(WIN32)
     set(CMAKE_PREFIX_PATH "D:/Qt/5.15.2/msvc2019_64")
 endif()
 
+if(CMAKE_BUILD_TYPE="")
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS_DEFAULT "/DWIN32 /D_WINDOWS /W3 /GR /EHsc")
     if("${CMAKE_CXX_FLAGS}" STREQUAL "${CMAKE_CXX_FLAGS_DEFAULT}")

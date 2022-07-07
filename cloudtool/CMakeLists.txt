@@ -72,14 +72,6 @@ install(TARGETS cloudtool
 install(TARGETS cloudtool
         CONFIGURATIONS Release
         RUNTIME DESTINATION Release/bin)
-
-install(DIRECTORY ${PROJECT_BINARY_DIR}/bin/Debug/
-        CONFIGURATIONS Release          
-        DESTINATION Release/bin)
-
-install(DIRECTORY ${PROJECT_BINARY_DIR}/bin/Debug/
-        CONFIGURATIONS Debug          
-        DESTINATION Debug/bin)
         
 if (WIN32)
     set(DEBUG_SUFFIX)
