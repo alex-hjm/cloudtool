@@ -57,7 +57,11 @@ Sampling::Sampling(QWidget* parent)
 Sampling::~Sampling()
 {
     m_thread.quit();
-    m_thread.wait();
+    if (!m_thread.wait(3000))
+    {
+        m_thread.terminate();
+        m_thread.wait();
+    }
     delete ui;
 }
 void Sampling::preview()

@@ -18,6 +18,15 @@ if(CMAKE_BUILD_TYPE="")
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
+if(WIN32)
+    set(CMAKE_PREFIX_PATH "D:/Qt/5.15.2/msvc2019_64")
+    set(CMAKE_PROJECT_INCLUDE_BEFORE D:/Qt/Tools/QtCreator/share/qtcreator/package-manager/auto-setup.cmake)
+    set(Qt5Core_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Core)
+    set(Qt5Gui_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Gui)
+    set(Qt5Widgets_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Widgets)
+    set(Qt5_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5)
+endif()
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS_DEFAULT "/DWIN32 /D_WINDOWS /W3 /GR /EHsc")
     if("${CMAKE_CXX_FLAGS}" STREQUAL "${CMAKE_CXX_FLAGS_DEFAULT}")
@@ -116,6 +125,10 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install)
+
+include_directories("${PROJECT_SOURCE_DIR}/vld/include")
+link_directories("${PROJECT_SOURCE_DIR}/vld/lib/Win64")
+
 add_definitions(-DROOT_PATH="${PROJECT_SOURCE_DIR}")
 add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/data/")
 

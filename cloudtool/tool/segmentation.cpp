@@ -123,7 +123,11 @@ Segmentation::Segmentation(QWidget* parent) :
 Segmentation::~Segmentation()
 {
     m_thread.quit();
-    m_thread.wait();
+    if (!m_thread.wait(3000))
+    {
+        m_thread.terminate();
+        m_thread.wait();
+    }
     delete ui;
 }
 

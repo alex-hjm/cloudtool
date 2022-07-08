@@ -63,7 +63,7 @@ qt5_add_resources(QRC_Srcs ${QRCs})
 
 add_executable(cloudtool WIN32 ${Srcs} ${MOC_Hdrs} ${UIs} ${QRC_Srcs} ${IRCs})
 
-target_link_libraries(cloudtool PRIVATE ct_base ct_modules Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
+target_link_libraries(cloudtool PRIVATE ct_base ct_modules vld Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
 
 install(TARGETS cloudtool
         CONFIGURATIONS Debug
