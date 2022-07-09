@@ -141,7 +141,7 @@ if(WIN32)
     include_directories("${AzureKinect_DIR}/include")
     link_directories("${AzureKinect_DIR}/lib")
     # 2. Photoneo SDK
-    set(Photoneo_DIR "${PROJECT_SOURCE_DIR}/camera/PhotoneoSDK")
+    set(Photoneo_DIR "${PROJECT_SOURCE_DIR}/camera/Photoneo")
     include_directories("${Photoneo_DIR}/include")
     link_directories("${Photoneo_DIR}/lib")
 endif()
