@@ -63,18 +63,11 @@ qt5_add_resources(QRC_Srcs ${QRCs})
 
 add_executable(cloudtool WIN32 ${Srcs} ${MOC_Hdrs} ${UIs} ${QRC_Srcs} ${IRCs})
 
-target_link_libraries(cloudtool PRIVATE ct_base ct_modules vld Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
+target_link_libraries(cloudtool PRIVATE ct_base ct_modules Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
 
-install(TARGETS cloudtool
-        CONFIGURATIONS Debug
-        RUNTIME DESTINATION Debug/bin)
+target_link_libraries(cloudtool PRIVATE PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1 k4a k4arecord)
 
-install(TARGETS cloudtool
-        CONFIGURATIONS Release
-        RUNTIME DESTINATION Release/bin)
-        
 if (WIN32)
-    set(DEBUG_SUFFIX)
     if (CMAKE_BUILD_TYPE MATCHES "Debug")
         set(DEBUG_SUFFIX "d")
     endif ()
@@ -85,23 +78,35 @@ if (WIN32)
             set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
         endif ()
     endif ()
-    if (EXISTS "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll")
-        add_custom_command(TARGET cloudtool POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:cloudtool>/platforms/"
-                COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:cloudtool>/platforms/"
-                COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:cloudtool>/iconengines/"
-                COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/plugins/iconengines/qsvgicon${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:cloudtool>/iconengines/"
-                COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:cloudtool>/styles/"
-                COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/plugins/styles/qwindowsvistastyle${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:cloudtool>/styles/"
-                )
-    endif ()
+    # 1. QT_DLL
+    add_custom_command(TARGET cloudtool POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:cloudtool>/platforms/"
+        COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"
+        "$<TARGET_FILE_DIR:cloudtool>/platforms/"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:cloudtool>/iconengines/"
+        COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/plugins/iconengines/qsvgicon${DEBUG_SUFFIX}.dll"
+        "$<TARGET_FILE_DIR:cloudtool>/iconengines/"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:cloudtool>/styles/"
+        COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/plugins/styles/qwindowsvistastyle${DEBUG_SUFFIX}.dll"
+        "$<TARGET_FILE_DIR:cloudtool>/styles/")
     foreach (QT_LIB Core Gui Widgets Svg)
         add_custom_command(TARGET cloudtool POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy
-                "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
-                "$<TARGET_FILE_DIR:cloudtool>")
+            COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/bin/Qt5${QT_LIB}${DEBUG_SUFFIX}.dll"
+            "$<TARGET_FILE_DIR:cloudtool>")
     endforeach (QT_LIB)
+    # 2. Camera DLL
+    add_custom_command(TARGET cloudtool POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory  "${AzureKinect_DIR}/bin/" "$<TARGET_FILE_DIR:cloudtool>"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory  "${AzureKinect_DIR}/netstandard2.0/" "$<TARGET_FILE_DIR:cloudtool>")
+    add_custom_command(TARGET cloudtool POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${Photoneo_DIR}/bin/PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1.dll" "$<TARGET_FILE_DIR:cloudtool>")
 endif ()
+
+
+install(TARGETS cloudtool
+        CONFIGURATIONS Debug
+        RUNTIME DESTINATION Debug/bin)
+
+install(TARGETS cloudtool
+        CONFIGURATIONS Release
+        RUNTIME DESTINATION Release/bin)
