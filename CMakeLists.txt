@@ -150,7 +150,7 @@ endif()
 
 message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
@@ -159,6 +159,11 @@ set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
 add_definitions(-DROOT_PATH="${PROJECT_SOURCE_DIR}")
 add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/data/")
 
-add_subdirectory(src)
-#add_subdirectory(modules)
-#add_subdirectory(cloudtool)
+option(BUILD_CT_LIBRARY "build cloudtool library base/modules" OFF)
+
+if(BUILD_CT_LIBRARY)
+    add_subdirectory(base)
+    add_subdirectory(modules)
+endif()
+
+add_subdirectory(cloudtool)

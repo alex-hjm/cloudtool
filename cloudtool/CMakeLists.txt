@@ -44,33 +44,33 @@ set(MOC_Hdrs
         tool/registration.h
         tool/pickpoints.h
         )
-
-set(UIs 
-        mainwindow.ui 
-        )
         
 set(QRCs resources/res.qrc)     
 
 set(IRCs resources/logo/logo.rc)
 
-find_package(VTK COMPONENTS 
-        vtkGUISupportQt
-        vtkGUISupportQtOpenGL
-        vtkRenderingGL2PSOpenGL2
-        vtkRenderingVolumeOpenGL2)
+if (CMAKE_BUILD_TYPE MATCHES "Debug")
+    set(DEBUG_SUFFIX "d")
+endif ()        
 
 qt5_add_resources(QRC_Srcs ${QRCs})
 
-add_executable(cloudtool WIN32 ${Srcs} ${MOC_Hdrs} ${UIs} ${QRC_Srcs} ${IRCs})
+link_directories(${PROJECT_SOURCE_DIR}/lib)
 
-target_link_libraries(cloudtool PRIVATE ct_base ct_modules Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
+add_executable(cloudtool WIN32 ${Srcs} ${MOC_Hdrs} ${QRC_Srcs} ${IRCs})
 
-target_link_libraries(cloudtool PRIVATE PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1 k4a k4arecord)
+target_link_libraries(cloudtool ct_base${DEBUG_SUFFIX} ct_modules${DEBUG_SUFFIX})
+target_link_libraries(cloudtool PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1 k4a k4arecord)
+target_link_libraries(cloudtool Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
 
 if (WIN32)
-    if (CMAKE_BUILD_TYPE MATCHES "Debug")
-        set(DEBUG_SUFFIX "d")
-    endif ()
+    # 1. CT DLL
+    add_custom_command(TARGET cloudtool POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/bin/ct_base${DEBUG_SUFFIX}.dll"
+        "$<TARGET_FILE_DIR:cloudtool>"
+        COMMAND ${CMAKE_COMMAND} -E copy "${PROJECT_SOURCE_DIR}/bin/ct_modules${DEBUG_SUFFIX}.dll"
+        "$<TARGET_FILE_DIR:cloudtool>")
+    # 2. QT DLL
     set(QT_INSTALL_PATH "${CMAKE_PREFIX_PATH}")
     if (NOT EXISTS "${QT_INSTALL_PATH}/bin")
         set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
@@ -78,7 +78,6 @@ if (WIN32)
             set(QT_INSTALL_PATH "${QT_INSTALL_PATH}/..")
         endif ()
     endif ()
-    # 1. QT_DLL
     add_custom_command(TARGET cloudtool POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:cloudtool>/platforms/"
         COMMAND ${CMAKE_COMMAND} -E copy "${QT_INSTALL_PATH}/plugins/platforms/qwindows${DEBUG_SUFFIX}.dll"

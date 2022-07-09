@@ -29,15 +29,7 @@ target_link_libraries(ct_modules PRIVATE ct_base Qt${QT_VERSION_MAJOR}::Widgets 
 target_compile_definitions(ct_modules PRIVATE CT_LIBRARY)
 
 install(TARGETS ct_modules
-        CONFIGURATIONS Debug
-        RUNTIME DESTINATION Debug/bin
-        ARCHIVE DESTINATION Debug/lib
-        LIBRARY DESTINATION Debug/lib
-        PUBLIC_HEADER DESTINATION Debug/include/modules)
-
-install(TARGETS ct_modules
-        CONFIGURATIONS Release
-        RUNTIME DESTINATION Release/bin
-        ARCHIVE DESTINATION Release/lib
-        LIBRARY DESTINATION Release/lib
-        PUBLIC_HEADER DESTINATION Release/include/modules)
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/modules)

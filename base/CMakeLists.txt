@@ -43,15 +43,7 @@ target_link_libraries(ct_base PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${PCL_LIBRA
 target_compile_definitions(ct_base PRIVATE CT_LIBRARY)
 
 install(TARGETS ct_base
-        CONFIGURATIONS Debug
-        RUNTIME DESTINATION Debug/bin
-        ARCHIVE DESTINATION Debug/lib
-        LIBRARY DESTINATION Debug/lib
-        PUBLIC_HEADER DESTINATION Debug/include/base)
-
-install(TARGETS ct_base
-        CONFIGURATIONS Release
-        RUNTIME DESTINATION Release/bin
-        ARCHIVE DESTINATION Release/lib
-        LIBRARY DESTINATION Release/lib
-        PUBLIC_HEADER DESTINATION Release/include/base)
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/base)
