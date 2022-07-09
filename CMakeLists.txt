@@ -18,6 +18,8 @@ if("${CMAKE_BUILD_TYPE}" STREQUAL "")
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
+set(CMAKE_DEBUG_POSTFIX "d")
+
 if(WIN32)
     set(CMAKE_PREFIX_PATH "D:/Qt/5.15.2/msvc2019_64")
     set(Qt5Core_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Core)
@@ -148,15 +150,15 @@ endif()
 
 message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 
-include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/include)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
-set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install)
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
 
 add_definitions(-DROOT_PATH="${PROJECT_SOURCE_DIR}")
 add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/data/")
 
-add_subdirectory(base)
-add_subdirectory(modules)
-add_subdirectory(cloudtool)
+add_subdirectory(src)
+#add_subdirectory(modules)
+#add_subdirectory(cloudtool)

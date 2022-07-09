@@ -101,12 +101,3 @@ if (WIN32)
     add_custom_command(TARGET cloudtool POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy "${Photoneo_DIR}/bin/PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1.dll" "$<TARGET_FILE_DIR:cloudtool>")
 endif ()
-
-
-install(TARGETS cloudtool
-        CONFIGURATIONS Debug
-        RUNTIME DESTINATION Debug/bin)
-
-install(TARGETS cloudtool
-        CONFIGURATIONS Release
-        RUNTIME DESTINATION Release/bin)
