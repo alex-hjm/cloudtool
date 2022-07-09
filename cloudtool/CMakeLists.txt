@@ -20,6 +20,7 @@ set(Srcs
         tool/surface.cpp
         tool/registration.cpp
         tool/pickpoints.cpp
+        device/photoneo.cpp
         )
 
 set(MOC_Hdrs 
@@ -43,6 +44,7 @@ set(MOC_Hdrs
         tool/surface.h
         tool/registration.h
         tool/pickpoints.h
+        device/photoneo.h
         )
         
 set(QRCs resources/res.qrc)     
@@ -55,9 +57,11 @@ endif ()
 
 qt5_add_resources(QRC_Srcs ${QRCs})
 
+qt5_wrap_cpp(LibMocSrcs ${MOC_Hdrs})
+
 link_directories(${PROJECT_SOURCE_DIR}/lib)
 
-add_executable(cloudtool WIN32 ${Srcs} ${MOC_Hdrs} ${QRC_Srcs} ${IRCs})
+add_executable(cloudtool WIN32 ${Srcs} ${MOC_Hdrs} ${LibMocSrcs} ${QRC_Srcs} ${IRCs})
 
 target_link_libraries(cloudtool ct_base${DEBUG_SUFFIX} ct_modules${DEBUG_SUFFIX})
 target_link_libraries(cloudtool PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1 k4a k4arecord)

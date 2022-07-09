@@ -162,8 +162,6 @@
     <property name="title">
      <string>Device</string>
     </property>
-    <addaction name="actionAzureKinect"/>
-    <addaction name="actionZhiSensor"/>
     <addaction name="actionPhotoneo"/>
    </widget>
    <widget class="QMenu" name="menuHelp">

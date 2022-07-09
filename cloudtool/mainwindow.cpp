@@ -22,6 +22,8 @@
 #include "tool/registration.h"
 #include "tool/pickpoints.h"
 
+#include "device/photoneo.h"
+
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QDir>
@@ -134,6 +136,9 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(ui->actionPickPoints, &QAction::triggered, [=] { this->createDialog<PickPoints>("PickPoints"); });
 
+    // device
+    connect(ui->actionPhotoneo, &QAction::triggered, [=] { this->createLeftDock<Photoneo>("Photoneo"); });
+    
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });
     connect(ui->actionLight, &QAction::triggered, [=] { changeTheme(1); });
