@@ -1,6 +1,4 @@
 build
 .vscode
-test
-temp
-data
 install
+test

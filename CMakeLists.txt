@@ -15,18 +15,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-  set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Release)
 endif()
 
 set(CMAKE_DEBUG_POSTFIX "d")
-
-if(WIN32)
-    set(CMAKE_PREFIX_PATH "D:/Qt/5.15.2/msvc2019_64")
-    set(Qt5Core_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Core)
-    set(Qt5Gui_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Gui)
-    set(Qt5Widgets_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Widgets)
-    set(Qt5_DIR D:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5)
-endif()
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS_DEFAULT "/DWIN32 /D_WINDOWS /W3 /GR /EHsc")
@@ -49,11 +41,6 @@ if(MSVC)
             endif()
         endif()
     endif()
-
-    if(CMAKE_GENERATOR STREQUAL "Ninja")
-        string(APPEND CMAKE_C_FLAGS " /FS")
-        string(APPEND CMAKE_CXX_FLAGS " /FS")
-    endif()
 elseif(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS_DEFAULT "")
 
@@ -63,8 +50,7 @@ elseif(CMAKE_COMPILER_IS_GNUCXX)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wabi")
     endif()
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unknown-pragmas -fno-strict-aliasing"
-        "-Wno-format-extra-args -Wno-sign-compare -Wno-invalid-offsetof -Wno-conversion ${SSE_FLAGS_STR}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 endif()
 
 # OpenMP (optional)
@@ -77,28 +63,12 @@ endif()
 if(OpenMP_FOUND)
     string(APPEND CMAKE_C_FLAGS " ${OpenMP_C_FLAGS}")
     string(APPEND CMAKE_CXX_FLAGS " ${OpenMP_CXX_FLAGS}")
+    string(APPEND CMAKE_EXE_LINKER_FLAGS "${OpenMP_EXE_LINKER_FLAGS}")
 
     if(${CMAKE_VERSION} VERSION_LESS "3.7")
         message(STATUS "Found OpenMP")
     else()
         message(STATUS "Found OpenMP, spec date ${OpenMP_CXX_SPEC_DATE}")
-    endif()
-
-    if(MSVC)
-        if(MSVC_VERSION EQUAL 1900)
-            set(OPENMP_DLL VCOMP140)
-        elseif(MSVC_VERSION MATCHES "^191[0-9]$")
-            set(OPENMP_DLL VCOMP140)
-        elseif(MSVC_VERSION MATCHES "^192[0-9]$")
-            set(OPENMP_DLL VCOMP140)
-        endif()
-
-        if(OPENMP_DLL)
-            string(APPEND CMAKE_SHARED_LINKER_FLAGS_DEBUG " /DELAYLOAD:${OPENMP_DLL}D.dll")
-            string(APPEND CMAKE_SHARED_LINKER_FLAGS_RELEASE " /DELAYLOAD:${OPENMP_DLL}.dll")
-        else()
-            message(WARNING "Delay loading flag for OpenMP DLL is invalid.")
-        endif()
     endif()
 else()
     message(STATUS "Not found OpenMP")
@@ -115,7 +85,7 @@ else()
 endif()
 
 # vtk
-find_package(VTK 8.2.0 REQUIRED)
+find_package(VTK REQUIRED)
 
 if(VTK_FOUND)
     include(${VTK_USE_FILE})
@@ -125,7 +95,7 @@ else()
 endif()
 
 # pcl
-find_package(PCL 1.11.1 REQUIRED)
+find_package(PCL REQUIRED)
 
 if(PCL_FOUND)
     include_directories(${PCL_INCLUDE_DIRS})
@@ -142,6 +112,7 @@ if(WIN32)
     set(AzureKinect_DIR "${PROJECT_SOURCE_DIR}/camera/AzureKinect")
     include_directories("${AzureKinect_DIR}/include")
     link_directories("${AzureKinect_DIR}/lib")
+
     # 2. Photoneo SDK
     set(Photoneo_DIR "${PROJECT_SOURCE_DIR}/camera/Photoneo")
     include_directories("${Photoneo_DIR}/include")
@@ -152,18 +123,13 @@ message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 
 include_directories(${PROJECT_SOURCE_DIR})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
-set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install)
 
 add_definitions(-DROOT_PATH="${PROJECT_SOURCE_DIR}")
 add_definitions(-DDATA_PATH="${PROJECT_SOURCE_DIR}/data/")
 
-option(BUILD_CT_LIBRARY "build cloudtool library base/modules" OFF)
-
-if(BUILD_CT_LIBRARY)
-    add_subdirectory(base)
-    add_subdirectory(modules)
-endif()
-
+add_subdirectory(base)
+add_subdirectory(modules)
 add_subdirectory(cloudtool)
