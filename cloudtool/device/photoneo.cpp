@@ -211,4 +211,5 @@ void Photoneo::updatePointCloud(const pho::api::PFrame &frame, float time)
     printI(tr("Number of points in PCL Cloud : %1").arg(m_captured_cloud->size()));
     printI(tr("Capture cloud[id:%1] done, take time %2 ms.").arg(m_captured_cloud->id()).arg(time));
     m_cloudview->addPointCloud(m_captured_cloud);
+    m_cloudview->resetCamera();
 }
