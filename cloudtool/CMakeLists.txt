@@ -51,6 +51,12 @@ set(QRCs resources/res.qrc)
 
 set(IRCs resources/logo/logo.rc)
 
+find_package(VTK COMPONENTS
+        vtkGUISupportQt
+        vtkGUISupportQtOpenGL
+        vtkRenderingGL2PSOpenGL2
+        vtkRenderingVolumeOpenGL2)
+        
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
     set(DEBUG_SUFFIX "d")
 endif ()        
