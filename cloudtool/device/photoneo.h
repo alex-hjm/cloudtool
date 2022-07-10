@@ -50,6 +50,7 @@ public:
     explicit Photoneo(QWidget* parent = nullptr);
     ~Photoneo();
 
+    void searchDevice();
     void connectDevice();
     void captureDevice();
     void add();
