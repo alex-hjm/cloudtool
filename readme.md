@@ -18,9 +18,11 @@ Compilers：MSCV2019
 ```shell
 mkdir build
 cd build
-cmake .. -DCMAKE_PREFIX_PATH="D:/Qt/5.15.2/msvc2019_64"
-cmake --build . --target cloudtool -j 14 --
+cmake -DCMAKE_PREFIX_PATH=D:\Qt\5.15.2\msvc2019_64 -Wno-dev  ..
+cmake --build . --config Release --target cloudtool -j 14 --
+cmake --build . --config Release --target install 
 ```
+
 ### Ubuntu 20.04
 
 Compilers：GUN
@@ -30,4 +32,5 @@ mkdir build
 cd build
 cmake .. 
 make -j 14
+make install
 ```
