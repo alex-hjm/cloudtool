@@ -4,10 +4,10 @@ A 3D point cloud processing software base on PCL and QT;
 ![](images/cloudtool.png)
 
 ## Depend on
-| Dependencies | Version |
+| Dependencies | Min Version |
 | ------------ | ------- |
-| QT           | 5.15.2  |
-| PCL          | 1.11.1  |
+| QT           | 5.12.0  |
+| PCL          | 1.11.0  |
 | VTK          | 8.2.0   |
 
 ## How to build
