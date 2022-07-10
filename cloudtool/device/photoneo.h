@@ -13,31 +13,6 @@
 #define PHOXI_PCL_SUPPORT
 #include "PhoXi.h"
 
-
-class PhotoneoGrabber : public QObject
-{
-    Q_OBJECT
-public:
-    explicit PhotoneoGrabber(QObject* parent = nullptr){}
-    ~PhotoneoGrabber();
-    bool connectDevice();
-    bool disconnectDevice();
-    bool captureOnce();
-    bool isCapturing();
-    bool isConnected();
-
-signals:
-    void sendPointcloud(const ct::Cloud::Ptr&, float);
-    void printI(const QString&);
-    void printE(const QString&);
-
-private:
-    void printDeviceInfoList(const std::vector<pho::api::PhoXiDeviceInformation> &);
-    void printDeviceInfo(const pho::api::PhoXiDeviceInformation &);
-
-    pho::api::PPhoXi m_device;
-};
-
 namespace Ui
 {
     class Photoneo;
@@ -56,20 +31,16 @@ public:
     void add();
     void reset();
 
-signals:
-    void connectSignal();
-    void disconnectSignal();
-    void captureOnceSignal();
-    void captureContinueSignal();
-
 public slots:
-    void getPointCloud(const ct::Cloud::Ptr&, float);
-
+    void updateDeviceInfo(int);
+    void updatePointCloud(const pho::api::PFrame&, float);
+    
 private:
     Ui::Photoneo* ui;
-    PhotoneoGrabber *m_grabber;
-    //QThread m_thread;
-    ct::Cloud::Ptr captured_cloud;
+    ct::Cloud::Ptr m_captured_cloud;
+    pho::api::PPhoXi m_device;
+    pho::api::PhoXiFactory m_factory;
+    std::vector<pho::api::PhoXiDeviceInformation> m_device_list;
 };
 
 #endif // CT_DEVICE_PHOTONEO_H
