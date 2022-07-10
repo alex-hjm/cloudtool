@@ -34,6 +34,7 @@ bool PhotoneoGrabber::connectDevice()
         emit printE("PhoXi Factory has found 0 devices");
         return false;
     }
+    this->printDeviceInfoList(DeviceList);
     m_device = factory.CreateAndConnectFirstAttached();
     if (m_device)
     {
@@ -122,11 +123,13 @@ bool PhotoneoGrabber::captureOnce()
 
 bool PhotoneoGrabber::isCapturing()
 {
+    if (!m_device) return false;
     return m_device->isAcquiring();
 }
 
 bool PhotoneoGrabber::isConnected()
 {
+    if (!m_device) return false;
     return m_device->isConnected();
 }
 
@@ -164,26 +167,26 @@ Photoneo::Photoneo(QWidget* parent) :
     connect(ui->btn_reset, &QPushButton::clicked, this, &Photoneo::reset);
 
     m_grabber = new PhotoneoGrabber;
-    m_grabber->moveToThread(&m_thread);
-    connect(&m_thread, &QThread::finished, m_grabber, &QObject::deleteLater);
-    connect(this, &Photoneo::connectSignal, m_grabber, &PhotoneoGrabber::connectDevice);
-    connect(this, &Photoneo::disconnectSignal, m_grabber, &PhotoneoGrabber::disconnectDevice);
-    connect(this, &Photoneo::captureOnceSignal, m_grabber, &PhotoneoGrabber::captureOnce);
+    // m_grabber->moveToThread(&m_thread);
+    //connect(&m_thread, &QThread::finished, m_grabber, &QObject::deleteLater);
+    // connect(this, &Photoneo::connectSignal, m_grabber, &PhotoneoGrabber::connectDevice);
+    // connect(this, &Photoneo::disconnectSignal, m_grabber, &PhotoneoGrabber::disconnectDevice);
+    // connect(this, &Photoneo::captureOnceSignal, m_grabber, &PhotoneoGrabber::captureOnce);
     connect(m_grabber, &PhotoneoGrabber::sendPointcloud, this, &Photoneo::getPointCloud);
-    connect(m_grabber, &PhotoneoGrabber::printI, this, &Photoneo::printE);
+    connect(m_grabber, &PhotoneoGrabber::printI, this, &Photoneo::printI);
     connect(m_grabber, &PhotoneoGrabber::printE, this, &Photoneo::printE);
-    m_thread.start();
+    //m_thread.start();
 
 }
 
 Photoneo::~Photoneo()
 {
-    m_thread.quit();
-    if (!m_thread.wait(3000))
-    {
-        m_thread.terminate();
-        m_thread.wait();
-    }
+    // m_thread.quit();
+    // if (!m_thread.wait(3000))
+    // {
+    //     m_thread.terminate();
+    //     m_thread.wait();
+    // }
     delete ui;
 }
 
@@ -218,12 +221,17 @@ void Photoneo::captureDevice()
         printE("Your device is not connected");
         return;
     }
-    if (m_grabber->isCapturing())
+    // if (m_grabber->isCapturing())
+    // {
+    //     printE("Your device is capturing");
+    //     return;
+    // }
+    if (!m_grabber->captureOnce())
     {
-        printE("Your device is capturing");
+        printE("Your device capture failed");
         return;
     }
-    emit captureOnceSignal();
+    printI("Your device capture successfully!");
 }
 
 void Photoneo::add()
@@ -241,13 +249,13 @@ void Photoneo::add()
 void Photoneo::reset()
 {
     m_cloudview->removePointCloud(PHOTONEO_CAP_FLAG);
-    m_grabber->disconnect();
-    ui->btn_connect->setIcon(QIcon(":/res/icon/connect.svg"));
+    // m_grabber->disconnect();
+    // ui->btn_connect->setIcon(QIcon(":/res/icon/connect.svg"));
 }
 
 void Photoneo::getPointCloud(const ct::Cloud::Ptr& cloud, float time)
 {
-    printI(QString("Estimate cloud[id:%1] normals done, take time %2 ms.").arg(cloud->id()).arg(time));
+    printI(QString("capture cloud[id:%1] done, take time %2 ms.").arg(cloud->id()).arg(time));
     m_cloudview->addPointCloud(cloud);
     captured_cloud = cloud;
 }

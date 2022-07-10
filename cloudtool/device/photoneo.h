@@ -67,7 +67,7 @@ public slots:
 private:
     Ui::Photoneo* ui;
     PhotoneoGrabber *m_grabber;
-    QThread m_thread;
+    //QThread m_thread;
     ct::Cloud::Ptr captured_cloud;
 };
 
