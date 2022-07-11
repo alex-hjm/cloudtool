@@ -17,6 +17,7 @@ namespace ct
         this->setSelectionMode(QAbstractItemView::ExtendedSelection);
         connect(this, &CustomTree::itemSelectionChanged, this, &CustomTree::itemSelectionChangedEvent);
         connect(this, &CustomTree::itemClicked, this, &CustomTree::itemClickedEvent);
+        this->setAcceptDrops(true);
     }
 
     std::vector<Index> CustomTree::getSelectedIndexs()

@@ -164,6 +164,16 @@ namespace ct
          */
         void closeProgressBar() { if(m_progress_bar) m_progress_bar->close(); }
 
+        /**
+         * @brief 设置是否接受拖放文件
+         */
+        void setCloudViewAcceptDrops(bool enable);
+
+        /**
+         * @brief 设置是否支持多选操作
+         */
+        void setExtendedSelectionMode(bool enable);
+
     protected:
         /**
          * @brief 插入点云
@@ -197,16 +207,6 @@ namespace ct
         {
             return m_cloud_vec[index.row][index.col];
         }
-
-        /**
-         * @brief 设置是否接受拖放文件
-         */
-        void setAcceptDrops(bool enable);
-
-        /**
-         * @brief 设置是否支持多选操作
-         */
-        void setExtendedSelectionMode(bool enable);
 
     signals:
         /**
@@ -247,6 +247,9 @@ namespace ct
         void itemSelectionChangedEvent();
 
     protected:
+        void dragMoveEvent(QDragMoveEvent *event);
+        void dragEnterEvent(QDragEnterEvent* event);
+        void dropEvent(QDropEvent* event);
         void mousePressEvent(QMouseEvent* event) override;
 
     private:

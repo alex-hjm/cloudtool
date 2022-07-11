@@ -165,7 +165,7 @@ void Photoneo::add()
     ct::Cloud::Ptr new_cloud = m_captured_cloud->makeShared();
     new_cloud->setId(PHOTONEO_ADD_FLAG);
     new_cloud->setInfo(QFileInfo(QString(DATA_PATH) + QString(PHOTONEO_ADD_FLAG)));
-    new_cloud->update(false, true, true);
+    new_cloud->update(false);
     m_cloudtree->appendCloud(new_cloud, true);
     m_captured_cloud->clear();
     printI(QString("Add captured cloud[id:%1] done.").arg(m_captured_cloud->id()));

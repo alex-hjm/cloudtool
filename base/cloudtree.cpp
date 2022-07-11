@@ -15,6 +15,9 @@
 #include <QMouseEvent>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QDropEvent>
+#include <QMimeData>
+#include <QUrl>
 
 namespace ct
 {
@@ -40,6 +43,7 @@ namespace ct
 
         connect(this, &CloudTree::itemClicked, this, &CloudTree::itemClickedEvent);
         connect(this, &CloudTree::itemSelectionChanged, this, &CloudTree::itemSelectionChangedEvent);
+        this->setAcceptDrops(true);
     }
 
     CloudTree::~CloudTree()
@@ -210,6 +214,35 @@ namespace ct
         item(i)->setSelected(selected);
     }
 
+    void CloudTree::setCloudViewAcceptDrops(bool enable)
+    {
+        if (enable)
+        {
+            m_cloudview->setAcceptDrops(true);
+            connect(m_cloudview, &CloudView::dropFilePath, [=](const QStringList& filepath)
+                    { 
+                        for (auto& i : filepath) 
+                        {
+                            this->showProgressBar();
+                            this->loadPointCloud(i); 
+                        }
+                    });
+        }
+        else
+        {
+            m_cloudview->setAcceptDrops(false);
+            disconnect(m_cloudview, &CloudView::dropFilePath, this, 0);
+        }
+    }
+
+    void CloudTree::setExtendedSelectionMode(bool enable)
+    {
+        if (enable)
+            this->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        else
+            this->setSelectionMode(QAbstractItemView::SingleSelection);
+    }
+
     void CloudTree::removeCloud(const Index& index)
     {
         Cloud::Ptr cloud = getCloud(index);
@@ -268,29 +301,6 @@ namespace ct
         m_cloudview->removeShape(cloud->boxId());
         cloud->setId(name);
         printI(QString("Rename cloud[id:%1] to new name[%2] done.").arg(cloud->id()).arg(name));
-    }
-
-    void CloudTree::setAcceptDrops(bool enable)
-    {
-        if (enable)
-        {
-            m_cloudview->setAcceptDrops(true);
-            connect(m_cloudview, &CloudView::dropFilePath, [=](const QStringList& filepath)
-                    {for (auto& i : filepath) emit loadPointCloud(i); });
-        }
-        else
-        {
-            m_cloudview->setAcceptDrops(false);
-            disconnect(m_cloudview, &CloudView::dropFilePath, this, 0);
-        }
-    }
-
-    void CloudTree::setExtendedSelectionMode(bool enable)
-    {
-        if (enable)
-            this->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        else
-            this->setSelectionMode(QAbstractItemView::SingleSelection);
     }
 
     void CloudTree::loadCloudResult(bool success, const Cloud::Ptr& cloud, float time)
@@ -432,6 +442,37 @@ namespace ct
         m_table->setItem(1, 1, new QTableWidgetItem(type));
         m_table->setItem(2, 1, new QTableWidgetItem(size));
         m_table->setItem(3, 1, new QTableWidgetItem(resolution));
+    }
+
+    void CloudTree::dragMoveEvent(QDragMoveEvent *event)
+    {
+        event->acceptProposedAction();
+    }
+
+    void CloudTree::dragEnterEvent(QDragEnterEvent* event)
+    {
+        if (event->mimeData()->hasUrls())
+            event->acceptProposedAction();
+        else
+            event->ignore();
+    }
+
+    void CloudTree::dropEvent(QDropEvent* event)
+    {
+        const QMimeData* mimeData = event->mimeData();
+        if (mimeData->hasUrls())
+        {
+            QList<QUrl> urlList = mimeData->urls();
+            for (auto& url : urlList)
+            {
+                QString filepath = url.toLocalFile();
+                if (!filepath.isEmpty())
+                {
+                     this->showProgressBar();
+                    this->loadPointCloud(filepath); 
+                }
+            }
+        }
     }
 
     void CloudTree::mousePressEvent(QMouseEvent* event)

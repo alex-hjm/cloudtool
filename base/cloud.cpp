@@ -90,7 +90,7 @@ namespace ct
         }
     }
 
-    void Cloud::update(bool resolution_flag, bool type_flag, bool box_flag)
+    void Cloud::update(bool type_flag, bool box_flag, bool resolution_flag)
     {
         if (type_flag)
         {
@@ -125,24 +125,24 @@ namespace ct
         }
         if (resolution_flag)
         {
-            int n_points = 0, nres, size_cloud = size();
+            int n_points = 0, nres, num = size() < 1000 ? size() : 1000;
             std::vector<int> indices(2);
             std::vector<float> sqr_distances(2);
             pcl::search::KdTree<PointXYZRGBN>::Ptr tree(new pcl::search::KdTree<PointXYZRGBN>);
             tree->setInputCloud(this->makeShared());
-            for (std::size_t i = 0; i < size_cloud; i++)
+            for (std::size_t i = 0; i < num; i++)
             {
-                if (!std::isfinite(points[i].x))
+                int index = rand() % size();
+                if (!std::isfinite(points[index].x))
                     continue;
-                nres = tree->nearestKSearch(i, 2, indices, sqr_distances);
+                nres = tree->nearestKSearch(index, 2, indices, sqr_distances);
                 if (nres == 2)
                 {
                     m_resolution += sqrt(sqr_distances[1]);
                     ++n_points;
                 }
             }
-            if (n_points != 0)
-                m_resolution /= n_points;
+            if (n_points != 0) m_resolution /= n_points;
         }
     }
 

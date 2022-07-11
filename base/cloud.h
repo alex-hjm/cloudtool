@@ -241,7 +241,7 @@ namespace ct
          * @param box_flag 是否更新包围盒
          * @param type_flag 是否更新点云类型
          */
-        void update(bool resolution_flag = true, bool box_flag = true, bool type_flag = true);
+        void update(bool box_flag = true, bool type_flag = true, bool resolution_flag = true);
 
     private:
         Box m_box;
