@@ -106,18 +106,25 @@ else()
     message(STATUS "PCL is not found.")
 endif()
 
-# camera sdk (only support windows)
+# camera sdk
+# 1. Azure Kinect
+set(AzureKinect_DIR "${PROJECT_SOURCE_DIR}/camera/AzureKinect")
+include_directories("${AzureKinect_DIR}/include")
 if(WIN32)
-    # 1. Azure Kinect
-    set(AzureKinect_DIR "${PROJECT_SOURCE_DIR}/camera/AzureKinect")
-    include_directories("${AzureKinect_DIR}/include")
-    link_directories("${AzureKinect_DIR}/lib")
-
-    # 2. Photoneo SDK
-    set(Photoneo_DIR "${PROJECT_SOURCE_DIR}/camera/Photoneo")
-    include_directories("${Photoneo_DIR}/include")
-    link_directories("${Photoneo_DIR}/lib")
+    link_directories("${AzureKinect_DIR}/lib/win32")
+elseif(UNIX)
+    link_directories("${AzureKinect_DIR}/lib/linux")
 endif()
+
+# 2. Photoneo SDK
+set(Photoneo_DIR "${PROJECT_SOURCE_DIR}/camera/Photoneo")
+include_directories("${Photoneo_DIR}/include")
+if(WIN32)
+    link_directories("${Photoneo_DIR}/lib/win32")
+elseif(UNIX)
+    link_directories("${Photoneo_DIR}/lib/linux")
+endif()
+
 
 message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 

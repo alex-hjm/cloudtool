@@ -64,8 +64,13 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
 endif()
 
 target_link_libraries(cloudtool ct_base${DEBUG_SUFFIX} ct_modules${DEBUG_SUFFIX})
-target_link_libraries(cloudtool PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1 k4a k4arecord)
 target_link_libraries(cloudtool Qt${QT_VERSION_MAJOR}::Widgets ${VTK_LIBRARIES} ${PCL_LIBRARIES})
+
+if(WIN32)
+    target_link_libraries(cloudtool PhoXi_API_msvc14_${CMAKE_BUILD_TYPE}_1.4.1 k4a k4arecord)
+elseif(UNIX)
+    target_link_libraries(cloudtool PhoXi_API_gcc7.5.0_${CMAKE_BUILD_TYPE} rt k4a k4arecord depthengine depthengine.2.0) 
+endif()
 
 if(WIN32)
     # 1. QT DLL
