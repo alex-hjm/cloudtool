@@ -9,10 +9,18 @@
 #  ifndef K4A_EXPORT
 #    ifdef k4a_EXPORTS
         /* We are building this library */
-#      define K4A_EXPORT __declspec(dllexport)
+#       ifdef __linux__
+#           define K4A_EXPORT __attribute__((visibility("default")))
+#       else
+#           define K4A_EXPORT __declspec(dllexport)
+#       endif
 #    else
         /* We are using this library */
-#      define K4A_EXPORT __declspec(dllimport)
+#       ifdef __linux__
+#           define K4A_EXPORT __attribute__((visibility("default")))
+#       else
+#           define K4A_EXPORT __declspec(dllimport)
+#       endif
 #    endif
 #  endif
 
@@ -22,7 +30,11 @@
 #endif
 
 #ifndef K4A_DEPRECATED
-#  define K4A_DEPRECATED __declspec(deprecated)
+#   ifdef __linux__
+#       define K4A_DEPRECATED __attribute__((__deprecated__))
+#   else
+#       define K4A_DEPRECATED __declspec(deprecated)
+#   endif
 #endif
 
 #ifndef K4A_DEPRECATED_EXPORT

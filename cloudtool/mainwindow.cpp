@@ -23,6 +23,7 @@
 #include "tool/pickpoints.h"
 
 #include "device/photoneo.h"
+#include "device/azurekinect.h"
 
 #include <QDebug>
 #include <QDesktopWidget>
@@ -138,7 +139,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     // device
     connect(ui->actionPhotoneo, &QAction::triggered, [=] { this->createLeftDock<Photoneo>("Photoneo"); });
-    
+    connect(ui->actionAzureKinect, &QAction::triggered, [=] { this->createLeftDock<AzureKinect>("AzureKinect"); });
+
     // options
     connect(ui->actionOrigin, &QAction::triggered, [=] { changeTheme(0); });
     connect(ui->actionLight, &QAction::triggered, [=] { changeTheme(1); });

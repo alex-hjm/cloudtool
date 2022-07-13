@@ -89,7 +89,7 @@
      <x>0</x>
      <y>0</y>
      <width>1300</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -163,6 +163,7 @@
      <string>Device</string>
     </property>
     <addaction name="actionPhotoneo"/>
+    <addaction name="actionAzureKinect"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -247,7 +248,9 @@
    </property>
    <property name="font">
     <font>
+     <family>微软雅黑</family>
      <pointsize>10</pointsize>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -346,7 +349,9 @@
    </property>
    <property name="font">
     <font>
+     <family>微软雅黑</family>
      <pointsize>10</pointsize>
+     <weight>50</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -1005,15 +1010,6 @@
    </property>
    <property name="text">
     <string>Registration</string>
-   </property>
-  </action>
-  <action name="actionZhiSensor">
-   <property name="icon">
-    <iconset resource="resources/res.qrc">
-     <normaloff>:/res/icon/device.svg</normaloff>:/res/icon/device.svg</iconset>
-   </property>
-   <property name="text">
-    <string>ZhiSensor</string>
    </property>
   </action>
   <action name="actionMeasure">
