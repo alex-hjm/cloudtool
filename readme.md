@@ -8,7 +8,7 @@ A 3D point cloud processing software base on PCL and QT;
 | ------------ | ------- |
 | QT           | 5.12.0  |
 | PCL          | 1.11.0  |
-| VTK          | 8.2.0   |
+| VTK (WITH_QT)          | 8.2.0   |
 
 ## How to build
 ### Windows
