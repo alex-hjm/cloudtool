@@ -18,6 +18,7 @@ namespace Ui
     class Photoneo;
 }
 
+//TODO: need to optimize
 class Photoneo : public ct::CustomDock
 {
     Q_OBJECT
@@ -34,7 +35,7 @@ public:
 public slots:
     void updateDeviceInfo(int);
     void updatePointCloud(const pho::api::PFrame&, float);
-    
+
 private:
     Ui::Photoneo* ui;
     ct::Cloud::Ptr m_captured_cloud;

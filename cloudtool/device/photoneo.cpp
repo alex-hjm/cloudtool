@@ -13,8 +13,8 @@
 #define PHOTONEO_PRE_FLAG "photoneo-preview"
 #define PHOTONEO_ADD_FLAG "photoneo-pointcloud"
 
-Photoneo::Photoneo(QWidget *parent) : CustomDock(parent), ui(new Ui::Photoneo),
-                                      m_captured_cloud(new ct::Cloud)
+Photoneo::Photoneo(QWidget* parent) : CustomDock(parent), ui(new Ui::Photoneo),
+m_captured_cloud(new ct::Cloud)
 {
     ui->setupUi(this);
 
@@ -180,8 +180,7 @@ void Photoneo::reset()
 void Photoneo::updateDeviceInfo(int index)
 {
     ui->txt_info->clear();
-    if (index < 0)
-        return;
+    if (index < 0) return;
     if (m_device_list.empty())
     {
         printW("Device List is empty!");
@@ -199,11 +198,12 @@ void Photoneo::updateDeviceInfo(int index)
     ui->txt_info->append(tr("Firmware version:%1").arg(info.FirmwareVersion.c_str()));
     ui->txt_info->append(tr("Variant:%1").arg(info.Variant.c_str()));
     ui->txt_info->append(tr("IsFileCamera:%1").arg(info.IsFileCamera ? "Yes" : "No"));
-    ui->txt_info->append(tr("Status:%1").arg(info.Status.Attached ? "Attached to PhoXi Control. " : "Not Attached to PhoXi Control." + info.Status.Ready ? "Ready to connect"
-                                                                                                                                                         : "Occupied"));
+    ui->txt_info->append(tr("Status:%1").arg(info.Status.Attached ?
+                                             "Attached to PhoXi Control. " : "Not Attached to PhoXi Control." +
+                                             info.Status.Ready ? "Ready to connect" : "Occupied"));
 }
 
-void Photoneo::updatePointCloud(const pho::api::PFrame &frame, float time)
+void Photoneo::updatePointCloud(const pho::api::PFrame& frame, float time)
 {
     pho::api::PhoXiTimeout timeout;
     frame->ConvertTo(*m_captured_cloud);

@@ -16,14 +16,16 @@ AzureKinect::AzureKinect(QWidget* parent)
 {
     ui->setupUi(this);
 
-    connect(ui->btn_search, &QPushButton::clicked, this, &AzureKinect::searchDevice);
     connect(ui->btn_connect, &QPushButton::clicked, this, &AzureKinect::connectDevice);
     connect(ui->btn_capture, &QPushButton::clicked, this, &AzureKinect::captureDevice);
     connect(ui->btn_add, &QPushButton::clicked, this, &AzureKinect::add);
     connect(ui->btn_reset, &QPushButton::clicked, this, &AzureKinect::reset);
 
-    ui->cbox_device->setCurrentIndex(-1);
-    connect(ui->cbox_device, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &AzureKinect::updateDeviceInfo);
+    ui->cbox_image_format->setCurrentIndex(0);
+    ui->cbox_resolution->setCurrentIndex(0);
+    ui->cbox_depth_mode->setCurrentIndex(0);
+    ui->cbox_fps->setCurrentIndex(2);
+
 }
 
 AzureKinect::~AzureKinect()
@@ -31,21 +33,29 @@ AzureKinect::~AzureKinect()
     delete ui;
 }
 
-void AzureKinect::searchDevice()
-{
-    uint32_t dev_cnt=k4a::device::get_installed_count();
-    printE(tr("Found %1 k4a device.").arg(dev_cnt)); 
-    
-}
-
 void AzureKinect::connectDevice()
 {
-   
+    if (!m_device.is_valid())
+    {
+        uint32_t dev_cnt = k4a::device::get_installed_count();
+        if (dev_cnt <= 0)
+        {
+            printE("No K4A devices found.");
+            return;
+        }
+        m_device = k4a::device::open(K4A_DEVICE_DEFAULT);
+        if(!m_device.is_valid())
+        {
+            printW(tr("K4A devices(%1) open failed.").arg(K4A_DEVICE_DEFAULT));
+            return;
+        }
+        printI(tr("Open k4a devices(%1) successfully.").arg(m_device.get_serialnum().c_str()));
+    }
 }
 
 void AzureKinect::captureDevice()
 {
-    
+
 }
 
 void AzureKinect::add()
@@ -71,7 +81,3 @@ void AzureKinect::reset()
     m_captured_cloud->clear();
 }
 
-void AzureKinect::updateDeviceInfo(int index)
-{
-    ui->txt_info->clear();
-}

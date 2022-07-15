@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>261</height>
+    <height>232</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>260</width>
-    <height>261</height>
+    <height>0</height>
    </size>
   </property>
   <property name="styleSheet">
@@ -55,44 +55,169 @@
         <number>6</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QComboBox" name="cbox_device">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Image Format:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btn_search">
-           <property name="text">
-            <string>Search</string>
-           </property>
+          <widget class="QComboBox" name="cbox_image_format">
+           <item>
+            <property name="text">
+             <string>MJPG</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>NV12</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>YUY2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>BGRA32</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>DEPTH16</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>IR16</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QTextBrowser" name="txt_info">
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAsNeeded</enum>
-         </property>
-         <property name="lineWrapMode">
-          <enum>QTextEdit::NoWrap</enum>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-         <property name="placeholderText">
-          <string>Device Information</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Color Resolution: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cbox_resolution">
+           <item>
+            <property name="text">
+             <string>OFF</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>720P</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>1080P</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>1440P</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>1536P</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>3072P</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Depth Mode: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cbox_depth_mode">
+           <item>
+            <property name="text">
+             <string>OFF</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>NFOV_2X2BINNED</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>NFOV_UNBINNED</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>WFOV_2X2BINNED</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>WFOV_UNBINNED</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>PASSIVE_IR</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Camera FPS: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cbox_fps">
+           <item>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>15</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>30</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -106,9 +231,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_8"/>
        </item>
        <item>
         <widget class="Line" name="line">

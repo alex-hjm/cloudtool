@@ -24,14 +24,10 @@ public:
     explicit AzureKinect(QWidget* parent = nullptr);
     ~AzureKinect();
 
-    void searchDevice();
     void connectDevice();
     void captureDevice();
     void add();
     void reset();
-
-public slots:
-    void updateDeviceInfo(int);
     
 private:
     Ui::AzureKinect* ui;
