@@ -4,8 +4,38 @@ A 3D point cloud processing software base on PCL and QT;
 ![](images/cloudtool.png)
 
 ## Preview
-### Color
+
+### 1. Color
+
 ![](images/color.gif)
+
+### 2. Normals
+
+![](images/normals.gif)
+
+### 3. Filters
+
+![](images/filters.gif)
+
+### 4. Cutting
+
+![](images/cutting.gif)
+
+### 5. Measure
+
+![](images/measure.gif)
+
+### 6. Segmetation
+
+![](images/segmetation.gif)
+
+### 7. Registration
+
+![](images/registration.gif)
+
+### 8. Surface
+
+![](images/surface.gif)
 
 ## Depend on
 | Dependencies | Min Version |
