@@ -7,12 +7,12 @@
 #ifndef __BASE_CLOUDVIEW_H__
 #define __BASE_CLOUDVIEW_H__
 
+#include "cloud.h"
+
 #include <QVTKOpenGLNativeWidget.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkOrientationMarkerWidget.h>
-
-#include "cloud.h"
 
 CT_BEGIN_NAMESPACE
 
@@ -37,6 +37,8 @@ public:
     void setCloudColor(const Cloud::Ptr &cloud, const std::string &axis);
     void setCloudSize(const std::string &id, float size);
     void setShapeColor(const std::string &id, const RGB &rgb);
+
+    bool contains(const std::string& id);
 
 private:
     pcl::visualization::PCLVisualizer::Ptr m_viewer;

@@ -1,10 +1,12 @@
-#include <iostream>
-#include <thread>
-#include <chrono>
+/**
+ * @file test_cloudview.cpp
+ * @author alex-hjm (hjmalex@163.com)
+ * @version 2.0
+ * @date 2024-01-30
+ */
+#include <QApplication>
 
 #include "base/cloudview.h"
-
-#include <QApplication>
 
 ct::Cloud::Ptr create_cloud()
 {
@@ -43,12 +45,12 @@ ct::Cloud::Ptr create_cloud()
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+  QApplication a(argc, argv);
 
-    ct::Cloud::Ptr cloud = create_cloud();
-    ct::CloudView cv;
-    cv.addCloud(cloud);
-    
-    cv.show();
-    return a.exec();
+  ct::Cloud::Ptr cloud = create_cloud();
+  ct::CloudView cv;
+  cv.addCloud(cloud);
+  
+  cv.show();
+  return a.exec();
 }

@@ -12,19 +12,18 @@ CloudView::CloudView(QWidget *parent)
   : QVTKOpenGLNativeWidget(parent), m_render(vtkSmartPointer<vtkRenderer>::New()),
     m_renderwindow(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New())
 {
-  m_renderwindow->AddRenderer(m_render);
-  m_viewer.reset(new pcl::visualization::PCLVisualizer(m_render, m_renderwindow, "viewer", false));
-  this->setRenderWindow(m_viewer->getRenderWindow());
-  m_viewer->setupInteractor(this->interactor(), this->renderWindow());
-  m_renderwindow->Render();
+    m_renderwindow->AddRenderer(m_render);
+    m_viewer.reset(new pcl::visualization::PCLVisualizer(m_render, m_renderwindow, "viewer", false));
+    this->setRenderWindow(m_viewer->getRenderWindow());
+    m_viewer->setupInteractor(this->interactor(), this->renderWindow());
+    m_renderwindow->Render();
 }
 
 void CloudView::addCloud(const Cloud::Ptr &cloud)
 {
-    if (!m_viewer->contains(cloud->id))
+    if (!m_viewer->contains(cloud->id)) {
         m_viewer->addPointCloud<PointXYZRGBN>(cloud, cloud->id);
-    else
-    {
+    } else {
         pcl::visualization::PointCloudColorHandlerRGBField<PointXYZRGBN> rgb(cloud);
         m_viewer->updatePointCloud<PointXYZRGBN>(cloud, rgb, cloud->id);
     }
@@ -35,11 +34,10 @@ void CloudView::addCloud(const Cloud::Ptr &cloud)
 
 void CloudView::addCloudBox(const Cloud::Ptr &cloud)
 {
-    if (!m_viewer->contains(cloud->bbox_id))
+    if (!m_viewer->contains(cloud->bbox_id)) {
         m_viewer->addCube(cloud->bbox.translation, cloud->bbox.rotation, cloud->bbox.width, cloud->bbox.height,
                           cloud->bbox.depth, cloud->bbox_id);
-    else
-    {
+    } else {
         m_viewer->removeShape(cloud->bbox_id);
         m_viewer->addCube(cloud->bbox.translation, cloud->bbox.rotation, cloud->bbox.width, cloud->bbox.height,
                           cloud->bbox.depth, cloud->bbox_id);
@@ -53,10 +51,9 @@ void CloudView::addCloudBox(const Cloud::Ptr &cloud)
 
 void CloudView::addCloudNormals(const Cloud::Ptr &cloud, int level, float scale)
 {
-    if (!m_viewer->contains(cloud->normals_id))
+    if (!m_viewer->contains(cloud->normals_id)) {
         m_viewer->addPointCloudNormals<PointXYZRGBN>(cloud, level, scale, cloud->normals_id);
-    else
-    {
+    } else {
         m_viewer->removePointCloud(cloud->normals_id);
         m_viewer->addPointCloudNormals<PointXYZRGBN>(cloud, level, scale, cloud->normals_id);
     }
@@ -125,6 +122,11 @@ void CloudView::setShapeColor(const std::string &id, const RGB &rgb)
 {
     m_viewer->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, rgb.rf(), rgb.gf(), rgb.bf(), id);
     m_renderwindow->Render();
+}
+
+bool CloudView::contains(const std::string& id)
+{
+    return m_viewer->contains(id);
 }
 
 CT_END_NAMESPACE

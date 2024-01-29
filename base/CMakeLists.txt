@@ -9,5 +9,3 @@ target_link_libraries(ct_base PRIVATE Qt${QT_VERSION_MAJOR}::Widgets ${PCL_LIBRA
 target_compile_definitions(ct_base PRIVATE CT_LIBRARY)
 
 set_target_properties(ct_base PROPERTIES PUBLIC_HEADER "${LibHdrs}")
-
-add_subdirectory(test)
