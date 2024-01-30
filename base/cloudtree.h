@@ -21,11 +21,12 @@ public:
 
     // io
     static bool LoadCloudFile(const std::string& file, Cloud::Ptr& cloud);
-    static bool SaveCloudFile(const Cloud::Ptr& cloud, const std::string& file, bool is_binary);
+    static bool SaveCloudFile(const Cloud::Ptr& cloud, const std::string& file, bool isBinary);
 
     bool loadCloud();
     bool saveSelectedClouds();
 
+    bool appendCloud(int row, const Cloud::Ptr& cloud);
     bool insertCloud(int index, const Cloud::Ptr& cloud);
     bool appendCloud(const Cloud::Ptr& cloud);
     bool removeCloud(const Cloud::Ptr& cloud);
@@ -40,9 +41,17 @@ public:
 
 signals:
     void logging(LogLevel level, const QString& msg);
+    void addCloudEvent(const Cloud::Ptr& cloud);
+    void removeCloudEvent(const QString& id);
+    void removeAllCloudsEvent();
+    void removeCloudEvent(const Cloud::Ptr& cloud);
 
-protected:
-    void mousePressEvent(QMouseEvent* event) override;
+private:
+    void showContextMenu(const QPoint &pos);
+    void handleItemSelectionChanged();
+    void handleItemChanged(QTreeWidgetItem *item, int column);
+    void updateChildItems(QTreeWidgetItem *parentItem);
+    void updateParentItem(QTreeWidgetItem *childItem);
 };
 
 CT_END_NAMESPACE
