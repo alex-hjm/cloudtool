@@ -16,6 +16,6 @@
 #endif
 
 #define CT_BEGIN_NAMESPACE  namespace ct  {
-#define CT_END_NAMESPACE }
-
+#define CT_END_NAMESPACE    }
+#define CT_NAMESPACE        ct
 #endif // __BASE_EXPORT_H__

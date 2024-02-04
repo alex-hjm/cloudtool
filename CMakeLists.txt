@@ -129,5 +129,9 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
+add_definitions(-DPROJECT_NAME="${PROJECT_NAME}")
+add_definitions(-DPROJECT_AUTHOR="alex-hjm")
+add_definitions(-DDEFAULT_DATA_PATH="${PROJECT_SOURCE_DIR}/data")
+
 add_subdirectory(base)
 add_subdirectory(test)
