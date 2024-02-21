@@ -15,7 +15,8 @@
 #define CT_EXPORT Q_DECL_IMPORT
 #endif
 
-#define CT_BEGIN_NAMESPACE  namespace ct  {
-#define CT_END_NAMESPACE    }
 #define CT_NAMESPACE        ct
+#define CT_BEGIN_NAMESPACE  namespace CT_NAMESPACE  {
+#define CT_END_NAMESPACE    }
+
 #endif // __BASE_EXPORT_H__

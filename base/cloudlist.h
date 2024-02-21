@@ -19,8 +19,8 @@ class CT_EXPORT CloudFileIO : public QObject
 {
   Q_OBJECT
 public slots:
-    void loadCloudFile(const std::string& file_name);
-    void saveCloudFile(const Cloud::Ptr& cloud, const std::string& file_name, bool isBinary);
+    void loadCloudFile(const QString& file_name);
+    void saveCloudFile(const Cloud::Ptr& cloud, const QString& file_name, bool isBinary); 
 
 signals:
     void loadCloudResult(bool res, const Cloud::Ptr& cloud);
@@ -34,85 +34,62 @@ public:
     explicit CloudList(QWidget* parent = nullptr);
 
 public:
-    bool loadClouds();
-    inline bool addCloud(const Cloud::Ptr& cloud) { return insertCloud(count(), cloud); }
+    void loadCloud();
+
+    bool appendCloud(const Cloud::Ptr& cloud);
     bool insertCloud(int index, const Cloud::Ptr& cloud);
     bool removeCloud(const Cloud::Ptr& cloud);
     bool saveCloud(const Cloud::Ptr& cloud);
-    Cloud::Ptr mergeCloud(const std::vector<Cloud::Ptr>& clouds);
-    Cloud::Ptr cloneCloud(const Cloud::Ptr& cloud);
-    Cloud::Ptr renameCloud(const Cloud::Ptr& cloud);
+    bool mergeClouds(const std::vector<Cloud::Ptr>& clouds);
+    bool cloneCloud(const Cloud::Ptr& cloud);
+    bool renameCloud(const Cloud::Ptr& cloud);
+    bool renameCloud(const Cloud::Ptr& cloud, const QString& id);
+    
+    Cloud::Ptr getCloud(int index) const;
+    int getIndex(const Cloud::Ptr& cloud) const;
 
-    bool setCloudChecked(const Cloud::Ptr& cloud, bool checked = true);
-    void setCloudSelected(const Cloud::Ptr& cloud, bool selected = true);
+    std::vector<Cloud::Ptr> getSelectedClouds() const;
+    std::vector<Cloud::Ptr> getAllClouds() const;
 
-    int getIndex(const Cloud::Ptr& cloud) {
-        auto items = findItems(cloud->id.c_str(), Qt::MatchFlag::MatchExactly);
-        return items.empty() ? -1 : row(items.front());
-    }
-
-    inline Cloud::Ptr getCloud(int index) {
-        auto it = item(index);
-        return it->data(Qt::UserRole).value<Cloud::Ptr>();
-    }
-
-    inline std::vector<Cloud::Ptr> getSelectedClouds() {
-        auto items = selectedItems();
-        std::vector<Cloud::Ptr> clouds;
-        for(auto item : items) { 
-            clouds.push_back(item->data(Qt::UserRole).value<Cloud::Ptr>());
-        }
-        return clouds;
-    }
-
-    inline std::vector<Cloud::Ptr> getAllClouds() {
-        std::vector<Cloud::Ptr> clouds;
-        for(int i = 0; i < count(); i++) { 
-            clouds.push_back(item(i)->data(Qt::UserRole).value<Cloud::Ptr>());
-        }
-        return clouds;
-    }
-
-    inline void removeSelectedClouds() { 
-        auto clouds = getSelectedClouds();
-        for (auto cloud : clouds) { removeCloud(cloud); }
+    inline void removeSelectedClouds() {
+        for (auto& cloud : getSelectedClouds()) removeCloud(cloud);
     }
 
     inline void removeAllClouds() { 
-        auto clouds = getAllClouds();
-        for (auto cloud : clouds) { removeCloud(cloud); }
+        for (auto& cloud : getAllClouds()) removeCloud(cloud);
     }
 
     inline void saveSelectedClouds() {
-        auto clouds = getSelectedClouds();
-        for (auto cloud : clouds) { saveCloud(cloud); }
+        for (auto& cloud : getSelectedClouds()) saveCloud(cloud); 
     }
 
     inline void saveAllClouds() {
-        auto clouds = getAllClouds();
-        for (auto cloud : clouds) { saveCloud(cloud); }
+        for (auto& cloud : getAllClouds()) saveCloud(cloud); 
     }
 
     inline void mergeSelectedClouds() {
-        auto cloud = mergeCloud(getSelectedClouds());
-        addCloud(cloud);
+        mergeClouds(getSelectedClouds());
     }
 
     inline void cloneSelectedClouds() {
-        auto clouds = getSelectedClouds();
-        for (auto cloud : clouds) { addCloud(cloneCloud(cloud)); }
+        for (auto& cloud : getSelectedClouds()) cloneCloud(cloud); 
     }
 
     inline void renameSelectedClouds() {
-        auto clouds = getSelectedClouds();
-        for (auto cloud : clouds) { addCloud(renameCloud(cloud)); }
+        for (auto& cloud : getSelectedClouds()) renameCloud(cloud); 
     }
 
+private:
+    void loadCloudFile(const QString& file);
+    void saveCloudFile(const Cloud::Ptr& cloud, const QString& file, bool isBinary);
+    
 signals:
     void logging(LogLevel level, const QString& msg);
     void addCloudEvent(const Cloud::Ptr& cloud);
-    void updateCloudEvent(const Cloud::Ptr& cloud);
-    void removeCloudEvent(const Cloud::Ptr& cloud);
+    void removeCloudEvent(const QString& id);
+    void addCloudBBoxEvent(const Cloud::Ptr& cloud);
+    void removeCloudBBoxEvent(const QString& id);
+    void selectCloudEvent(const Cloud::Ptr& cloud);
 
 private:
     void showContextMenu(const QPoint &pos);

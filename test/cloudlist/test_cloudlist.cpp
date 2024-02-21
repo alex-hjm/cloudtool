@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
        tb.append(msg);
     });
     QObject::connect(&cl, &ct::CloudList::addCloudEvent, &cv, &ct::CloudView::addCloud);
+    QObject::connect(&cl, &ct::CloudList::removeCloudEvent, &cv, &ct::CloudView::removeCloud);
+    QObject::connect(&cl, &ct::CloudList::addCloudBBoxEvent, &cv, &ct::CloudView::addCloudBBox);
+    QObject::connect(&cl, &ct::CloudList::removeCloudBBoxEvent, &cv, &ct::CloudView::removeCloudBBox);
     QVBoxLayout vlayout(&widget);
     vlayout.addWidget(&cv);
     vlayout.addWidget(&cl);

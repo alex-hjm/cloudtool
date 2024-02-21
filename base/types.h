@@ -7,11 +7,10 @@
 #ifndef __BASE_TYPES_H__
 #define __BASE_TYPES_H__
 
+#include "export.h"
+
 #include <Eigen/Eigen>
 #include <pcl/point_types.h>
-#include <QMetaType>
-
-#include "export.h"
 
 CT_BEGIN_NAMESPACE
 

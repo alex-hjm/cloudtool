@@ -11,18 +11,22 @@
 
 #include <pcl/point_cloud.h>
 #include <QDataStream>
+#include <QString>
 
-#define CLOUD_BBOX_FLAG       "-bbox"
-#define CLOUD_NORMALS_FLAG    "-normals"
+#define CLOUD_DEFAULT_ID    "undefined"
+#define CLOUD_BBOX_SUFFIX   "-bbox"
 
 CT_BEGIN_NAMESPACE
 
 class CT_EXPORT Cloud : public pcl::PointCloud<PointXYZRGBN>
 {
 public:
-    Cloud() {
-        qRegisterMetaTypeStreamOperators<Cloud::Ptr>("Cloud::Ptr");
-    }
+    Cloud() : m_id (CLOUD_DEFAULT_ID), 
+              m_bbox_rgb(Color::White), 
+              m_point_size(1),
+              m_opacity(1.0) {}
+
+    Cloud(const QString& id) : Cloud() { m_id = id; }
 
     Cloud& operator+=(const Cloud& rhs) { concatenate((*this), rhs); return (*this); }
     Cloud operator+(const Cloud& rhs) { return (Cloud(*this) += rhs); }
@@ -31,10 +35,24 @@ public:
     using ConstPtr = std::shared_ptr<const Cloud>;
     Ptr makeShared() const { return Ptr(new Cloud(*this)); }
 
-    Eigen::Vector3f center() const { return bbox.translation; }
-    float volume() const { return bbox.depth * bbox.height * bbox.width; }
-    int pointsNum() const { return this->size(); }
+    QString id() const { return m_id; }
+    QString bboxId() const { return id() + CLOUD_BBOX_SUFFIX; }
+    QString path() const { return m_path; }
+    BBox bbox() const { return m_bbox; }
+    RGB bboxColor() const { return m_bbox_rgb; }
+    int pointSize() const { return m_point_size; }
+    float opacity() const { return m_opacity; }
+    long pointNum() const { return this->size(); }
 
+
+    void setId(const QString& id) { m_id = id; }
+    void setPath(const QString& path) { m_path = path; }
+    void setBBox(const BBox& bbox) { m_bbox= bbox; }
+    void setBBoxColor(const RGB& rgb) { m_bbox_rgb = rgb; }
+    void setPointSize(int size) { m_point_size = size; }
+    void setOpacity(float opacity) { m_opacity = opacity; }
+
+    void updateBBox();
 
     friend QDataStream &operator<<(QDataStream &out, Cloud::Ptr const &rhs) {
         out.writeRawData(reinterpret_cast<const char*>(&rhs), sizeof(rhs));
@@ -46,19 +64,17 @@ public:
         return in;
     }
 
-public:
-    std::string id{"undefined"};
-    std::string bbox_id{id + CLOUD_BBOX_FLAG};
-    std::string normals_id{id + CLOUD_NORMALS_FLAG};
-    BBox bbox;
-    RGB bbox_rgb{Color::White};
-    RGB normals_rgb{Color::Green};
-    int point_size{1};
-    float opacity{1.0};
-    std::string path;
+private:
+    QString m_id;
+    QString m_path;
+    BBox m_bbox;
+    RGB m_bbox_rgb;
+    int m_point_size;
+    float m_opacity;
 };
 
 CT_END_NAMESPACE
 
 Q_DECLARE_METATYPE(CT_NAMESPACE::Cloud::Ptr)
+
 #endif  // __BASE_CLOUD_H__

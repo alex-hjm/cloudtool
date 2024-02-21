@@ -115,8 +115,8 @@ else()
 endif()
 
 # QT
-find_package(QT NAMES Qt5 COMPONENTS Concurrent Core Widgets OpenGL Gui LinguistTools REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
+find_package(QT NAMES Qt5 COMPONENTS Concurrent Core Widgets OpenGL Gui REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 if(QT_FOUND)
     message(STATUS "Found QT, version is ${Qt5_VERSION}.")

@@ -1,3 +1,3 @@
 add_subdirectory(cloudview)
-add_subdirectory(cloudtree)
+add_subdirectory(cloudlist)
 

@@ -10,47 +10,55 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QThread>
-
+#include <QPushButton>
 #include <QMouseEvent>
 #include <QMenu>
 #include <QFileInfo>
 #include <QFileDialog>
-#include <QRunnable>
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
 
+#define CLOUD_MERGE_PERFIX  "merge"
+#define CLOUD_CLONE_PERFIX  "clone"
+
 CT_BEGIN_NAMESPACE
 
-void CloudFileIO::loadCloudFile(const std::string& file_name) 
+void CloudFileIO::loadCloudFile(const QString& file_name) 
 {
     int result = -1;
-    QFileInfo info(file_name.c_str());
+    QFileInfo fileinfo(file_name);
     Cloud::Ptr cloud(new Cloud);
-    if (info.suffix() == "pcd")
-        result = pcl::io::loadPCDFile(file_name, *cloud);
-    else if (info.suffix() == "ply")
-        result = pcl::io::loadPLYFile(file_name, *cloud);
+    if (fileinfo.suffix() == "pcd")
+        result = pcl::io::loadPCDFile(file_name.toStdString(), *cloud);
+    else if (fileinfo.suffix() == "ply")
+        result = pcl::io::loadPLYFile(file_name.toStdString(), *cloud);
     if (-1 == result)  {
-        emit loadCloudResult(false, nullptr);
+        loadCloudResult(false, nullptr);
         return;
     }
-    cloud->id = info.baseName().toStdString();
-    cloud->path = info.absolutePath().toStdString();
-    emit loadCloudResult(true, cloud);
+    cloud->setId(fileinfo.baseName());
+    cloud->setPath(fileinfo.absolutePath());
+    cloud->updateBBox();
+    loadCloudResult(true, cloud);   
 }
 
-void CloudFileIO::saveCloudFile(const Cloud::Ptr& cloud, const std::string& file_name, bool isBinary) 
+void CloudFileIO::saveCloudFile(const Cloud::Ptr& cloud, const QString& file_name, bool isBinary)
 {
-    QFileInfo fileinfo(file_name.c_str());
+    QFileInfo fileinfo(file_name);
     int result = -1;
     if (fileinfo.suffix() == "pcd")
-        result = pcl::io::savePCDFile(file_name, *cloud, isBinary);
+        result = pcl::io::savePCDFile(file_name.toStdString(), *cloud, isBinary);
     else if (fileinfo.suffix() == "ply")
-        result = pcl::io::savePLYFile(file_name, *cloud, isBinary);
+        result = pcl::io::savePLYFile(file_name.toStdString(), *cloud, isBinary);
     else
-        result = pcl::io::savePLYFile(file_name + ".ply", *cloud, isBinary);
-    emit saveCloudResult(bool(result));
+        result = pcl::io::savePLYFile(file_name.toStdString() + ".ply", *cloud, isBinary);
+    if (-1 == result)  {
+        saveCloudResult(false);
+        return;
+    }
+    cloud->setPath(fileinfo.absolutePath());
+    saveCloudResult(true);
 }
 
 CloudList::CloudList(QWidget* parent) : QListWidget(parent), m_setting(PROJECT_NAME, PROJECT_NAME)
@@ -60,126 +68,248 @@ CloudList::CloudList(QWidget* parent) : QListWidget(parent), m_setting(PROJECT_N
     setDragDropMode(QAbstractItemView::InternalMove);
     connect(this, &QListWidget::itemChanged, this, &CloudList::handleItemChanged);
     connect(this, &QListWidget::itemSelectionChanged, this, &CloudList::handleItemSelectionChanged);
-    connect(this, &QListWidget::customContextMenuRequested, this, &CloudList::showContextMenu);
     connect(this, &QListWidget::currentTextChanged, this, &CloudList::handleItemTextChanged);
+    connect(this, &QListWidget::customContextMenuRequested, this, &CloudList::showContextMenu);
 }
 
-bool CloudList::loadClouds()
+void CloudList::loadCloud()
 {
     QString filter = "all(*.*);;ply(*.ply);;pcd(*.pcd)";
     QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
     QStringList fileList = QFileDialog::getOpenFileNames(this, "Open file", lastOpenDir, filter);
-    for(auto file : fileList) {
-        QThread *thread = new QThread;
-        CloudFileIO *fileio = new CloudFileIO;
-        fileio->moveToThread(thread);
-        connect(thread, &QThread::finished, fileio, &QObject::deleteLater);
-        connect(thread, &QThread::started, [=] { fileio->loadCloudFile(file.toStdString());});
-        connect(fileio, &CloudFileIO::loadCloudResult, this, [=](bool res, const Cloud::Ptr& cloud) {
-            QMutexLocker locker(&m_mutex);
-            if (!res || !addCloud(cloud)) {
-                logging(LOG_ERROR, tr("Failed to load cloud file: %1").arg(file));
-                return;
-            }
-            logging(LOG_INFO, tr("Success to load cloud file: %1").arg(file));
-        }, Qt::QueuedConnection);
-        thread->start();
-        m_setting.setValue("lastOpenDir", QFileInfo(file).path());
-    } 
-    return true;
+    for(auto file : fileList) this->loadCloudFile(file);
+}
+
+bool CloudList::appendCloud(const Cloud::Ptr& cloud)
+{
+    return insertCloud(count(), cloud);
 }
 
 bool CloudList::insertCloud(int index, const Cloud::Ptr& cloud)
 {
-    if(!findItems(cloud->id.c_str(), Qt::MatchFlag::MatchExactly).empty()) {
+    if (index < 0 || index > count()) {
+        logging(LOG_ERROR, tr("Invalid index: %1").arg(index));
+        return false;
+    }
+
+    if (cloud == nullptr) {
+        logging(LOG_ERROR, tr("Cloud is nullptr"));
+        return false;
+    }
+
+    if (!findItems(cloud->id(), Qt::MatchFlag::MatchExactly).empty()) {
         int k = QMessageBox::warning(this, "WARNING", "The cloud id already exists.\n Rename it?", QMessageBox::Yes, QMessageBox::Cancel);
         if(k == QMessageBox::Cancel) return false;
         bool ok = false;
-        QString res = QInputDialog::getText(this, PROJECT_NAME, "Please input cloud id: ", QLineEdit::Normal, cloud->id.c_str(), &ok);
-        if (!ok) return false;
-        else {
-            if (res == cloud->id.c_str() || !findItems(res, Qt::MatchFlag::MatchExactly).empty())
-            {
-                logging(LOG_ERROR, tr("The cloud id already exists.").arg(res));
-                return false;
-            }
-            cloud->id = res.toStdString();
+        QString res = QInputDialog::getText(this, PROJECT_NAME, "Please input cloud id: ", QLineEdit::Normal, cloud->id(), &ok);
+        if (!ok)  return false;
+        if (res == cloud->id() || !findItems(res, Qt::MatchFlag::MatchExactly).empty()) {
+            logging(LOG_ERROR, tr("The cloud id: %1 already exists, Please retry.").arg(res));
+            return false;
         }
+        cloud->setId(res);
     }
+
     QListWidgetItem* item = new QListWidgetItem(this);
-    item->setText(cloud->id.c_str());
+    item->setText(cloud->id());
     item->setCheckState(Qt::Checked);
     item->setData(Qt::UserRole, QVariant::fromValue(cloud));
-    item->setToolTip(cloud->id.c_str());
-    item->setFlags(item->flags() | Qt::ItemIsDragEnabled);
+    item->setToolTip(cloud->path());
+    item->setFlags(item->flags() | Qt::ItemIsDragEnabled | Qt::ItemIsEditable);
     insertItem(index, item);
     setCurrentItem(item);
-    emit addCloudEvent(cloud);
+    addCloudEvent(cloud);
     return true;
 }
 
 bool CloudList::removeCloud(const Cloud::Ptr& cloud)
 {
-    
+    auto item = takeItem(getIndex(cloud));
+    if (item == nullptr) return false;
+    delete item;
+    removeCloudEvent(cloud->id());
     return true;
 }
 
 bool CloudList::saveCloud(const Cloud::Ptr& cloud)
 {
+    QString filter = "ply(*.ply);;pcd(*.pcd)";
+    QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save file"), lastOpenDir + "/" + cloud->id(), filter);
+    if (filePath.isEmpty()) return false;
+    QMessageBox messageBox(QMessageBox::NoIcon, PROJECT_NAME, tr("Save in binary or ascii format"),
+                            QMessageBox::NoButton, this);
+    messageBox.addButton(tr("Ascii"), QMessageBox::ActionRole);
+    messageBox.addButton(tr("Binary"), QMessageBox::ActionRole)->setDefault(true);
+    messageBox.addButton(tr("Close"), QMessageBox::RejectRole)->setHidden(true);
+    int isBinary = messageBox.exec();
+    if (2 == isBinary) return false;
+    saveCloudFile(cloud, filePath, isBinary);
     return true;
 }
 
-Cloud::Ptr CloudList::mergeCloud(const std::vector<Cloud::Ptr>& clouds)
+bool CloudList::mergeClouds(const std::vector<Cloud::Ptr>& clouds)
 {
-    return nullptr;
+    if (clouds.size() < 2) return false;
+    Cloud::Ptr merged_cloud(new Cloud(CLOUD_MERGE_PERFIX));
+    for(auto& cloud : clouds) {
+        *merged_cloud += *cloud;
+        merged_cloud->setId(merged_cloud->id() + "_" + cloud->id());
+    }
+    return appendCloud(merged_cloud);
 }
 
-Cloud::Ptr CloudList::cloneCloud(const Cloud::Ptr& cloud)
+bool CloudList::cloneCloud(const Cloud::Ptr& cloud)
 {
-    return nullptr;
+    Cloud::Ptr cloned_cloud = cloud->makeShared();
+    cloned_cloud->setId(QString(CLOUD_CLONE_PERFIX) + "_" + cloud->id());
+    return appendCloud(cloned_cloud);
 }
 
-Cloud::Ptr CloudList::renameCloud(const Cloud::Ptr& cloud)
+bool CloudList::renameCloud(const Cloud::Ptr& cloud)
 {
-    return nullptr;
+    bool ok = false;
+    QString id = QInputDialog::getText(this, PROJECT_NAME, "Rename: ", QLineEdit::Normal, cloud->id(), &ok);
+    if (!ok)  return false;
+    return renameCloud(cloud, id);
+}
+
+bool CloudList::renameCloud(const Cloud::Ptr& cloud, const QString& id)
+{
+    auto it = item(getIndex(cloud));
+    if (it == nullptr) return false;
+    removeCloudEvent(cloud->id());
+    cloud->setId(id);
+    it->setText(id);
+    addCloudEvent(cloud);
+    return true;
+}
+
+Cloud::Ptr CloudList::getCloud(int index) const
+{
+    if (index < 0 || index > count()) return nullptr;
+    return item(index)->data(Qt::UserRole).value<Cloud::Ptr>();
+}
+
+int CloudList::getIndex(const Cloud::Ptr& cloud) const
+{
+    for(int i = 0; i < count(); i++) { 
+        if (cloud == getCloud(i)) return i;
+    }
+    return -1;
+}
+
+std::vector<Cloud::Ptr> CloudList::getSelectedClouds() const
+{
+    auto items = selectedItems();
+    std::vector<Cloud::Ptr> clouds;
+    for(auto& item : items) { 
+        clouds.push_back(item->data(Qt::UserRole).value<Cloud::Ptr>());
+    }
+    return clouds;
+}
+
+std::vector<Cloud::Ptr> CloudList::getAllClouds() const
+{
+    std::vector<Cloud::Ptr> clouds;
+    for(int i = 0; i < count(); i++) { 
+        clouds.push_back(getCloud(i));
+    }
+    return clouds;
+}
+
+void CloudList::loadCloudFile(const QString& file)
+{
+    QThread *thread = new QThread;
+    CloudFileIO *fileio = new CloudFileIO;
+    fileio->moveToThread(thread);
+    connect(thread, &QThread::finished, fileio, &QObject::deleteLater);
+    connect(thread, &QThread::started, [=] { fileio->loadCloudFile(file); });
+    connect(fileio, &CloudFileIO::loadCloudResult, this, [=](bool res, const Cloud::Ptr& cloud) {
+        QMutexLocker locker(&m_mutex);
+        if (!res || !appendCloud(cloud)) {
+            logging(LOG_ERROR, tr("Failed to load cloud file: %1").arg(file));
+        } else {
+            logging(LOG_INFO, tr("Success to load cloud file: %1").arg(file));
+        }
+        thread->quit();
+        thread->wait();
+    }, Qt::QueuedConnection);
+    thread->start();
+    m_setting.setValue("lastOpenDir", QFileInfo(file).path());
+}
+
+void CloudList::saveCloudFile(const Cloud::Ptr& cloud, const QString& file, bool isBinary)
+{
+    QThread *thread = new QThread;
+    CloudFileIO *fileio = new CloudFileIO;
+    fileio->moveToThread(thread);
+    connect(thread, &QThread::finished, fileio, &QObject::deleteLater);
+    connect(thread, &QThread::started, [=] { fileio->saveCloudFile(cloud, file, isBinary);});
+    connect(fileio, &CloudFileIO::saveCloudResult, this, [=](bool res) {
+        QMutexLocker locker(&m_mutex);
+        if (!res || !renameCloud(cloud, QFileInfo(file).baseName())) {
+            logging(LOG_ERROR, tr("Failed to save cloud file: %1").arg(file));
+        } else {
+            logging(LOG_INFO, tr("Success to save cloud file: %1").arg(file));
+        }
+        thread->quit();
+        thread->wait();
+    }, Qt::QueuedConnection);
+    thread->start();
+    m_setting.setValue("lastOpenDir", QFileInfo(file).path());
 }
 
 void CloudList::showContextMenu(const QPoint &pos)
 {
     QMenu* contextMenu(new QMenu(this));
-
     auto selectedItems = this->selectedItems();
-
+    contextMenu->addAction("load", [=] { this->loadCloud();});
+    contextMenu->addAction("clear", [=] {  this->removeAllClouds(); });
+    contextMenu->addAction("sort", [=] {  this->sortItems(); });
     if (!selectedItems.isEmpty()) {
-        contextMenu->addAction("remove", [=] {  this->removeSelectedClouds();  });
+        contextMenu->addAction("remove", [=] {  this->removeSelectedClouds(); });
         contextMenu->addAction("clone", [=] { this->cloneSelectedClouds(); });
-        contextMenu->addAction("rename", [=] { this->cloneSelectedClouds(); });
-        if (selectedItems.size() == 1 && selectedItems.first()->isSelected()) {
-            // TODO: 
+        if (selectedItems.size() == 1) {
+            contextMenu->addAction("save", [=] { this->saveSelectedClouds(); });
+            contextMenu->addAction("rename", [=] { this->renameSelectedClouds(); });
         } else {
-            contextMenu->addAction("merge", [=] { this->mergeSelectedClouds();  });
+            contextMenu->addAction("merge", [=] { this->mergeSelectedClouds(); });
         }
-    } else {
-        contextMenu->addAction("load", [=] { this->loadClouds();});
-        contextMenu->addAction("clear", [=] {  this->removeAllClouds(); });
-        contextMenu->addAction("sort", [=] {  this->sortItems(); });
-    }
+    } 
      contextMenu->exec(mapToGlobal(pos));
 }
 
 void CloudList::handleItemSelectionChanged()
 {
+    for(int i = 0; i < count(); i++) { 
+        if (item(i)->isSelected()) {
+            addCloudBBoxEvent(getCloud(i));
+        } else {
+            removeCloudBBoxEvent(getCloud(i)->bboxId());
+        }
+    }
 
+    auto clouds = getSelectedClouds();
+    selectCloudEvent(clouds.size() > 0 ? clouds.front() : nullptr);
 }
 
 void CloudList::handleItemChanged(QListWidgetItem *item)
 {
-
+    auto cloud = getCloud(row(item));
+    if (cloud == nullptr) return;
+    if (item->checkState() == Qt::Checked) {
+        addCloudEvent(cloud);
+    } else if (item->checkState() == Qt::Unchecked) {
+        removeCloudEvent(cloud->id());
+    }
 }
 
 void CloudList::handleItemTextChanged(const QString &currentText)
 {
-
+    auto cloud = getCloud(currentRow());
+    if (cloud == nullptr) return;
+    this->renameCloud(cloud, currentText);
 }
 
 CT_END_NAMESPACE

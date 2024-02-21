@@ -23,22 +23,17 @@ public:
     explicit CloudView(QWidget *parent = nullptr);
 
     void addCloud(const Cloud::Ptr &cloud);
-    void addCloudBox(const Cloud::Ptr &cloud);
-    void addCloudNormals(const Cloud::Ptr &cloud, int level, float scale);
+    void addCloudBBox(const Cloud::Ptr &cloud);
 
-    void removeCloud(const std::string &id);
-    void removeCloudBox(const std::string &id);
-    void removeShape(const std::string &id);
+    void removeCloud(const QString &id);
+    void removeCloudBBox(const QString &id);
     void removeAllClouds();
-    void removeAllShapes();
 
-    void setCloudColor(const Cloud::Ptr &cloud, const RGB &rgb);
-    void setCloudColor(const std::string &id, const RGB &rgb);
-    void setCloudColor(const Cloud::Ptr &cloud, const std::string &axis);
-    void setCloudSize(const std::string &id, float size);
-    void setShapeColor(const std::string &id, const RGB &rgb);
+    void setCloudSize(const QString &id, int size);
+    void setCloudOpacity(const QString &id, float opacity);
 
-    bool contains(const std::string& id);
+    bool contains(const QString& id);
+    void resetCamera();
 
 private:
     pcl::visualization::PCLVisualizer::Ptr m_viewer;
