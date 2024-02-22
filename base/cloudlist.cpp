@@ -15,6 +15,7 @@
 #include <QMenu>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QShortcut>
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
@@ -70,6 +71,11 @@ CloudList::CloudList(QWidget* parent) : QListWidget(parent), m_setting(PROJECT_N
     connect(this, &QListWidget::itemSelectionChanged, this, &CloudList::handleItemSelectionChanged);
     connect(this, &QListWidget::currentTextChanged, this, &CloudList::handleItemTextChanged);
     connect(this, &QListWidget::customContextMenuRequested, this, &CloudList::showContextMenu);
+
+    //shotcut
+    connect(new QShortcut(QKeySequence::Open, this), &QShortcut::activated, this, &CloudList::loadCloud);
+    connect(new QShortcut(QKeySequence::Delete, this), &QShortcut::activated, this, &CloudList::removeSelectedClouds);
+    connect(new QShortcut(QKeySequence::Save, this), &QShortcut::activated, this, &CloudList::saveSelectedClouds);
 }
 
 void CloudList::loadCloud()
@@ -264,20 +270,19 @@ void CloudList::showContextMenu(const QPoint &pos)
 {
     QMenu* contextMenu(new QMenu(this));
     auto selectedItems = this->selectedItems();
-    contextMenu->addAction("load", [=] { this->loadCloud();});
-    contextMenu->addAction("clear", [=] {  this->removeAllClouds(); });
-    contextMenu->addAction("sort", [=] {  this->sortItems(); });
+    contextMenu->addAction("Load", this, &CloudList::loadCloud, QKeySequence::Open);
+    contextMenu->addAction("Clear", this, &CloudList::removeAllClouds);
     if (!selectedItems.isEmpty()) {
-        contextMenu->addAction("remove", [=] {  this->removeSelectedClouds(); });
-        contextMenu->addAction("clone", [=] { this->cloneSelectedClouds(); });
+        contextMenu->addAction("Remove", this, &CloudList::removeSelectedClouds, QKeySequence::Delete);
+        contextMenu->addAction("Clone", this, &CloudList::cloneSelectedClouds);
         if (selectedItems.size() == 1) {
-            contextMenu->addAction("save", [=] { this->saveSelectedClouds(); });
-            contextMenu->addAction("rename", [=] { this->renameSelectedClouds(); });
+            contextMenu->addAction("Save", this, &CloudList::saveSelectedClouds, QKeySequence::Save);
+            contextMenu->addAction("Rename", this, &CloudList::renameSelectedClouds);
         } else {
-            contextMenu->addAction("merge", [=] { this->mergeSelectedClouds(); });
+            contextMenu->addAction("Merge", this, &CloudList::mergeSelectedClouds);
         }
     } 
-     contextMenu->exec(mapToGlobal(pos));
+    contextMenu->exec(mapToGlobal(pos));
 }
 
 void CloudList::handleItemSelectionChanged()
