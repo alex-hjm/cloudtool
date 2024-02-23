@@ -1,0 +1,243 @@
+/* ================================================ *
+author:hjm
+last edited:2023.02.04
+* ================================================ */
+QMainWindow {
+	background: #444444;
+}
+
+QToolBar {
+	background: #333333;
+	border: 0px;
+}
+
+QDockWidget::title {
+	text-align: center;
+	background:#666666;
+	border-radius: 6px;
+}
+
+QListView {
+	background:#555555;
+	border-radius: 6px;
+}
+
+
+QTableView {
+	background:#555555;
+	border-radius: 6px;
+}
+
+QTextBrowser {
+	background:#555555;
+	border-radius: 6px;
+}
+
+QHeaderView{
+	background: transparent;	
+}
+
+QHeaderView::section:first {
+	border-top-left-radius: 6px;
+	background: #777777;
+}
+
+QHeaderView::section:last {
+	border-left: 1px solid #444444;
+	border-top-right-radius: 6px;
+	background: #777777;
+}
+
+QTableWidget QSpinBox{
+	border-radius: 2px;
+	selection-background-color: #575757;
+	background: transparent;
+}
+
+
+QTableWidget QDoubleSpinBox {
+	border-radius: 2px;
+	selection-background-color: #575757;
+	background: transparent;
+}
+
+QSpinBox, QDoubleSpinBox {
+	padding-top:1px;
+	padding-bottom:1px;
+	padding-left:5px;
+	border: 0px;
+	border-radius: 4px;
+	background: #999999;
+}
+
+QSpinBox::up-button, QSpinBox::down-button{
+	width:0px;
+}
+
+QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+	width:0px;
+}
+
+QGroupBox {
+	border: 0px;
+	border-radius: 6px;
+	background:#555555;
+}
+
+QComboBox {
+	padding-top:1px;
+	padding-bottom:1px;
+	padding-left:5px;
+	border: 0px;
+	border-radius: 4px;
+	background:#999999;
+}
+
+QComboBox:hover{
+	border: 0px;
+	border-radius: 4px;
+	padding-top:1px;
+	padding-bottom:1px;
+	background-color: #777777;
+}
+
+QComboBox::drop-down {
+	border: 0px;
+	margin-right: 10px;
+}
+
+QComboBox::down-arrow { 
+	image: url(:/res/icon/down_arrow.svg);
+} 
+
+QPushButton{
+	border: 0px;
+	border-radius: 4px;
+	padding-top:2px;
+	padding-bottom:2px;
+	background-color: #999999;
+}
+
+QPushButton:hover{
+	border: 0px;
+	border-radius: 4px;
+	padding-top:2px;
+	padding-bottom:2px;
+	background-color: #777777;
+}
+QPushButton:pressed{
+	border: 0px;
+	border-radius: 4px;
+	padding-top:2px;
+	padding-bottom:2px;
+	background-color: #666666;
+}
+
+QDialog{
+	background: #444444;
+}
+
+QDialog QListView{
+	background: #666666;
+}
+
+QDialogButtonBox QPushButton{
+	background-color: #999999;
+	padding:2px 10px 2px 10px;
+}
+
+QTabWidget::pane {
+	border: 0px ;
+	border-radius: 6px;
+	background:transparent;
+}
+
+QSlider::handle {
+	border: 0px ;
+	background: #999999;
+	
+}
+
+QSlider::sub-page {
+   	border: 0px ;
+	border-radius: 2px;
+   	background: #777777;
+   	margin-top:8px;
+   	margin-bottom:8px;
+}
+
+QSlider::add-page {
+	border: 0px ;
+	border-radius: 2px;
+	background: #777777;
+	margin-top:8px;
+	margin-bottom:8px;
+}
+
+QSlider::groove {
+	background: transparent;
+}
+
+QSlider::handle {
+	width: 8px;
+	height: 4px;
+	border: 0px ;
+	border-radius: 2px;
+	background: #999999;
+}
+
+QSlider::handle:pressed {
+	border: 0px ;
+	background: #999999;
+}
+
+QTabBar::tab:first {
+	border: 0px ;
+	padding: 2px 5px 2px 5px;
+	border-radius: 4px;
+	background: #777777;
+}
+QTabBar::tab::middle {
+	border: 0px ;
+	padding: 2px 5px 2px 5px;
+	border-radius: 4px;
+	background: #777777;
+}
+QTabBar::tab:last {
+	border: 0px ;
+	padding: 2px 5px 2px 5px;
+	border-radius: 4px;
+	background: #777777;
+}
+
+QTabBar::tab:hover {
+	border: 0px ;
+	padding: 2px 5px 2px 5px;
+	border-radius: 4px;
+	background: #888888;
+}
+
+QTabBar::tab:selected{
+	border: 0px ;
+	padding: 2px 5px 2px 5px;
+	border-radius: 4px;
+	background: #999999;
+}
+
+QGroupBox QTextEdit {
+	border: 0px ;
+	border-radius: 4px;
+	background: #999999;
+}
+
+QToolButton:hover{
+	border: 0px;
+	border-radius: 2px;
+	background: #555555;
+}
+
+QToolButton:pressed{
+	border: 0px;
+	border-radius: 2px;
+	background: #999999;
+}

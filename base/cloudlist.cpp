@@ -19,6 +19,7 @@
 
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
+#include <pcl/filters/filter.h>
 
 #define CLOUD_MERGE_PERFIX  "merge"
 #define CLOUD_CLONE_PERFIX  "clone"
@@ -38,9 +39,13 @@ void CloudFileIO::loadCloudFile(const QString& file_name)
         loadCloudResult(false, nullptr);
         return;
     }
+    cloud->is_dense = false;
+    std::vector<int> indices;
+    pcl::removeNaNFromPointCloud(*cloud, *cloud, indices);
     cloud->setId(fileinfo.baseName());
     cloud->setPath(fileinfo.absolutePath());
     cloud->updateBBox();
+    cloud->updateResolution();
     loadCloudResult(true, cloud);   
 }
 

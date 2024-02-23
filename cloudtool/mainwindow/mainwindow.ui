@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1044</width>
+    <height>624</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Microsoft YaHei UI</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>CloudTool</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources/res.qrc">
+    <normaloff>:/res/logo/logo.ico</normaloff>:/res/logo/logo.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="layout_5">
+    <item>
+     <widget class="ct::CloudView" name="cloudview" native="true">
+      <layout class="QVBoxLayout" name="layout"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QDockWidget" name="DataDock">
+   <property name="windowTitle">
+    <string>DataTree</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="widget">
+    <layout class="QVBoxLayout" name="layout_2">
+     <item>
+      <widget class="ct::CloudList" name="cloudlist"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="ConsoleDock">
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+    </font>
+   </property>
+   <property name="windowTitle">
+    <string>Console</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="widget_2">
+    <layout class="QVBoxLayout" name="layout_3">
+     <item>
+      <widget class="ct::Console" name="console"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="PropertiesDock">
+   <property name="windowTitle">
+    <string>Properties</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="widget_3">
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <layout class="QVBoxLayout" name="layout_4">
+     <item>
+      <widget class="ct::CloudTable" name="cloudtable"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionOpen"/>
+  </widget>
+  <action name="actionOpen">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/open.svg</normaloff>:/res/icon/open.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>ct::CloudList</class>
+   <extends>QListWidget</extends>
+   <header location="global">base/cloudlist.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ct::Console</class>
+   <extends>QTextBrowser</extends>
+   <header location="global">base/console.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ct::CloudTable</class>
+   <extends>QTableWidget</extends>
+   <header location="global">base/cloudtable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ct::CloudView</class>
+   <extends>QWidget</extends>
+   <header location="global">base/cloudview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../resources/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

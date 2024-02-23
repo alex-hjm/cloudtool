@@ -10,6 +10,7 @@
 #include <pcl/common/common.h>
 #include <pcl/common/eigen.h>
 #include <pcl/common/angles.h>
+#include <pcl/kdtree/kdtree_flann.h>
 
 CT_BEGIN_NAMESPACE
 
@@ -22,6 +23,23 @@ void Cloud::updateBBox()
     Eigen::Affine3f affine = Eigen::Affine3f::Identity();
     affine = pcl::getTransformation(center[0], center[1], center[2], 0, 0, 0);
     m_bbox = {whd(0), whd(1), whd(2), affine, center, Eigen::Quaternionf(Eigen::Matrix3f::Identity()) };
+}
+
+void Cloud::updateResolution() 
+{
+    pcl::KdTreeFLANN<PointXYZRGBN> kdtree;
+    kdtree.setInputCloud(this->makeShared());
+    float totalDistance = 0.0;
+    for (size_t i = 0; i < this->points.size(); ++i) {
+        PointXYZRGBN searchPoint = this->points[i];
+        int K = 2;  
+        std::vector<int> indices(K);
+        std::vector<float> distances(K);
+        kdtree.nearestKSearch(searchPoint, K, indices, distances);
+        totalDistance += distances[1];
+    }
+
+    m_resolution = totalDistance / static_cast<float>(this->points.size());
 }
 
 CT_END_NAMESPACE

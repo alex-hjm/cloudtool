@@ -1,0 +1,107 @@
+/* ================================================ *
+author:hjm
+last edited:2023.02.04
+* ================================================ */
+
+QToolBar {
+	background: white;
+	border: 0px;
+}
+
+QMainWindow {
+    font: 9pt "Microsoft YaHei UI";
+	background: #F3F3F3;
+}
+
+QLabel {
+    font: 8pt "Microsoft YaHei UI";
+}
+
+QDockWidget::title {
+	text-align: center;
+	background:#CFCFCF;
+	border-radius: 6px;
+}
+
+QListView {
+    font: 8pt "Microsoft YaHei UI";
+	background:#E3E3E3;
+	border-radius: 6px;
+}
+
+QTableView {
+    font: 8pt "Microsoft YaHei UI";
+	background:#E3E3E3;
+	border-radius: 6px;
+}
+
+QTextBrowser {
+    font: 8pt "Microsoft YaHei UI";
+	background:#E3E3E3;
+	border-radius: 6px;
+}
+
+QTextEdit {
+	border: 0px;
+}
+
+QHeaderView {
+    font: 8pt "Microsoft YaHei UI";
+}
+
+QHeaderView::section:first {
+	border-top-left-radius: 6px;
+	background: #D9D9D9;
+}
+
+QHeaderView::section:last {
+	border-left: 1px solid #F0F0F0;
+	border-top-right-radius: 6px;
+	background: #D9D9D9;
+}
+
+QTableWidget QSpinBox{
+    font: 8pt "Microsoft YaHei UI";
+	border-radius: 2px;
+	selection-background-color: darkgray;
+	background: #E5E5E5;
+}
+
+QTableWidget QDoubleSpinBox {
+    font: 8pt "Microsoft YaHei UI";
+	border-radius: 2px;
+	selection-background-color: darkgray;
+	background: #E5E5E5;
+}
+
+QSpinBox::up-button, QSpinBox::down-button{
+	width:0px;
+}
+
+QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+	width:0px;
+}
+
+QGroupBox {
+	border: 0px;
+	border-radius:6px;
+	background:#E3E3E3;
+}
+
+
+QTabWidget::pane {
+	border: 0px ;
+	border-radius: 6px;
+	background:transparent;
+}
+
+QSlider::handle {
+	border: 1px solid lightgray;
+	background: white;
+	
+}
+
+QSlider::handle:pressed {
+	border: 1px solid lightgray;
+	background: lightgray;
+}

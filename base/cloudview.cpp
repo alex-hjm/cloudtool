@@ -16,7 +16,7 @@ CloudView::CloudView(QWidget *parent)
     m_viewer.reset(new pcl::visualization::PCLVisualizer(m_render, m_renderwindow, "viewer", false));
     this->setRenderWindow(m_viewer->getRenderWindow());
     m_viewer->setupInteractor(this->interactor(), this->renderWindow());
-    m_viewer->setBackgroundColor(0.5, 0.5, 0.5);
+    m_viewer->setBackgroundColor((double)243.0/255.0, (double)243.0/255.0, (double)243.0/255.0);
     m_renderwindow->Render();
 }
 

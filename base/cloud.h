@@ -22,9 +22,10 @@ class CT_EXPORT Cloud : public pcl::PointCloud<PointXYZRGBN>
 {
 public:
     Cloud() : m_id (CLOUD_DEFAULT_ID), 
-              m_bbox_rgb(Color::White), 
+              m_bbox_rgb(Color::Black), 
               m_point_size(1),
-              m_opacity(1.0) {}
+              m_opacity(1.0),
+              m_resolution(1.0) {}
 
     Cloud(const QString& id) : Cloud() { m_id = id; }
 
@@ -42,17 +43,18 @@ public:
     RGB bboxColor() const { return m_bbox_rgb; }
     int pointSize() const { return m_point_size; }
     float opacity() const { return m_opacity; }
-    long pointNum() const { return this->size(); }
-
+    int pointNum() const { return this->size(); }
+    float resolution() const { return m_resolution; }
 
     void setId(const QString& id) { m_id = id; }
     void setPath(const QString& path) { m_path = path; }
-    void setBBox(const BBox& bbox) { m_bbox= bbox; }
+    void setBBox(const BBox& bbox) { m_bbox = bbox; }
     void setBBoxColor(const RGB& rgb) { m_bbox_rgb = rgb; }
     void setPointSize(int size) { m_point_size = size; }
     void setOpacity(float opacity) { m_opacity = opacity; }
 
     void updateBBox();
+    void updateResolution();
 
     friend QDataStream &operator<<(QDataStream &out, Cloud::Ptr const &rhs) {
         out.writeRawData(reinterpret_cast<const char*>(&rhs), sizeof(rhs));
@@ -71,6 +73,7 @@ private:
     RGB m_bbox_rgb;
     int m_point_size;
     float m_opacity;
+    float m_resolution;
 };
 
 CT_END_NAMESPACE

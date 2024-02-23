@@ -115,8 +115,8 @@ else()
 endif()
 
 # QT
-find_package(QT NAMES Qt5 COMPONENTS Concurrent Core Widgets OpenGL Gui REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt5 COMPONENTS Concurrent Core Widgets OpenGL Gui LinguistTools REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
 
 if(QT_FOUND)
     message(STATUS "Found QT, version is ${Qt5_VERSION}.")
@@ -130,8 +130,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 add_definitions(-DPROJECT_NAME="${PROJECT_NAME}")
-add_definitions(-DPROJECT_AUTHOR="alex-hjm")
 add_definitions(-DDEFAULT_DATA_PATH="${PROJECT_SOURCE_DIR}/data")
 
 add_subdirectory(base)
 add_subdirectory(test)
+add_subdirectory(cloudtool)
