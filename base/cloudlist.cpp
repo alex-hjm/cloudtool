@@ -32,9 +32,9 @@ void CloudFileIO::loadCloudFile(const QString& file_name)
     QFileInfo fileinfo(file_name);
     Cloud::Ptr cloud(new Cloud);
     if (fileinfo.suffix() == "pcd")
-        result = pcl::io::loadPCDFile(file_name.toStdString(), *cloud);
+        result = pcl::io::loadPCDFile(file_name.toLocal8Bit().toStdString(), *cloud);
     else if (fileinfo.suffix() == "ply")
-        result = pcl::io::loadPLYFile(file_name.toStdString(), *cloud);
+        result = pcl::io::loadPLYFile(file_name.toLocal8Bit().toStdString(), *cloud);
     if (-1 == result)  {
         loadCloudResult(false, nullptr);
         return;
@@ -54,11 +54,11 @@ void CloudFileIO::saveCloudFile(const Cloud::Ptr& cloud, const QString& file_nam
     QFileInfo fileinfo(file_name);
     int result = -1;
     if (fileinfo.suffix() == "pcd")
-        result = pcl::io::savePCDFile(file_name.toStdString(), *cloud, isBinary);
+        result = pcl::io::savePCDFile(file_name.toLocal8Bit().toStdString(), *cloud, isBinary);
     else if (fileinfo.suffix() == "ply")
-        result = pcl::io::savePLYFile(file_name.toStdString(), *cloud, isBinary);
+        result = pcl::io::savePLYFile(file_name.toLocal8Bit().toStdString(), *cloud, isBinary);
     else
-        result = pcl::io::savePLYFile(file_name.toStdString() + ".ply", *cloud, isBinary);
+        result = pcl::io::savePLYFile(file_name.toLocal8Bit().toStdString() + ".ply", *cloud, isBinary);
     if (-1 == result)  {
         saveCloudResult(false);
         return;
@@ -67,7 +67,9 @@ void CloudFileIO::saveCloudFile(const Cloud::Ptr& cloud, const QString& file_nam
     saveCloudResult(true);
 }
 
-CloudList::CloudList(QWidget* parent) : QListWidget(parent), m_setting(PROJECT_NAME, PROJECT_NAME)
+CloudList::CloudList(QWidget* parent) : QListWidget(parent), 
+    m_setting(PROJECT_NAME, PROJECT_NAME),
+    m_menu(this)
 {
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -167,6 +169,8 @@ bool CloudList::mergeClouds(const std::vector<Cloud::Ptr>& clouds)
         *merged_cloud += *cloud;
         merged_cloud->setId(merged_cloud->id() + "_" + cloud->id());
     }
+    merged_cloud->updateBBox();
+    merged_cloud->updateResolution();
     return appendCloud(merged_cloud);
 }
 
@@ -273,21 +277,21 @@ void CloudList::saveCloudFile(const Cloud::Ptr& cloud, const QString& file, bool
 
 void CloudList::showContextMenu(const QPoint &pos)
 {
-    QMenu* contextMenu(new QMenu(this));
+    m_menu.clear();
     auto selectedItems = this->selectedItems();
-    contextMenu->addAction("Load", this, &CloudList::loadCloud, QKeySequence::Open);
-    contextMenu->addAction("Clear", this, &CloudList::removeAllClouds);
+    m_menu.addAction("Load", this, &CloudList::loadCloud, QKeySequence::Open);
+    m_menu.addAction("Clear", this, &CloudList::removeAllClouds);
     if (!selectedItems.isEmpty()) {
-        contextMenu->addAction("Remove", this, &CloudList::removeSelectedClouds, QKeySequence::Delete);
-        contextMenu->addAction("Clone", this, &CloudList::cloneSelectedClouds);
+        m_menu.addAction("Remove", this, &CloudList::removeSelectedClouds, QKeySequence::Delete);
+        m_menu.addAction("Clone", this, &CloudList::cloneSelectedClouds);
         if (selectedItems.size() == 1) {
-            contextMenu->addAction("Save", this, &CloudList::saveSelectedClouds, QKeySequence::Save);
-            contextMenu->addAction("Rename", this, &CloudList::renameSelectedClouds);
+            m_menu.addAction("Save", this, &CloudList::saveSelectedClouds, QKeySequence::Save);
+           m_menu.addAction("Rename", this, &CloudList::renameSelectedClouds);
         } else {
-            contextMenu->addAction("Merge", this, &CloudList::mergeSelectedClouds);
+            m_menu.addAction("Merge", this, &CloudList::mergeSelectedClouds);
         }
     } 
-    contextMenu->exec(mapToGlobal(pos));
+    m_menu.exec(mapToGlobal(pos));
 }
 
 void CloudList::handleItemSelectionChanged()

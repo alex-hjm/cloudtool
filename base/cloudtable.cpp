@@ -10,11 +10,12 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QSpinBox>
+#include <QCoreApplication>
 
 CT_BEGIN_NAMESPACE
 
 CloudTable::CloudTable(QWidget* parent) : QTableWidget(parent),
-    m_properties({"Id", "PointNum", "Resolution", "PointSize", "Opacity"}),
+    m_properties({tr("Open"), "PointNum", "Resolution", "PointSize", "Opacity"}),
     m_labels({"Property", "Value"})
 {
     this->setColumnCount(m_labels.size());
@@ -80,6 +81,22 @@ void CloudTable::handleSelectCloud(const Cloud::Ptr& cloud)
                         updateCloudEvent(cloud);
                     });
             this->setCellWidget(i, 1, opacity);
+        }
+    }
+}
+
+void CloudTable::handleLanguageChanged()
+{
+    for (int row = 0; row < this->rowCount(); ++row) {
+        for (int col = 0; col < this->columnCount(); ++col) {
+            QTableWidgetItem *item = this->item(row, col);
+            if (item) {
+                QString originalText = item->text();
+                logging(LogLevel::LOG_INFO, originalText);
+                QString translatedText = QCoreApplication::translate("YourTranslationContext", qPrintable(originalText));
+                logging(LogLevel::LOG_INFO, translatedText);
+                item->setText(translatedText);
+            }
         }
     }
 }

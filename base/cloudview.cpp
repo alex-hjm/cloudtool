@@ -6,18 +6,64 @@
  */
 #include "cloudview.h"
 
+#include <QMenu>
+#include <QDateTime>
+#include <QFileDialog>
+
+#include <vtkAxesActor.h>
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
+#include <vtkCaptionActor2D.h>
+
 CT_BEGIN_NAMESPACE
 
-CloudView::CloudView(QWidget *parent)
-  : QVTKOpenGLNativeWidget(parent), m_render(vtkSmartPointer<vtkRenderer>::New()),
-    m_renderwindow(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New())
+CloudView::CloudView(QWidget *parent): QVTKOpenGLNativeWidget(parent), 
+    m_render(vtkSmartPointer<vtkRenderer>::New()),
+    m_renderwindow(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New()),
+    m_axes(vtkSmartPointer<vtkOrientationMarkerWidget>::New()),
+    m_update_fps(vtkSmartPointer<FPSCallback>::New()),
+    m_setting(PROJECT_NAME, PROJECT_NAME),
+    m_menu(this),
+    m_show_fps(true),
+    m_show_axes(true)
 {
     m_renderwindow->AddRenderer(m_render);
+    this->setRenderWindow(m_renderwindow);
     m_viewer.reset(new pcl::visualization::PCLVisualizer(m_render, m_renderwindow, "viewer", false));
-    this->setRenderWindow(m_viewer->getRenderWindow());
     m_viewer->setupInteractor(this->interactor(), this->renderWindow());
-    m_viewer->setBackgroundColor((double)243.0/255.0, (double)243.0/255.0, (double)243.0/255.0);
+    m_viewer->setBackgroundColor(243.0/255.0, 243.0/255.0, 243.0/255.0);
+    m_viewer->setShowFPS(false);
+    
+    // axes
+    vtkSmartPointer<vtkAxesActor> axes = vtkSmartPointer<vtkAxesActor>::New();
+    axes->SetVisibility(m_show_axes);
+    axes->GetXAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
+    axes->GetYAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
+    axes->GetZAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
+    axes->GetXAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetBold(0); 
+    axes->GetYAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetBold(0); 
+    axes->GetZAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetBold(0); 
+    m_axes->SetOrientationMarker(axes);
+    m_axes->SetInteractor(this->interactor());
+    m_axes->SetViewport(0.92, 0, 1, 0.08);
+    m_axes->SetEnabled(true);
+    m_axes->InteractiveOff();
+    
+    // fps
+    m_render->AddObserver (vtkCommand::EndEvent, m_update_fps);
+    vtkSmartPointer<vtkTextActor> txt = vtkSmartPointer<vtkTextActor>::New();
+    txt->GetTextProperty()->SetColor(0, 0, 0); 
+    txt->SetPosition(0, 20);  
+    txt->SetVisibility(m_show_fps);
+    txt->SetInput ("0 FPS");
+    m_update_fps->actor = txt;
+    m_render->AddActor (txt);
+
+    // render
     m_renderwindow->Render();
+
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, &QVTKOpenGLNativeWidget::customContextMenuRequested, this, &CloudView::showContextMenu);
 }
 
 void CloudView::addCloud(const Cloud::Ptr &cloud)
@@ -93,6 +139,94 @@ void CloudView::resetCamera()
 {
     m_viewer->resetCamera();
     m_renderwindow->Render();
+}
+
+void CloudView::showFPS(bool enable)
+{
+    m_update_fps->actor->SetVisibility(enable);
+    m_show_fps = enable;
+    m_renderwindow->Render();
+}
+
+void CloudView::setFPSColor(const RGB& rgb)
+{
+    m_update_fps->actor->GetTextProperty()->SetColor(rgb.rf(), rgb.gf(),  rgb.bf());
+    m_renderwindow->Render();
+}
+
+void CloudView::showAxes(bool enable)
+{
+    m_axes->GetOrientationMarker()->SetVisibility(enable);
+    m_show_axes = enable;
+    m_renderwindow->Render();
+}
+
+void CloudView::setAxesColor(const RGB& rgb)
+{
+    vtkSmartPointer<vtkAxesActor> axes = vtkAxesActor::SafeDownCast(m_axes->GetOrientationMarker());
+    axes->GetXAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
+    axes->GetYAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
+    axes->GetZAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
+    m_renderwindow->Render();
+}
+
+void CloudView::saveScreenshot()
+{
+    QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
+    QString fileName = lastOpenDir + "/screenshot" + QDateTime::currentDateTime().toString("-hh-mm-ss");
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Screenshot"), fileName, "PNG(*.png);;JPG(*.jpg)");
+    if (filePath.isEmpty()) return;
+    m_viewer->saveScreenshot(filePath.toLocal8Bit().toStdString());
+    m_setting.setValue("lastOpenDir", QFileInfo(filePath).path());
+}
+
+void CloudView::saveCameraParam()
+{
+    QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
+    QString fileName = lastOpenDir + "/camparam" + QDateTime::currentDateTime().toString("-hh-mm-ss");
+    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Camera Parameter"), fileName, "CAM(*.cam)");
+    if (filePath.isEmpty()) return;
+    m_viewer->saveCameraParameters(filePath.toLocal8Bit().toStdString());
+    m_setting.setValue("lastOpenDir", QFileInfo(filePath).path());
+}
+
+void CloudView::loadCameraParam()
+{
+    QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Camera Parameter"), lastOpenDir, "CAM(*.cam)");
+    if (fileName.isEmpty()) return;
+    m_viewer->loadCameraParameters(fileName.toLocal8Bit().toStdString());
+    m_renderwindow->Render();
+    m_setting.setValue("lastOpenDir", QFileInfo(fileName).path());
+}
+
+void CloudView::showContextMenu(const QPoint &pos)
+{
+    m_menu.clear();
+    m_menu.addAction("ResetCamera", this, &CloudView::resetCamera, Qt::Key_R);
+    QAction *showFPSAction = new QAction("ShowFPS", &m_menu);
+    showFPSAction->setCheckable(true);
+    showFPSAction->setChecked(m_show_fps);
+    connect(showFPSAction, &QAction::toggled, this, [=](bool enable){ showFPS(enable); });
+    m_menu.addAction(showFPSAction);
+    QAction *showAxesAction = new QAction("ShowAxes", &m_menu);
+    showAxesAction->setCheckable(true);
+    showAxesAction->setChecked(m_show_axes);
+    connect(showAxesAction, &QAction::toggled, this, [=](bool enable){ showAxes(enable); });
+    m_menu.addAction(showAxesAction);
+    m_menu.addAction("SaveScreenshot", this, &CloudView::saveScreenshot);
+    m_menu.addAction("LoadCameraParam", this, &CloudView::loadCameraParam);
+    m_menu.addAction("SaveCameraParam", this, &CloudView::saveCameraParam);
+    m_menu.exec(mapToGlobal(pos));
+}
+
+void CloudView::FPSCallback::Execute (vtkObject* caller, unsigned long, void*)
+{
+  auto *ren = reinterpret_cast<vtkRenderer *> (caller);
+  last_fps = 1.0f / static_cast<float> (ren->GetLastRenderTimeInSeconds ());
+  char buf[128];
+  sprintf (buf, "%.1f FPS", last_fps);
+  actor->SetInput (buf);
 }
 
 CT_END_NAMESPACE

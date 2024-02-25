@@ -14,6 +14,9 @@
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkOrientationMarkerWidget.h>
 
+#include <QMenu>
+#include <QSettings>
+
 CT_BEGIN_NAMESPACE
 
 class CT_EXPORT CloudView : public QVTKOpenGLNativeWidget
@@ -34,11 +37,41 @@ public:
 
     bool contains(const QString& id);
     void resetCamera();
+    void showFPS(bool enable);
+    void setFPSColor(const RGB& rgb);
+    void showAxes(bool enable);
+    void setAxesColor(const RGB& rgb);
+    void saveScreenshot();
+    void saveCameraParam();
+    void loadCameraParam();
+
 
 private:
+    void showContextMenu(const QPoint &pos);
+
+private:
+    struct CT_EXPORT FPSCallback : public vtkCommand {
+        static FPSCallback *New () { return (new FPSCallback); }
+
+        FPSCallback () = default;
+        FPSCallback (const FPSCallback& src)  = default;
+        void Execute (vtkObject*, unsigned long event_id, void*) override;
+
+        vtkTextActor *actor{nullptr};
+        bool decimated{false};
+        float last_fps{0.0f};
+    };
+
     pcl::visualization::PCLVisualizer::Ptr m_viewer;
     vtkSmartPointer<vtkRenderer> m_render;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> m_renderwindow;
+    vtkSmartPointer<vtkOrientationMarkerWidget> m_axes;
+    vtkSmartPointer<FPSCallback> m_update_fps;
+
+    QMenu m_menu;
+    QSettings m_setting;
+    bool m_show_fps;
+    bool m_show_axes;
 };
 
 CT_END_NAMESPACE

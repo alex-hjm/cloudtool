@@ -88,6 +88,9 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <attribute name="toolBarArea">
     <enum>LeftToolBarArea</enum>
    </attribute>
@@ -95,6 +98,11 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpen"/>
+   <addaction name="actionClose"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionClear"/>
+   <addaction name="actionMerge"/>
+   <addaction name="actionClone"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
@@ -103,6 +111,60 @@
    </property>
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="actionClose">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/close.svg</normaloff>:/res/icon/close.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/save.svg</normaloff>:/res/icon/save.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionClear">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/closeall.svg</normaloff>:/res/icon/closeall.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionMerge">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/merge.svg</normaloff>:/res/icon/merge.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Merge</string>
+   </property>
+  </action>
+  <action name="actionClone">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/clone.svg</normaloff>:/res/icon/clone.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Clone</string>
+   </property>
+  </action>
+  <action name="actionSetting">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/setting.svg</normaloff>:/res/icon/setting.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Setting</string>
    </property>
   </action>
  </widget>

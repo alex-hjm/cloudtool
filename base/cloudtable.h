@@ -22,9 +22,11 @@ public:
 
 signals:
     void updateCloudEvent(const Cloud::Ptr& cloud);
+    void logging(LogLevel level, const QString& msg);
 
 public slots:
     void handleSelectCloud(const Cloud::Ptr& cloud);
+    void handleLanguageChanged();
 
 private:
     QStringList m_properties;

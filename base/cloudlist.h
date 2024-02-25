@@ -12,6 +12,7 @@
 #include <QListWidget>
 #include <QMutex>
 #include <QSettings>
+#include <QMenu>
 
 CT_BEGIN_NAMESPACE
 
@@ -100,6 +101,7 @@ private:
 private:
     QMutex m_mutex;
     QSettings m_setting;
+    QMenu m_menu;
 };
 
 CT_END_NAMESPACE
