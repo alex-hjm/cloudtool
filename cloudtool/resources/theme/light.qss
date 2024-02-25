@@ -50,6 +50,10 @@ QHeaderView {
     font: 8pt "Microsoft YaHei UI";
 }
 
+QMenu {
+    font: 8pt "Microsoft YaHei UI";
+}
+
 QHeaderView::section:first {
 	border-top-left-radius: 6px;
 	background: #D9D9D9;
@@ -64,13 +68,13 @@ QHeaderView::section:last {
 QTableWidget QSpinBox{
     font: 8pt "Microsoft YaHei UI";
 	border-radius: 2px;
-	background: #E5E5E5;
+	background: #E3E3E3;
 }
 
 QTableWidget QDoubleSpinBox {
     font: 8pt "Microsoft YaHei UI";
 	border-radius: 2px;
-	background: #E5E5E5;
+	background: #E3E3E3;
 }
 
 QSpinBox::up-button, QSpinBox::down-button{

@@ -27,11 +27,12 @@ CloudTable::CloudTable(QWidget* parent) : QTableWidget(parent),
     this->verticalHeader()->setHidden(true);
 
     this->setShowGrid(false);
-
+    this->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->setSelectionMode(QAbstractItemView::NoSelection);
+    
     for (int i = 0; i < m_properties.size(); i++) {
         QTableWidgetItem* item(new QTableWidgetItem(m_properties[i]));
         item->setTextAlignment(Qt::AlignCenter);
-        item->setFlags(Qt::ItemIsEnabled);
         this->setItem(i, 0, item);
     }
 }
