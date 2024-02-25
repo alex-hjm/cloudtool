@@ -12,6 +12,7 @@
 #include <pcl/point_cloud.h>
 #include <QDataStream>
 #include <QString>
+#include <QMetaType>
 
 #define CLOUD_DEFAULT_ID    "undefined"
 #define CLOUD_BBOX_SUFFIX   "-bbox"

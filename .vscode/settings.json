@@ -1,0 +1,10 @@
+{
+    "cmake.configureArgs": [
+        "-DCMAKE_PREFIX_PATH:PATH=C:/Qt/6.5.3/msvc2019_64",
+        "-DQT_DIR:PATH=C:/Qt/6.5.3/msvc2019_64/lib/cmake/Qt6",
+        "-Wno-dev"
+    ],
+    "files.associations": {
+        "qstring": "cpp"
+    }
+}

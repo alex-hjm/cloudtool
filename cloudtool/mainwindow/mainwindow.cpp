@@ -1,26 +1,38 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QScreen>
+#else
 #include <QDesktopWidget>
+#endif
 #include <QFile>
+
+#define DEFAULT_WIN_WIDTH   1056
+#define DEFAULT_WIN_HEIGHT  720
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), 
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+#else
     QDesktopWidget *desktop = QApplication::desktop();
-    QRect mainScreenSize = desktop->screenGeometry(desktop->primaryScreen());
-    int mainWidth = mainScreenSize.width() * 1 / 2;
-    int mainHeight = mainScreenSize.height() * 3 / 5;
-    resize(mainWidth, mainHeight);
-    setMinimumSize(mainWidth / 2, mainHeight / 2);
+    QRect screenGeometry = desktop->screenGeometry();
+#endif
+
+    resize(DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
+    setMinimumSize(DEFAULT_WIN_WIDTH / 2, DEFAULT_WIN_HEIGHT / 2);
 
     QList<QDockWidget*> docks {ui->DataDock, ui->PropertiesDock, ui->ConsoleDock};
-    QList<int> size {mainHeight * 2 / 5, mainHeight * 2 / 5, mainHeight * 1 / 5};
+    QList<int> size {DEFAULT_WIN_HEIGHT * 2 / 5, DEFAULT_WIN_HEIGHT * 2 / 5, DEFAULT_WIN_HEIGHT * 1 / 5};
     resizeDocks(docks, size, Qt::Orientation::Vertical);
 
-    ui->DataDock->setMinimumWidth(mainWidth / 4);
-    ui->PropertiesDock->setMinimumWidth(mainWidth / 4);
+    ui->DataDock->setMinimumWidth(DEFAULT_WIN_WIDTH / 4);
+    ui->PropertiesDock->setMinimumWidth(DEFAULT_WIN_WIDTH / 4);
 
     QObject::connect(ui->cloudlist, &ct::CloudList::addCloudEvent, ui->cloudview, &ct::CloudView::addCloud);
     QObject::connect(ui->cloudlist, &ct::CloudList::removeCloudEvent, ui->cloudview, &ct::CloudView::removeCloud);

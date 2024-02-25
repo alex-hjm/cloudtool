@@ -13,6 +13,7 @@ QMainWindow {
 	background: #F3F3F3;
 }
 
+
 QLabel {
     font: 8pt "Microsoft YaHei UI";
 }
@@ -63,14 +64,12 @@ QHeaderView::section:last {
 QTableWidget QSpinBox{
     font: 8pt "Microsoft YaHei UI";
 	border-radius: 2px;
-	selection-background-color: darkgray;
 	background: #E5E5E5;
 }
 
 QTableWidget QDoubleSpinBox {
     font: 8pt "Microsoft YaHei UI";
 	border-radius: 2px;
-	selection-background-color: darkgray;
 	background: #E5E5E5;
 }
 

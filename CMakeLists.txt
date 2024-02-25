@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 
 project(CloudTool VERSION 2.0)
 
@@ -47,7 +47,7 @@ if(CMAKE_COMPILER_IS_MSVC)
   add_definitions("-DBOOST_ALL_NO_LIB -D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS -DNOMINMAX ${SSE_DEFINITIONS}")
   
   if("${CMAKE_CXX_FLAGS}" STREQUAL "${CMAKE_CXX_FLAGS_DEFAULT}")
-    string(APPEND CMAKE_CXX_FLAGS " /fp:precise /bigobj /wd4996 /source-charset:utf-8 ${SSE_FLAGS} ${AVX_FLAGS}")
+    string(APPEND CMAKE_CXX_FLAGS " /fp:precise /bigobj /wd4996 /utf-8 ${SSE_FLAGS} ${AVX_FLAGS}")
     string(APPEND CMAKE_CXX_FLAGS " /wd4800 /wd4521 /wd4251 /wd4275 /wd4305 /wd4355 /w34265")
 
     include(ProcessorCount)
@@ -115,7 +115,7 @@ else()
 endif()
 
 # QT
-find_package(QT NAMES Qt5 COMPONENTS Concurrent Core Widgets OpenGL Gui LinguistTools REQUIRED)
+find_package(QT NAMES Qt5 Qt6 COMPONENTS Concurrent Core Widgets OpenGL Gui LinguistTools REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
 
 if(QT_FOUND)
