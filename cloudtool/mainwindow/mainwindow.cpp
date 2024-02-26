@@ -7,11 +7,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-#include <QScreen>
-#else
-#include <QDesktopWidget>
-#endif
 #include <QFile>
 
 #define DEFAULT_WIN_WIDTH   1056
@@ -22,15 +17,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     m_setting(new Setting(this))
 {
     ui->setupUi(this);
-
-    // init size
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    QScreen *screen = QGuiApplication::primaryScreen();
-    QRect screenGeometry = screen->geometry();
-#else
-    QDesktopWidget *desktop = QApplication::desktop();
-    QRect screenGeometry = desktop->screenGeometry();
-#endif
 
     resize(DEFAULT_WIN_WIDTH, DEFAULT_WIN_HEIGHT);
     setMinimumSize(DEFAULT_WIN_WIDTH / 2, DEFAULT_WIN_HEIGHT / 2);
@@ -62,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->cloudtable, &ct::CloudTable::logging, ui->console, &ct::Console::logging);
     connect(m_setting, &Setting::logging, ui->console, &ct::Console::logging);
     connect(m_setting, &Setting::changeLanguageEvent, this, [=] { ui->retranslateUi(this); } );
-    connect(m_setting, &Setting::changeLanguageEvent, ui->cloudtable, &ct::CloudTable::handleLanguageChanged );
 
     // connect action signals to slots
     connect(ui->actionOpen, &QAction::triggered, ui->cloudlist, &ct::CloudList::loadCloud);
@@ -75,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
 
     connect(ui->actionSetting, &QAction::triggered, m_setting, &Setting::show);
     m_setting->loadSetting();
+    ui->console->logging(ct::LOG_INFO, tr("load cloud success!"));
 }
 
 MainWindow::~MainWindow()
