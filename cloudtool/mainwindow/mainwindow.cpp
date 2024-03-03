@@ -19,6 +19,8 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QMenu>
+#include <QShortcut>
+#include <QDateTime>
 
 #define DEFAULT_WIN_WIDTH   1056
 #define DEFAULT_WIN_HEIGHT  720
@@ -55,6 +57,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->cloudlist, &ct::CloudList::itemChanged, this, &MainWindow::handleCloudChanged);
     connect(ui->cloudlist, &ct::CloudList::customContextMenuRequested, this, &MainWindow::showCloudListMenu);
 
+    // cloudview
+    connect(ui->cloudview, &ct::CloudView::customContextMenuRequested, this, &MainWindow::showCloudViewMenu);
+
+    // console
+    connect(ui->console, &ct::Console::customContextMenuRequested, this, &MainWindow::showConsoleMenu);
+
     // action
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
     connect(ui->actionClose, &QAction::triggered, this, &MainWindow::close);
@@ -73,9 +81,30 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     lastSpacerWidget->setMinimumHeight(9);
     ui->toolBar->addWidget(lastSpacerWidget);
     connect(m_setting, &Setting::changeLanguageEvent, this, [=] { ui->retranslateUi(this); });
+    connect(m_setting, &Setting::changeThemeEvent, this, &MainWindow::handleThemeChanged);
     connect(m_setting, &Setting::logging, ui->console, &ct::Console::logging);
     connect(ui->actionSetting, &QAction::triggered, m_setting, &Setting::show);
     m_setting->loadSetting();
+
+    //shortcut
+    connect(new QShortcut(QKeySequence::Open, this), &QShortcut::activated, this, &MainWindow::open);
+    connect(new QShortcut(QKeySequence::Delete, this), &QShortcut::activated, this, &MainWindow::close);
+    connect(new QShortcut(QKeySequence::Save, this), &QShortcut::activated, this, &MainWindow::save);
+    connect(new QShortcut(Qt::CTRL + Qt::Key_R, this), &QShortcut::activated, this, &MainWindow::rename);
+    connect(new QShortcut(Qt::CTRL + Qt::Key_M, this), &QShortcut::activated, this, &MainWindow::merge);
+    connect(new QShortcut(Qt::CTRL + Qt::Key_C, this), &QShortcut::activated, this, &MainWindow::clone);
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
 }
 
 MainWindow::~MainWindow()
@@ -221,6 +250,47 @@ void MainWindow::clone()
     }
 }
 
+void MainWindow::saveScreenshot()
+{
+    QString lastOpenDir = m_setting->value("lastOpenDir", DEFAULT_DATA_PATH).toString();
+    QString fileName = lastOpenDir + "/screenshot" + QDateTime::currentDateTime().toString("-hh-mm-ss");
+    QString file = QFileDialog::getSaveFileName(this, tr("Save Screenshot"), fileName, "PNG(*.png);;JPG(*.jpg)");
+    if (file.isEmpty()) return;
+    ui->cloudview->saveScreenshot(file.toLocal8Bit());
+    m_setting->setValue("lastOpenDir", QFileInfo(file).path());
+}
+
+void MainWindow::saveCameraParam()
+{
+    QString lastOpenDir = m_setting->value("lastOpenDir", DEFAULT_DATA_PATH).toString();
+    QString fileName = lastOpenDir + "/camparam" + QDateTime::currentDateTime().toString("-hh-mm-ss");
+    QString file = QFileDialog::getSaveFileName(this, tr("Save Camera Parameter"), fileName, "CAM(*.cam)");
+    if (file.isEmpty()) return;
+    ui->cloudview->saveCameraParam(file.toLocal8Bit());
+    m_setting->setValue("lastOpenDir", QFileInfo(file).path());
+}
+
+void MainWindow::loadCameraParam()
+{
+    QString lastOpenDir = m_setting->value("lastOpenDir", DEFAULT_DATA_PATH).toString();
+    QString file = QFileDialog::getOpenFileName(this, tr("Open Camera Parameter"), lastOpenDir, "CAM(*.cam)");
+    if (file.isEmpty()) return;
+    ui->cloudview->loadCameraParam(file.toLocal8Bit());
+    m_setting->setValue("lastOpenDir", QFileInfo(file).path());
+}
+
+void MainWindow::handleThemeChanged(Setting::Theme theme)
+{
+    switch (theme) {
+    case Setting::Light:
+        ui->cloudview->setBackgroundColor(ct::Color::Light);
+        break;
+    case Setting::Dark:
+        ui->cloudview->setBackgroundColor(ct::Color::Dark);
+        break;
+    }
+}
+
 void MainWindow::handleCloudSelectionChanged()
 {
     for(int i = 0; i < ui->cloudlist->count(); i++) { 
@@ -298,14 +368,45 @@ void MainWindow::handleCloudChanged(QListWidgetItem *item)
 
 void MainWindow::showCloudListMenu(const QPoint &pos)
 {
-    QMenu* menu = new QMenu(this);
-    menu->addAction(QIcon(ICON_OPEN), tr("Open"), this, &MainWindow::open);
-    menu->addAction(QIcon(ICON_CLOSE), tr("Close"), this, &MainWindow::close);
-    menu->addAction(QIcon(ICON_CLEAR), tr("Clear"), this, &MainWindow::clear);
-    menu->addAction(QIcon(ICON_SAVE), tr("Save"), this, &MainWindow::save);
-    menu->addAction(QIcon(ICON_RENAME), tr("Rename"), this, &MainWindow::rename);
-    menu->addAction(QIcon(ICON_MERGE), tr("Merge"), this, &MainWindow::merge);
-    menu->addAction(QIcon(ICON_CLONE), tr("Clone"), this, &MainWindow::clone);
-    menu->exec(ui->cloudlist->mapFromGlobal(pos));
+    QMenu menu(this);
+    menu.addAction(QIcon(ICON_OPEN), tr("Open"), this, &MainWindow::open, QKeySequence::Open);
+    menu.addAction(QIcon(ICON_CLOSE), tr("Close"), this, &MainWindow::close, QKeySequence::Delete);
+    menu.addAction(QIcon(ICON_CLEAR), tr("Clear"), this, &MainWindow::clear);
+    menu.addAction(QIcon(ICON_SAVE), tr("Save"), this, &MainWindow::save, QKeySequence::Save);
+    menu.addAction(QIcon(ICON_RENAME), tr("Rename"), this, &MainWindow::rename, Qt::CTRL + Qt::Key_R);
+    menu.addAction(QIcon(ICON_MERGE), tr("Merge"), this, &MainWindow::merge, Qt::CTRL + Qt::Key_M);
+    menu.addAction(QIcon(ICON_CLONE), tr("Clone"), this, &MainWindow::clone, Qt::CTRL + Qt::Key_C);
+    menu.exec(ui->cloudlist->mapToGlobal(pos));
+    menu.clear();
 }
 
+void MainWindow::showCloudViewMenu(const QPoint &pos)
+{
+    QMenu menu(this);
+    menu.addAction(QIcon(ICON_RESET), tr("ResetCamera"), ui->cloudview, &ct::CloudView::resetCamera, Qt::Key_R);
+    QAction showFPSAction(tr("ShowFPS"));
+    showFPSAction.setCheckable(true);
+    showFPSAction.setChecked(ui->cloudview->FPSEnable());
+    connect(&showFPSAction, &QAction::toggled, this, [=](bool enable){ ui->cloudview->showFPS(enable);});
+    menu.addAction(&showFPSAction);
+    QAction showAxesAction(tr("ShowAxes"));
+    showAxesAction.setCheckable(true);
+    showAxesAction.setChecked(ui->cloudview->AxesEnable());
+    connect(&showAxesAction, &QAction::toggled, this, [=](bool enable){ ui->cloudview->showAxes(enable); });
+    menu.addAction(&showAxesAction);
+    menu.addAction(QIcon(ICON_SCREENSHOOT), tr("SaveScreenshot"), this, &MainWindow::saveScreenshot);
+    menu.addAction(QIcon(ICON_CAMERAPARAM), tr("LoadCameraParam"), this, &MainWindow::loadCameraParam);
+    menu.addAction(QIcon(ICON_CAMERAPARAM), tr("SaveCameraParam"), this, &MainWindow::saveCameraParam);
+    menu.exec(ui->cloudview->mapToGlobal(pos));
+    menu.clear();
+}
+
+void MainWindow::showConsoleMenu(const QPoint &pos)
+{
+    QMenu menu(this);
+    menu.addAction(QIcon(ICON_COPY), tr("Copy"), ui->console, &ct::Console::copy, QKeySequence::Copy);
+    menu.addAction(QIcon(ICON_CLEAR), tr("Clear"), ui->console, &ct::Console::clear);
+    menu.addAction(QIcon(ICON_SELECTALL), tr("SelectAll"), ui->console, &ct::Console::selectAll, QKeySequence::SelectAll);
+    menu.exec(ui->console->mapToGlobal(pos));
+    menu.clear();
+}

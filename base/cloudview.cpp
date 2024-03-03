@@ -25,7 +25,6 @@ CloudView::CloudView(QWidget *parent): QVTKOpenGLNativeWidget(parent),
     this->setRenderWindow(m_renderwindow);
     m_viewer.reset(new pcl::visualization::PCLVisualizer(m_render, m_renderwindow, "viewer", false));
     m_viewer->setupInteractor(this->interactor(), this->renderWindow());
-    m_viewer->setBackgroundColor(243.0/255.0, 243.0/255.0, 243.0/255.0);
     m_viewer->setShowFPS(false);
     
     // axes
@@ -37,6 +36,9 @@ CloudView::CloudView(QWidget *parent): QVTKOpenGLNativeWidget(parent),
     axes->GetXAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetBold(0); 
     axes->GetYAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetBold(0); 
     axes->GetZAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetBold(0); 
+    axes->GetXAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetShadow(0);
+    axes->GetYAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetShadow(0);
+    axes->GetZAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetShadow(0);
     m_axes->SetOrientationMarker(axes);
     m_axes->SetInteractor(this->interactor());
     m_axes->SetViewport(0.92, 0, 1, 0.08);
@@ -130,6 +132,12 @@ bool CloudView::contains(const QString& id)
 void CloudView::resetCamera()
 {
     m_viewer->resetCamera();
+    m_renderwindow->Render();
+}
+
+void CloudView::setBackgroundColor(const RGB& rgb)
+{
+    m_viewer->setBackgroundColor(rgb.rf(), rgb.gf(),  rgb.bf());
     m_renderwindow->Render();
 }
 

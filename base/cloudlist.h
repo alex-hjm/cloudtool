@@ -38,7 +38,8 @@ public:
     std::vector<Cloud::Ptr> getSelectedClouds() const;
     std::vector<Cloud::Ptr> getAllClouds() const;
 
-    void setCloudIcon(const QIcon& icon);
+    void setCloudIcon(const QIcon& icon) { m_icon = icon; }
+
 private:
     QIcon m_icon;
 };

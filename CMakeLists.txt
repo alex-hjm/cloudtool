@@ -119,7 +119,7 @@ find_package(QT NAMES Qt5 Qt6 COMPONENTS Concurrent Core Widgets OpenGL Gui Ling
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
 
 if(QT_FOUND)
-    message(STATUS "Found QT, version is Qt${QT_VERSION_MAJOR}.")
+    message(STATUS "Found QT, version is Qt${QT_VERSION}.")
 else()
     message(STATUS "Not found QT.")
 endif()

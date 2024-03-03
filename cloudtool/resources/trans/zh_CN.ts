@@ -159,6 +159,50 @@
         <source>Opacity</source>
         <translation>透明度</translation>
     </message>
+    <message>
+        <source>ShowFPS</source>
+        <translation>显示帧率</translation>
+    </message>
+    <message>
+        <source>ShowAxes</source>
+        <translation>显示坐标系</translation>
+    </message>
+    <message>
+        <source>SaveScreenshot</source>
+        <translation>保存截图</translation>
+    </message>
+    <message>
+        <source>LoadCameraParam</source>
+        <translation>加载相机参数</translation>
+    </message>
+    <message>
+        <source>SaveCameraParam</source>
+        <translation>保存相机参数</translation>
+    </message>
+    <message>
+        <source>Save Screenshot</source>
+        <translation>保存截图</translation>
+    </message>
+    <message>
+        <source>Save Camera Parameter</source>
+        <translation>保存相机参数</translation>
+    </message>
+    <message>
+        <source>Open Camera Parameter</source>
+        <translation>加载相机参数</translation>
+    </message>
+    <message>
+        <source>ResetCamera</source>
+        <translation>重置相机</translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation>复制</translation>
+    </message>
+    <message>
+        <source>SelectAll</source>
+        <translation>全选</translation>
+    </message>
 </context>
 <context>
     <name>Setting</name>

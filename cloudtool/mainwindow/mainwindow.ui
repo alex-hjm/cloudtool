@@ -273,7 +273,7 @@
   <action name="actionRename">
    <property name="icon">
     <iconset resource="../resources/res.qrc">
-     <normaloff>:/res/icon/cloud_id.svg</normaloff>:/res/icon/cloud_id.svg</iconset>
+     <normaloff>:/res/icon/rename.svg</normaloff>:/res/icon/rename.svg</iconset>
    </property>
    <property name="text">
     <string>Rename</string>

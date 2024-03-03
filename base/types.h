@@ -37,6 +37,8 @@ namespace Color {
     const RGB Cyan{0, 255, 255};
     const RGB Purple{255, 0, 255};
     const RGB Grey{128, 128, 128};
+    const RGB Dark{68, 68, 68};
+    const RGB Light{243, 243, 243};
 }  
 
 struct BBox {

@@ -3,6 +3,7 @@ author:hjm
 last edited:2023.02.04
 * ================================================ */
 QMainWindow {
+    font: 9pt "Microsoft YaHei UI";
 	background: #444444;
 }
 
@@ -18,10 +19,10 @@ QDockWidget::title {
 }
 
 QListView {
-	background:#555555;
+    font: 8pt "Microsoft YaHei UI";
+	background: #555555;
 	border-radius: 6px;
 }
-
 
 QTableView {
 	background:#555555;
@@ -29,12 +30,14 @@ QTableView {
 }
 
 QTextBrowser {
+    font: 8pt "Microsoft YaHei UI";
 	background:#555555;
 	border-radius: 6px;
 }
 
 QHeaderView{
-	background: transparent;	
+    font: 8pt "Microsoft YaHei UI";
+	background: transparent;
 }
 
 QHeaderView::section:first {
@@ -48,196 +51,104 @@ QHeaderView::section:last {
 	background: #777777;
 }
 
-QTableWidget QSpinBox{
-	border-radius: 2px;
-	selection-background-color: #575757;
+QTableWidget QLabel{
+    font: 8pt "Microsoft YaHei UI";
 	background: transparent;
 }
 
+QTableWidget QSpinBox{
+    font: 8pt "Microsoft YaHei UI";
+	background: transparent;
+}
 
 QTableWidget QDoubleSpinBox {
-	border-radius: 2px;
-	selection-background-color: #575757;
+    font: 8pt "Microsoft YaHei UI";
 	background: transparent;
 }
 
-QSpinBox, QDoubleSpinBox {
-	padding-top:1px;
-	padding-bottom:1px;
-	padding-left:5px;
-	border: 0px;
-	border-radius: 4px;
-	background: #999999;
-}
-
-QSpinBox::up-button, QSpinBox::down-button{
-	width:0px;
-}
-
-QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
-	width:0px;
+QMenu {
+    font: 8pt "Microsoft YaHei UI";
+    background:#555555;
 }
 
 QGroupBox {
 	border: 0px;
-	border-radius: 6px;
+	border-radius:6px;
+    font: 8pt "Microsoft YaHei UI";
 	background:#555555;
 }
 
-QComboBox {
-	padding-top:1px;
-	padding-bottom:1px;
-	padding-left:5px;
-	border: 0px;
-	border-radius: 4px;
-	background:#999999;
-}
-
-QComboBox:hover{
-	border: 0px;
-	border-radius: 4px;
-	padding-top:1px;
-	padding-bottom:1px;
-	background-color: #777777;
-}
-
-QComboBox::drop-down {
-	border: 0px;
-	margin-right: 10px;
-}
-
-QComboBox::down-arrow { 
-	image: url(:/res/icon/down_arrow.svg);
-} 
-
-QPushButton{
-	border: 0px;
-	border-radius: 4px;
-	padding-top:2px;
-	padding-bottom:2px;
-	background-color: #999999;
-}
-
-QPushButton:hover{
-	border: 0px;
-	border-radius: 4px;
-	padding-top:2px;
-	padding-bottom:2px;
-	background-color: #777777;
-}
-QPushButton:pressed{
-	border: 0px;
-	border-radius: 4px;
-	padding-top:2px;
-	padding-bottom:2px;
-	background-color: #666666;
-}
-
-QDialog{
+QDialog {
+    font: 8pt "Microsoft YaHei UI";
 	background: #444444;
 }
 
-QDialog QListView{
-	background: #666666;
+QInputDialog QLabel{
+    font: 8pt "Microsoft YaHei UI";
+	background: #444444;
 }
 
-QDialogButtonBox QPushButton{
-	background-color: #999999;
-	padding:2px 10px 2px 10px;
+QInputDialog QPushButton{
+    font: 8pt "Microsoft YaHei UI";
 }
 
-QTabWidget::pane {
-	border: 0px ;
-	border-radius: 6px;
-	background:transparent;
+QPushButton {
+    border-radius: 6px;
+    padding: 2px 20px 2px 20px;
+    background: #666666;
 }
 
-QSlider::handle {
-	border: 0px ;
-	background: #999999;
-	
+QPushButton:hover {
+    border:1px solid #0078D7;
+    border-radius: 6px;
+    padding: 1px 19px 1px 19px;
+    background: #777777;
 }
 
-QSlider::sub-page {
-   	border: 0px ;
-	border-radius: 2px;
-   	background: #777777;
-   	margin-top:8px;
-   	margin-bottom:8px;
+QPushButton:pressed {
+    border:1px solid #0078D7;
+    border-radius: 6px;
+    padding: 1px 19px 1px 19px;
+    background: #888888;
 }
 
-QSlider::add-page {
-	border: 0px ;
-	border-radius: 2px;
-	background: #777777;
-	margin-top:8px;
-	margin-bottom:8px;
-}
-
-QSlider::groove {
+QScrollBar:vertical {
+	max-width: 10px;
+	margin: 15px 0px 15px 0px;
 	background: transparent;
 }
 
-QSlider::handle {
-	width: 8px;
-	height: 4px;
-	border: 0px ;
-	border-radius: 2px;
-	background: #999999;
-}
-
-QSlider::handle:pressed {
-	border: 0px ;
-	background: #999999;
-}
-
-QTabBar::tab:first {
-	border: 0px ;
-	padding: 2px 5px 2px 5px;
-	border-radius: 4px;
-	background: #777777;
-}
-QTabBar::tab::middle {
-	border: 0px ;
-	padding: 2px 5px 2px 5px;
-	border-radius: 4px;
-	background: #777777;
-}
-QTabBar::tab:last {
-	border: 0px ;
-	padding: 2px 5px 2px 5px;
-	border-radius: 4px;
-	background: #777777;
-}
-
-QTabBar::tab:hover {
-	border: 0px ;
-	padding: 2px 5px 2px 5px;
-	border-radius: 4px;
+QScrollBar::handle:vertical{
 	background: #888888;
-}
-
-QTabBar::tab:selected{
-	border: 0px ;
-	padding: 2px 5px 2px 5px;
+	border-style: transparent;
 	border-radius: 4px;
-	background: #999999;
+	min-height: 25px;
 }
 
-QGroupBox QTextEdit {
-	border: 0px ;
-	border-radius: 4px;
-	background: #999999;
+QScrollBar::handle:vertical:hover {
+	background: #0078D7;
 }
 
-QToolButton:hover{
-	border: 0px;
-	border-radius: 2px;
-	background: #555555;
+QScrollBar::add-line, QScrollBar::sub-line {
+    border-radius: 4px;
+    subcontrol-origin: margin;
+    background: #666666;
 }
 
-QToolButton:pressed{
-	border: 0px;
-	border-radius: 2px;
-	background: #999999;
+QScrollBar::add-line:vertical {
+    height: 15px;
+    subcontrol-position: bottom;
+}
+
+QScrollBar::sub-line:vertical {
+    height: 15px;
+    subcontrol-position: top;
+}
+
+QScrollBar::add-line:vertical:pressed, QScrollBar::sub-line:vertical:pressed {
+    background: #0078D7;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
 }

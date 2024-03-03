@@ -96,6 +96,8 @@
         "qfile": "cpp",
         "qmessagebox": "cpp",
         "qpushbutton": "cpp",
-        "qspinbox": "cpp"
+        "qspinbox": "cpp",
+        "qshortcut": "cpp",
+        "qdatetime": "cpp"
     }
 }

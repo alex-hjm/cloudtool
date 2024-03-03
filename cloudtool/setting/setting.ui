@@ -78,7 +78,7 @@
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="About">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -144,6 +144,7 @@
                  <font>
                   <family>微软雅黑</family>
                   <pointsize>10</pointsize>
+                  <weight>75</weight>
                   <italic>false</italic>
                   <bold>true</bold>
                  </font>
@@ -455,6 +456,10 @@
               <property name="text">
                <string>English</string>
               </property>
+              <property name="icon">
+               <iconset resource="../resources/res.qrc">
+                <normaloff>:/res/icon/english.svg</normaloff>:/res/icon/english.svg</iconset>
+              </property>
               <property name="checked">
                <bool>true</bool>
               </property>
@@ -464,6 +469,10 @@
              <widget class="QRadioButton" name="rbtn_cn">
               <property name="text">
                <string>中文</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../resources/res.qrc">
+                <normaloff>:/res/icon/chinese.svg</normaloff>:/res/icon/chinese.svg</iconset>
               </property>
              </widget>
             </item>
@@ -504,6 +513,12 @@
               </property>
               <property name="text">
                <string>Save</string>
+              </property>
+              <property name="checkable">
+               <bool>false</bool>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
               </property>
              </widget>
             </item>

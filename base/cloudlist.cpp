@@ -126,9 +126,4 @@ std::vector<Cloud::Ptr> CloudList::getAllClouds() const
     return clouds;
 }
 
-void CloudList::setCloudIcon(const QIcon& icon)
-{
-    m_icon = icon;
-}
-
 CT_END_NAMESPACE

@@ -13,7 +13,12 @@
 #define ICON_CLEAR          ":/res/icon/closeall.svg"
 #define ICON_MERGE          ":/res/icon/merge.svg"
 #define ICON_CLONE          ":/res/icon/clone.svg"
-#define ICON_RENAME         ":/res/icon/cloud_id.svg"
+#define ICON_RENAME         ":/res/icon/rename.svg"
+#define ICON_RESET          ":/res/icon/refresh.svg"
+#define ICON_COPY           ":/res/icon/copy.svg"
+#define ICON_SELECTALL      ":/res/icon/select_all.svg"
+#define ICON_SCREENSHOOT    ":/res/icon/screenshoot.svg"
+#define ICON_CAMERAPARAM    ":/res/icon/viewport.svg"
 
 // theme
 #define THEME_LIGHT_FILE    ":/res/theme/light.qss"

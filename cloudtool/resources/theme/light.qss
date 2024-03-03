@@ -2,20 +2,14 @@
 author:hjm
 last edited:2023.02.04
 * ================================================ */
-
-QToolBar {
-	background: white;
-	border: 0px;
-}
-
 QMainWindow {
     font: 9pt "Microsoft YaHei UI";
 	background: #F3F3F3;
 }
 
-
-QLabel {
-    font: 8pt "Microsoft YaHei UI";
+QToolBar {
+	background: white;
+	border: 0px;
 }
 
 QDockWidget::title {
@@ -42,16 +36,9 @@ QTextBrowser {
 	border-radius: 6px;
 }
 
-QTextEdit {
-	border: 0px;
-}
-
 QHeaderView {
     font: 8pt "Microsoft YaHei UI";
-}
-
-QMenu {
-    font: 8pt "Microsoft YaHei UI";
+    background: transparent;
 }
 
 QHeaderView::section:first {
@@ -65,24 +52,23 @@ QHeaderView::section:last {
 	background: #D9D9D9;
 }
 
+QTableWidget QLabel{
+    font: 8pt "Microsoft YaHei UI";
+    background: transparent;
+}
+
 QTableWidget QSpinBox{
     font: 8pt "Microsoft YaHei UI";
-	border-radius: 2px;
-	background: #E3E3E3;
+    background: transparent;
 }
 
 QTableWidget QDoubleSpinBox {
     font: 8pt "Microsoft YaHei UI";
-	border-radius: 2px;
-	background: #E3E3E3;
+    background: transparent;
 }
 
-QSpinBox::up-button, QSpinBox::down-button{
-	width:0px;
-}
-
-QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
-	width:0px;
+QMenu {
+    font: 8pt "Microsoft YaHei UI";
 }
 
 QGroupBox {
@@ -91,20 +77,16 @@ QGroupBox {
 	background:#E3E3E3;
 }
 
-
-QTabWidget::pane {
-	border: 0px ;
-	border-radius: 6px;
-	background:transparent;
+QDialog {
+    font: 8pt "Microsoft YaHei UI";
+	background: #F3F3F3;
 }
 
-QSlider::handle {
-	border: 1px solid lightgray;
-	background: white;
-	
+QInputDialog QLabel{
+    font: 8pt "Microsoft YaHei UI";
+	background: #F3F3F3;
 }
 
-QSlider::handle:pressed {
-	border: 1px solid lightgray;
-	background: lightgray;
+QInputDialog QPushButton{
+    font: 8pt "Microsoft YaHei UI";
 }

@@ -37,15 +37,19 @@ public:
 
     bool contains(const QString& id);
     void resetCamera();
+    void setBackgroundColor(const RGB& rgb);
 
     void showFPS(bool enable);
+    bool FPSEnable() {return m_show_fps; }
     void setFPSColor(const RGB& rgb);
     void showAxes(bool enable);
+    bool AxesEnable() {return m_show_axes; }
     void setAxesColor(const RGB& rgb);
     
     void saveScreenshot(const QString& file);
     void saveCameraParam(const QString& file);
     void loadCameraParam(const QString& file);
+
 private:
     struct CT_EXPORT FPSCallback : public vtkCommand {
         static FPSCallback *New () { return (new FPSCallback); }

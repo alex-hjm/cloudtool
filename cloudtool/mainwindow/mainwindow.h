@@ -31,10 +31,17 @@ public:
     void merge();
     void clone();
 
+    void saveScreenshot();
+    void saveCameraParam();
+    void loadCameraParam();
+
 public slots:
+    void handleThemeChanged(Setting::Theme theme);
     void handleCloudSelectionChanged();
     void handleCloudChanged(QListWidgetItem *);
     void showCloudListMenu(const QPoint &pos);
+    void showCloudViewMenu(const QPoint &pos);
+    void showConsoleMenu(const QPoint &pos);
 
 private:
     Ui::MainWindow *ui;

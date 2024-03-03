@@ -12,7 +12,7 @@ CT_BEGIN_NAMESPACE
 
 Console::Console(QWidget* parent) : QTextBrowser(parent)
 {
-    
+    setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 void Console::logging(LogLevel level, const QString& msg)
