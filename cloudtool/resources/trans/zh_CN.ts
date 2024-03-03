@@ -1,221 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="19"/>
         <source>CloudTool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="36"/>
-        <source>DataTree</source>
-        <translation type="unfinished"></translation>
+        <source>DataList</source>
+        <translation>数据列表</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="56"/>
         <source>Console</source>
-        <translation type="unfinished"></translation>
+        <translation>输出</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="71"/>
         <source>Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>属性表</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="89"/>
         <source>toolBar</source>
-        <translation type="unfinished"></translation>
+        <translation>工具栏</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="113"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打开</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="122"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="131"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="140"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>清除</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="149"/>
         <source>Merge</source>
-        <translation type="unfinished"></translation>
+        <translation>合并</translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="158"/>
         <source>Clone</source>
+        <translation>克隆</translation>
+    </message>
+    <message>
+        <source>Setting</source>
+        <translation>设置</translation>
+    </message>
+    <message>
+        <source>Open file</source>
+        <translation>打开文件</translation>
+    </message>
+    <message>
+        <source>Failed to load cloud file: %1</source>
+        <translation>加载点云文件失败：%1</translation>
+    </message>
+    <message>
+        <source>Success to load cloud file: %1</source>
+        <translation>成功加载点云文件：%1</translation>
+    </message>
+    <message>
+        <source>Success to remove cloud: %1</source>
+        <translation>成功移除点云: %1</translation>
+    </message>
+    <message>
+        <source>Save file</source>
+        <translation>保存文件</translation>
+    </message>
+    <message>
+        <source>Save in binary or ascii format</source>
+        <translation>保存为二进制格式或者ASCII格式</translation>
+    </message>
+    <message>
+        <source>Ascii</source>
+        <translation>ASCII</translation>
+    </message>
+    <message>
+        <source>Binary</source>
+        <translation>二进制</translation>
+    </message>
+    <message>
+        <source>Failed to save cloud file: %1</source>
+        <translation>保存点云文件失败：%1</translation>
+    </message>
+    <message>
+        <source>Success to save cloud file: %1</source>
+        <translation>成功保存点云文件：%1</translation>
+    </message>
+    <message>
+        <source>Success to clear clouds</source>
+        <translation>成功清空点云</translation>
+    </message>
+    <message>
+        <source>Failed to merge clouds</source>
+        <translation>合并点云失败</translation>
+    </message>
+    <message>
+        <source>Success to merge clouds: %1</source>
+        <translation>成功合并点云：%1</translation>
+    </message>
+    <message>
+        <source>Failed to clone cloud: %1</source>
+        <translation>克隆点云失败：%1</translation>
+    </message>
+    <message>
+        <source>Success to clone cloud: %1</source>
+        <translation>成功克隆点云：%1</translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation>重命名</translation>
+    </message>
+    <message>
+        <source>Rename: </source>
+        <translation>重命名: </translation>
+    </message>
+    <message>
+        <source>Success to rename cloud: %1 -&gt; %2</source>
+        <translation>成功重命名点云: %1 -&gt; %2</translation>
+    </message>
+    <message>
+        <source>Failed to rename cloud: %1 -&gt; %2</source>
+        <translation>重命名点云失败: %1 -&gt; %2</translation>
+    </message>
+    <message>
+        <source>新建行</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../mainwindow/mainwindow.ui" line="167"/>
-        <source>Setting</source>
-        <translation type="unfinished"></translation>
+        <source>Property</source>
+        <translation>属性</translation>
+    </message>
+    <message>
+        <source>Value</source>
+        <translation>值</translation>
+    </message>
+    <message>
+        <source>Id</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <source>PointNum</source>
+        <translation>点个数</translation>
+    </message>
+    <message>
+        <source>Resolution</source>
+        <translation>分辨率</translation>
+    </message>
+    <message>
+        <source>PointSize</source>
+        <translation>点大小</translation>
+    </message>
+    <message>
+        <source>Opacity</source>
+        <translation>透明度</translation>
     </message>
 </context>
 <context>
     <name>Setting</name>
     <message>
-        <location filename="../../setting/setting.ui" line="14"/>
         <source>Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="36"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="45"/>
         <source>ShortcutKey</source>
-        <translation type="unfinished"></translation>
+        <translation>快捷键</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="54"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>主题</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="63"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="156"/>
         <source>CloudTool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="163"/>
         <source>Version 2.0 Built on 2024.01.28</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="170"/>
         <source>Compiled with PCL and QT.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="177"/>
         <source>Copyright ©2023 alex-hjm. All rights reserved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="184"/>
         <source>Contact me: hjmalex@163.com</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="191"/>
         <source>License: GNU GPL3.0 (General Public License)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="240"/>
-        <source>P : switch to a point-based representation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="247"/>
-        <source>W : switch to a wireframe-based representation (where available) </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="254"/>
-        <source>S : switch to a surface-based representation (where available)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="261"/>
-        <source>J : take a .PNG snapshot of the current window view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="268"/>
-        <source>F : fly to point mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="275"/>
         <source>+/ - : increment/decrement overall point size</source>
-        <translation type="unfinished"></translation>
+        <translation>+/ - : 增大/减小 全部点云大小</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="282"/>
         <source>ALT + [ +/- ] : zoom in/out</source>
-        <translation type="unfinished"></translation>
+        <translation>ALT + [ +/- ] : 放大/缩小</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="289"/>
-        <source>G : display scale grid (on/off)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="296"/>
-        <source>U : display lookup table (on/off)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="303"/>
-        <source>O : switch between perspective/parallel projection </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="310"/>
-        <source>R  : reset camera [to viewpoint = {0, 0, 0} -&gt; center_{x, y, z}] </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="317"/>
         <source>ALT + S : turn stereo mode on/off</source>
-        <translation type="unfinished"></translation>
+        <translation>ALT + S : 打开/关闭 立体模式</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="324"/>
-        <source>SHIFT + left click : select a point (start with -use_point_picking)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="331"/>
-        <source>X : toggle rubber band selection mode for left mouse button</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../setting/setting.ui" line="381"/>
         <source>Light Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>明亮主题</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="395"/>
         <source>Dark Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>暗黑主题</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="439"/>
-        <location filename="../../setting/setting.ui" line="528"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="478"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../setting/setting.ui" line="488"/>
         <source>中文</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CTRL + O: open cloud file</source>
+        <translation>CTRL + O: 打开点云文件</translation>
+    </message>
+    <message>
+        <source>CTRL + S: save selected clouds</source>
+        <translation>CTRL + S: 保存选中的点云</translation>
+    </message>
+    <message>
+        <source>p/P : switch to a point-based representation</source>
+        <translation>p/P : 切换成点类型显示</translation>
+    </message>
+    <message>
+        <source>w/W : switch to a wireframe-based representation (where available) </source>
+        <translation>w/W : 切换成线类型显示</translation>
+    </message>
+    <message>
+        <source>s/S : switch to a surface-based representation (where available)</source>
+        <translation>s/S : 切换成面类型显示</translation>
+    </message>
+    <message>
+        <source>g/G : display scale grid (on/off)</source>
+        <translation>g/G : 显示尺度网格 (开/关)</translation>
+    </message>
+    <message>
+        <source>u/U : display lookup table (on/off)</source>
+        <translation>u/U : 显示颜色表 (开/关)</translation>
+    </message>
+    <message>
+        <source>r/R  : reset camera [to viewpoint = {0, 0, 0} -&gt; center_{x, y, z}] </source>
+        <translation>r/R  : 重置相机 [从视角 = {0, 0, 0} -&gt; 中心_{x, y, z}]</translation>
+    </message>
+    <message>
+        <source>Success to save theme setting.</source>
+        <translation>成功保存主题设置</translation>
+    </message>
+    <message>
+        <source>Success to save language setting.</source>
+        <translation>成功保存语言设置</translation>
     </message>
 </context>
 </TS>

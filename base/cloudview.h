@@ -37,18 +37,15 @@ public:
 
     bool contains(const QString& id);
     void resetCamera();
+
     void showFPS(bool enable);
     void setFPSColor(const RGB& rgb);
     void showAxes(bool enable);
     void setAxesColor(const RGB& rgb);
-    void saveScreenshot();
-    void saveCameraParam();
-    void loadCameraParam();
-
-
-private:
-    void showContextMenu(const QPoint &pos);
-
+    
+    void saveScreenshot(const QString& file);
+    void saveCameraParam(const QString& file);
+    void loadCameraParam(const QString& file);
 private:
     struct CT_EXPORT FPSCallback : public vtkCommand {
         static FPSCallback *New () { return (new FPSCallback); }
@@ -68,8 +65,6 @@ private:
     vtkSmartPointer<vtkOrientationMarkerWidget> m_axes;
     vtkSmartPointer<FPSCallback> m_update_fps;
 
-    QMenu m_menu;
-    QSettings m_setting;
     bool m_show_fps;
     bool m_show_axes;
 };

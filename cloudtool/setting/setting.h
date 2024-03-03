@@ -10,7 +10,7 @@
 #include <QDialog>
 #include <QTranslator>
 #include <QSettings>
-#include "base/types.h"
+#include "base/console.h"
 
 namespace Ui { class Setting;}
 
@@ -25,6 +25,9 @@ public:
     ~Setting();
 
     void loadSetting();
+
+    void setValue(const QString& key, const QVariant& value);
+    QVariant value(const QString& key, const QVariant& defaultValue);
     
 private:
     void setTheme(Theme theme);

@@ -5,6 +5,7 @@
         "-Wno-dev"
     ],
     "files.associations": {
+        "*.ts": "xml",
         "qstring": "cpp",
         "memory": "cpp",
         "algorithm": "cpp",
@@ -92,6 +93,9 @@
         "qspaceritem": "cpp",
         "qtranslator": "cpp",
         "qlistwidget": "cpp",
-        "qfile": "cpp"
+        "qfile": "cpp",
+        "qmessagebox": "cpp",
+        "qpushbutton": "cpp",
+        "qspinbox": "cpp"
     }
 }

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>515</width>
+    <width>518</width>
     <height>346</height>
    </rect>
   </property>
@@ -78,7 +78,7 @@
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="About">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -144,7 +144,6 @@
                  <font>
                   <family>微软雅黑</family>
                   <pointsize>10</pointsize>
-                  <weight>75</weight>
                   <italic>false</italic>
                   <bold>true</bold>
                  </font>
@@ -235,37 +234,58 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>CTRL + O: open cloud file</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>CTRL + S: save selected clouds</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLabel" name="label_15">
             <property name="text">
-             <string>P : switch to a point-based representation</string>
+             <string>p/P : switch to a point-based representation</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_14">
             <property name="text">
-             <string>W : switch to a wireframe-based representation (where available) </string>
+             <string>w/W : switch to a wireframe-based representation (where available) </string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_7">
             <property name="text">
-             <string>S : switch to a surface-based representation (where available)</string>
+             <string>s/S : switch to a surface-based representation (where available)</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="label_9">
             <property name="text">
-             <string>J : take a .PNG snapshot of the current window view</string>
+             <string>g/G : display scale grid (on/off)</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_11">
+           <widget class="QLabel" name="label_13">
             <property name="text">
-             <string>F : fly to point mode</string>
+             <string>u/U : display lookup table (on/off)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>r/R  : reset camera [to viewpoint = {0, 0, 0} -&gt; center_{x, y, z}] </string>
             </property>
            </widget>
           </item>
@@ -284,51 +304,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>G : display scale grid (on/off)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_13">
-            <property name="text">
-             <string>U : display lookup table (on/off)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>O : switch between perspective/parallel projection </string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_17">
-            <property name="text">
-             <string>R  : reset camera [to viewpoint = {0, 0, 0} -&gt; center_{x, y, z}] </string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QLabel" name="label_20">
             <property name="text">
              <string>ALT + S : turn stereo mode on/off</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_16">
-            <property name="text">
-             <string>SHIFT + left click : select a point (start with -use_point_picking)</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_19">
-            <property name="text">
-             <string>X : toggle rubber band selection mode for left mouse button</string>
             </property>
            </widget>
           </item>

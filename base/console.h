@@ -12,10 +12,13 @@
 
 CT_BEGIN_NAMESPACE
 
+enum LogLevel {LOG_INFO, LOG_WARN, LOG_ERROR};
+
 class CT_EXPORT Console : public QTextBrowser
 {
     Q_OBJECT
 public:
+
     explicit Console(QWidget* parent = nullptr);
 
 public slots:

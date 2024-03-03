@@ -119,7 +119,7 @@ find_package(QT NAMES Qt5 Qt6 COMPONENTS Concurrent Core Widgets OpenGL Gui Ling
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets LinguistTools REQUIRED)
 
 if(QT_FOUND)
-    message(STATUS "Found QT, version is ${Qt5_VERSION}.")
+    message(STATUS "Found QT, version is Qt${QT_VERSION_MAJOR}.")
 else()
     message(STATUS "Not found QT.")
 endif()
@@ -133,5 +133,5 @@ add_definitions(-DPROJECT_NAME="${PROJECT_NAME}")
 add_definitions(-DDEFAULT_DATA_PATH="${PROJECT_SOURCE_DIR}/data")
 
 add_subdirectory(base)
-add_subdirectory(test)
+add_subdirectory(module)
 add_subdirectory(cloudtool)

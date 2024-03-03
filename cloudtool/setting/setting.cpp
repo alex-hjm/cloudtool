@@ -6,12 +6,9 @@
  */
 #include "setting.h"
 #include "ui_setting.h"
+#include "common/resource.h"
 
 #include <QFile>
-
-#define THEME_LIGHT_FILE    ":/res/theme/light.qss"
-#define THEME_DARK_FILE     ":/res/theme/dark.qss"
-#define LANGUAGE_CN_FILE    ":/res/trans/zh_CN.qm"
 
 Setting::Setting(QWidget *parent) : QDialog(parent), 
     ui(new Ui::Setting),
@@ -30,12 +27,12 @@ Setting::Setting(QWidget *parent) : QDialog(parent),
 
     connect(ui->btn_saveTheme, &QPushButton::clicked, this, [=] {
         m_setting->setValue("theme", static_cast<int>(m_theme));
-        logging(ct::LOG_INFO, "Success to save theme setting.");
+        logging(ct::LOG_INFO, tr("Success to save theme setting."));
     });
 
     connect(ui->btn_saveLanguage, &QPushButton::clicked, this, [=] {
         m_setting->setValue("language", static_cast<int>(m_language));
-        logging(ct::LOG_INFO, "Success to save language setting.");
+        logging(ct::LOG_INFO, tr("Success to save language setting."));
     });
 }
 
@@ -50,6 +47,16 @@ void Setting::loadSetting()
     Language language = static_cast<Language>(m_setting->value("language", m_language).toInt());
     this->setTheme(theme);
     this->setLanguage(language);
+}
+
+void Setting::setValue(const QString& key, const QVariant& value)
+{
+    m_setting->setValue(key, value);
+}
+
+QVariant Setting::value(const QString& key, const QVariant& defaultValue)
+{
+    return m_setting->value(key, defaultValue);
 }
 
 void Setting::setTheme(Theme theme)
@@ -81,7 +88,7 @@ void Setting::setLanguage(Language language)
         break;
     case Chinese: 
         ui->rbtn_cn->setChecked(true);
-        m_translator->load(LANGUAGE_CN_FILE);
+        (void)m_translator->load(LANGUAGE_CN_FILE);
         qApp->installTranslator(m_translator);
         break;
     }

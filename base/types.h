@@ -16,12 +16,6 @@ CT_BEGIN_NAMESPACE
 
 typedef pcl::PointXYZRGBNormal PointXYZRGBN;
 
-enum LogLevel { 
-    LOG_INFO, 
-    LOG_ERROR, 
-    LOG_WARN 
-};
-
 struct RGB {
     RGB() {}
     RGB(int r_, int g_, int b_) : r(r_), g(g_), b(b_) {}

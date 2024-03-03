@@ -8,6 +8,8 @@
 #define _CT_MAINWINDOW_H_
 
 #include <QMainWindow>
+#include <QMutex>
+#include <QListWidget>
 #include "setting/setting.h"
 
 QT_BEGIN_NAMESPACE
@@ -21,8 +23,22 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void open();
+    void close();
+    void save();
+    void clear();
+    void rename();
+    void merge();
+    void clone();
+
+public slots:
+    void handleCloudSelectionChanged();
+    void handleCloudChanged(QListWidgetItem *);
+    void showCloudListMenu(const QPoint &pos);
+
 private:
     Ui::MainWindow *ui;
     Setting* m_setting;
+    QMutex m_mutex;
 };
 #endif // _CT_MAINWINDOW_H_

@@ -33,7 +33,7 @@
   </widget>
   <widget class="QDockWidget" name="DataDock">
    <property name="windowTitle">
-    <string>DataTree</string>
+    <string>DataList</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -79,7 +79,109 @@
     </property>
     <layout class="QVBoxLayout" name="layout_4">
      <item>
-      <widget class="ct::CloudTable" name="cloudtable"/>
+      <widget class="QTableWidget" name="cloudtable">
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <row>
+        <property name="text">
+         <string>新建行</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>新建行</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>新建行</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>新建行</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>新建行</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>Property</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Value</string>
+        </property>
+       </column>
+       <item row="0" column="0">
+        <property name="text">
+         <string>Id</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/res.qrc">
+          <normaloff>:/res/icon/cloud_id.svg</normaloff>:/res/icon/cloud_id.svg</iconset>
+        </property>
+       </item>
+       <item row="1" column="0">
+        <property name="text">
+         <string>PointNum</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/res.qrc">
+          <normaloff>:/res/icon/point_num.svg</normaloff>:/res/icon/point_num.svg</iconset>
+        </property>
+       </item>
+       <item row="2" column="0">
+        <property name="text">
+         <string>Resolution</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/res.qrc">
+          <normaloff>:/res/icon/resolution.svg</normaloff>:/res/icon/resolution.svg</iconset>
+        </property>
+       </item>
+       <item row="3" column="0">
+        <property name="text">
+         <string>PointSize</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/res.qrc">
+          <normaloff>:/res/icon/point_size.svg</normaloff>:/res/icon/point_size.svg</iconset>
+        </property>
+       </item>
+       <item row="4" column="0">
+        <property name="text">
+         <string>Opacity</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignCenter</set>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/res.qrc">
+          <normaloff>:/res/icon/opacity.svg</normaloff>:/res/icon/opacity.svg</iconset>
+        </property>
+       </item>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -101,6 +203,7 @@
    <addaction name="actionClose"/>
    <addaction name="actionSave"/>
    <addaction name="actionClear"/>
+   <addaction name="actionRename"/>
    <addaction name="actionMerge"/>
    <addaction name="actionClone"/>
   </widget>
@@ -167,6 +270,18 @@
     <string>Setting</string>
    </property>
   </action>
+  <action name="actionRename">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/cloud_id.svg</normaloff>:/res/icon/cloud_id.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Rename</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -176,20 +291,15 @@
    <header location="global">base/cloudlist.h</header>
   </customwidget>
   <customwidget>
-   <class>ct::Console</class>
-   <extends>QTextBrowser</extends>
-   <header location="global">base/console.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ct::CloudTable</class>
-   <extends>QTableWidget</extends>
-   <header location="global">base/cloudtable.h</header>
-  </customwidget>
-  <customwidget>
    <class>ct::CloudView</class>
    <extends>QWidget</extends>
    <header location="global">base/cloudview.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ct::Console</class>
+   <extends>QTextBrowser</extends>
+   <header location="global">base/console.h</header>
   </customwidget>
  </customwidgets>
  <resources>

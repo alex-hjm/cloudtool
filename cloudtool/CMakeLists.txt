@@ -1,27 +1,31 @@
 file(GLOB Srcs *.cpp */*.cpp)
-
 file(GLOB Hdrs *.h */*.h)
-
 file(GLOB Uis *.ui */*.ui)
 
-set(QRCs resources/res.qrc)
+set(QRC ${CMAKE_CURRENT_SOURCE_DIR}/resources/res.qrc)
+set(RC  ${CMAKE_CURRENT_SOURCE_DIR}/resources/logo/logo.rc)
+set(TS  ${CMAKE_CURRENT_SOURCE_DIR}/resources/trans/zh_CN.ts)
 
-set(IRCs resources/logo/logo.rc)
+# if(${QT_VERSION_MAJOR} STREQUAL "5")
+#     qt5_create_translation(Trs ${Uis} ${Srcs} ${TRAs})
+#     add_executable(cloudtool ${Srcs} ${Hdrs} ${QRCs} ${IRCs} ${Trs})
+# else()
+#     qt_add_executable(cloudtool ${Srcs} ${Hdrs} ${QRCs} ${IRCs})
+#     qt_add_translations(cloudtool TS_FILES cloudtool_zh.ts)
+# endif()
 
-set(TRAs resources/trans/zh_CN.ts)
+add_executable(cloudtool ${Srcs} ${Hdrs} ${QRC} ${RC})
 
-set_source_files_properties(${TRAs} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/resources/trans/)
+target_link_libraries(cloudtool PRIVATE ct_base ct_module Qt${QT_VERSION_MAJOR}::Widgets ${PCL_LIBRARIES} ${VTK_LIBRARIES})
 
-if(${QT_VERSION_MAJOR} STREQUAL "5")
-    qt5_create_translation(Trs ${Uis} ${Srcs} ${TRAs})
-else()
-    qt6_create_translation(Trs ${Uis} ${Srcs} ${TRAs})
-endif()
+add_custom_command(TARGET cloudtool PRE_BUILD 
+    COMMAND ${QT_DIR}/../../../bin/lupdate ${Srcs} ${Uis} -ts ${TS} -no-obsolete -locations none
+)
 
-add_executable(cloudtool WIN32 ${Srcs} ${Hdrs} ${QRCs} ${IRCs} ${Trs})
-
-target_link_libraries(cloudtool PRIVATE ct_base Qt${QT_VERSION_MAJOR}::Widgets ${PCL_LIBRARIES} ${VTK_LIBRARIES})
+add_custom_command(TARGET cloudtool PRE_BUILD 
+    COMMAND ${QT_DIR}/../../../bin/lrelease ${TS}
+)
 
 add_custom_command(TARGET cloudtool POST_BUILD
-    COMMAND ${QT_DIR}/../../../bin/windeployqt --no-compiler-runtime $<TARGET_FILE:cloudtool>
+    COMMAND ${QT_DIR}/../../../bin/windeployqt --no-compiler-runtime --no-translations $<TARGET_FILE:cloudtool>
 )

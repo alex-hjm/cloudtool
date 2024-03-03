@@ -6,10 +6,6 @@
  */
 #include "cloudview.h"
 
-#include <QMenu>
-#include <QDateTime>
-#include <QFileDialog>
-
 #include <vtkAxesActor.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
@@ -22,8 +18,6 @@ CloudView::CloudView(QWidget *parent): QVTKOpenGLNativeWidget(parent),
     m_renderwindow(vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New()),
     m_axes(vtkSmartPointer<vtkOrientationMarkerWidget>::New()),
     m_update_fps(vtkSmartPointer<FPSCallback>::New()),
-    m_setting(PROJECT_NAME, PROJECT_NAME),
-    m_menu(this),
     m_show_fps(true),
     m_show_axes(true)
 {
@@ -61,9 +55,7 @@ CloudView::CloudView(QWidget *parent): QVTKOpenGLNativeWidget(parent),
 
     // render
     m_renderwindow->Render();
-
     setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, &QVTKOpenGLNativeWidget::customContextMenuRequested, this, &CloudView::showContextMenu);
 }
 
 void CloudView::addCloud(const Cloud::Ptr &cloud)
@@ -164,60 +156,26 @@ void CloudView::showAxes(bool enable)
 void CloudView::setAxesColor(const RGB& rgb)
 {
     vtkSmartPointer<vtkAxesActor> axes = vtkAxesActor::SafeDownCast(m_axes->GetOrientationMarker());
-    axes->GetXAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
-    axes->GetYAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
-    axes->GetZAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(0, 0, 0); 
+    axes->GetXAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(rgb.rf(), rgb.gf(),  rgb.bf()); 
+    axes->GetYAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(rgb.rf(), rgb.gf(),  rgb.bf()); 
+    axes->GetZAxisCaptionActor2D()->GetTextActor()->GetTextProperty()->SetColor(rgb.rf(), rgb.gf(),  rgb.bf()); 
     m_renderwindow->Render();
 }
 
-void CloudView::saveScreenshot()
+void CloudView::saveScreenshot(const QString& file)
 {
-    QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
-    QString fileName = lastOpenDir + "/screenshot" + QDateTime::currentDateTime().toString("-hh-mm-ss");
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Screenshot"), fileName, "PNG(*.png);;JPG(*.jpg)");
-    if (filePath.isEmpty()) return;
-    m_viewer->saveScreenshot(filePath.toLocal8Bit().toStdString());
-    m_setting.setValue("lastOpenDir", QFileInfo(filePath).path());
+    m_viewer->saveScreenshot(file.toLocal8Bit().toStdString());
 }
 
-void CloudView::saveCameraParam()
+void CloudView::saveCameraParam(const QString& file)
 {
-    QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
-    QString fileName = lastOpenDir + "/camparam" + QDateTime::currentDateTime().toString("-hh-mm-ss");
-    QString filePath = QFileDialog::getSaveFileName(this, tr("Save Camera Parameter"), fileName, "CAM(*.cam)");
-    if (filePath.isEmpty()) return;
-    m_viewer->saveCameraParameters(filePath.toLocal8Bit().toStdString());
-    m_setting.setValue("lastOpenDir", QFileInfo(filePath).path());
+    m_viewer->saveCameraParameters(file.toLocal8Bit().toStdString());
 }
 
-void CloudView::loadCameraParam()
+void CloudView::loadCameraParam(const QString& file)
 {
-    QString lastOpenDir = m_setting.value("lastOpenDir", DEFAULT_DATA_PATH).toString();
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Camera Parameter"), lastOpenDir, "CAM(*.cam)");
-    if (fileName.isEmpty()) return;
-    m_viewer->loadCameraParameters(fileName.toLocal8Bit().toStdString());
+    m_viewer->loadCameraParameters(file.toLocal8Bit().toStdString());
     m_renderwindow->Render();
-    m_setting.setValue("lastOpenDir", QFileInfo(fileName).path());
-}
-
-void CloudView::showContextMenu(const QPoint &pos)
-{
-    m_menu.clear();
-    m_menu.addAction("ResetCamera", this, &CloudView::resetCamera, Qt::Key_R);
-    QAction *showFPSAction = new QAction("ShowFPS", &m_menu);
-    showFPSAction->setCheckable(true);
-    showFPSAction->setChecked(m_show_fps);
-    connect(showFPSAction, &QAction::toggled, this, [=](bool enable){ showFPS(enable); });
-    m_menu.addAction(showFPSAction);
-    QAction *showAxesAction = new QAction("ShowAxes", &m_menu);
-    showAxesAction->setCheckable(true);
-    showAxesAction->setChecked(m_show_axes);
-    connect(showAxesAction, &QAction::toggled, this, [=](bool enable){ showAxes(enable); });
-    m_menu.addAction(showAxesAction);
-    m_menu.addAction("SaveScreenshot", this, &CloudView::saveScreenshot);
-    m_menu.addAction("LoadCameraParam", this, &CloudView::loadCameraParam);
-    m_menu.addAction("SaveCameraParam", this, &CloudView::saveCameraParam);
-    m_menu.exec(mapToGlobal(pos));
 }
 
 void CloudView::FPSCallback::Execute (vtkObject* caller, unsigned long, void*)
