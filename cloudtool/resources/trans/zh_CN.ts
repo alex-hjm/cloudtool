@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>Boundary</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>K: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>R: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Angle: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>CloudTool</source>
@@ -205,6 +224,49 @@
     </message>
 </context>
 <context>
+    <name>Normals</name>
+    <message>
+        <source>Normals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>KdTree Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Radius Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Level: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Setting</name>
     <message>
         <source>Setting</source>
@@ -321,6 +383,93 @@
     <message>
         <source>Success to save language setting.</source>
         <translation>成功保存语言设置</translation>
+    </message>
+</context>
+<context>
+    <name>Transformation</name>
+    <message>
+        <source>Transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Microsoft YaHei UI&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;1.000 0.000 0.000 0.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;0.000 1.000 0.000 0.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;0.000 0.000 1.000 0.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;0.000 0.000 0.000 1.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Euler Angle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>X: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RX: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Y: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RY: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RZ: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Axis Angle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AX: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AY: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AZ: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rolation Angle:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

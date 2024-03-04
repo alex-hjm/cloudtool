@@ -10,6 +10,9 @@
 #include <QMainWindow>
 #include <QMutex>
 #include <QListWidget>
+#include <QDockWidget>
+#include <QDialog>
+#include <map>
 #include "setting/setting.h"
 
 QT_BEGIN_NAMESPACE
@@ -44,8 +47,27 @@ public slots:
     void showConsoleMenu(const QPoint &pos);
 
 private:
+    template <class T>
+    void createLeftDock(const QString& label);
+
+    template <class T>
+    void createRightDock(const QString& label);
+
+    template <class T>
+    void createDialog(const QString& label);
+
+signals:
+    void posChanged(const QPoint &pos);
+
+protected:
+    void moveEvent(QMoveEvent* event);
+
+private:
     Ui::MainWindow *ui;
     Setting* m_setting;
     QMutex m_mutex;
+    std::map<QString, QDockWidget*> m_left_docks;
+    std::map<QString, QDockWidget*> m_right_docks;
+    std::vector<QDialog*> m_dialogs;
 };
 #endif // _CT_MAINWINDOW_H_

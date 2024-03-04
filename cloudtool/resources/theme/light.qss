@@ -74,12 +74,19 @@ QMenu {
 QGroupBox {
 	border: 0px;
 	border-radius:6px;
-	background:#E3E3E3;
+	background:#D9D9D9;
 }
 
 QDialog {
     font: 8pt "Microsoft YaHei UI";
-	background: #F3F3F3;
+    border-radius: 10px;
+	background: #E3E3E3;
+}
+
+QDialog QListView {
+    font: 8pt "Microsoft YaHei UI";
+	background:#D9D9D9;
+	border-radius: 6px;
 }
 
 QInputDialog QLabel{

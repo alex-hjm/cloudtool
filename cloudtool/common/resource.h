@@ -4,6 +4,8 @@
  * @version 2.0
  * @date 2024-03-03
  */
+#ifndef _CT_RESOURCE_H_
+#define _CT_RESOURCE_H_
 
 // icon
 #define ICON_CLOUD          ":/res/icon/cloud_icon.svg"
@@ -27,3 +29,4 @@
 // language
 #define LANGUAGE_CN_FILE    ":/res/trans/zh_CN.qm"
 
+#endif // _CT_RESOURCE_H_

@@ -21,6 +21,11 @@
 #include <QMenu>
 #include <QShortcut>
 #include <QDateTime>
+#include <QMoveEvent>
+
+#include "edit/transformation.h"
+#include "edit/normals.h"
+#include "edit/boundary.h"
 
 #define DEFAULT_WIN_WIDTH   1056
 #define DEFAULT_WIN_HEIGHT  720
@@ -63,15 +68,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     // console
     connect(ui->console, &ct::Console::customContextMenuRequested, this, &MainWindow::showConsoleMenu);
 
-    // action
-    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
-    connect(ui->actionClose, &QAction::triggered, this, &MainWindow::close);
-    connect(ui->actionClear, &QAction::triggered, this, &MainWindow::clear);
-    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
-    connect(ui->actionMerge, &QAction::triggered, this, &MainWindow::merge);
-    connect(ui->actionClone, &QAction::triggered, this, &MainWindow::clone);
-    connect(ui->actionRename, &QAction::triggered, this, &MainWindow::rename);
-
     // setting
     QWidget *midSpacerWidget(new QWidget());
     midSpacerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -93,18 +89,16 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(new QShortcut(Qt::CTRL + Qt::Key_R, this), &QShortcut::activated, this, &MainWindow::rename);
     connect(new QShortcut(Qt::CTRL + Qt::Key_M, this), &QShortcut::activated, this, &MainWindow::merge);
     connect(new QShortcut(Qt::CTRL + Qt::Key_C, this), &QShortcut::activated, this, &MainWindow::clone);
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
-    ui->console->logging(ct::LOG_INFO, "xxxxxxxxxxxx");
+
+    // action
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
+    connect(ui->actionClose, &QAction::triggered, this, &MainWindow::close);
+    connect(ui->actionClear, &QAction::triggered, this, [=]{ createLeftDock<Transformation>("Transformation");});
+    connect(ui->actionSave, &QAction::triggered, this, [=]{ createLeftDock<Normals>("Normals");});
+    connect(ui->actionRename, &QAction::triggered, this, [=]{ createDialog<Boundary>("A");});
+    connect(ui->actionMerge, &QAction::triggered, this, [=]{ createDialog<Boundary>("B"); });
+    connect(ui->actionClone, &QAction::triggered, this, [=]{ createDialog<Boundary>("C"); });
+
 }
 
 MainWindow::~MainWindow()
@@ -283,7 +277,7 @@ void MainWindow::handleThemeChanged(Setting::Theme theme)
 {
     switch (theme) {
     case Setting::Light:
-        ui->cloudview->setBackgroundColor(ct::Color::Light);
+        ui->cloudview->setBackgroundColor(ct::Color::White);
         break;
     case Setting::Dark:
         ui->cloudview->setBackgroundColor(ct::Color::Dark);
@@ -409,4 +403,96 @@ void MainWindow::showConsoleMenu(const QPoint &pos)
     menu.addAction(QIcon(ICON_SELECTALL), tr("SelectAll"), ui->console, &ct::Console::selectAll, QKeySequence::SelectAll);
     menu.exec(ui->console->mapToGlobal(pos));
     menu.clear();
+}
+
+template<class T>
+void MainWindow::createLeftDock(const QString& label)
+{
+    auto iter = m_left_docks.find(label);
+    if (iter == m_left_docks.end()) {
+        T* dock = new T(this);
+        dock->setAttribute(Qt::WA_DeleteOnClose);
+        QObject::connect(dock, &QDockWidget::destroyed, this, [=]{ m_left_docks.erase(label); });
+        QObject::connect(dock, &QDockWidget::visibilityChanged, dock, &QDockWidget::setEnabled);
+        this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+        this->tabifyDockWidget(ui->PropertiesDock, dock);
+        m_left_docks.insert(std::make_pair(label, dock));
+        dock->setVisible(true);
+        dock->raise();
+    } else {
+        if (iter->second->isEnabled()) {
+            iter->second->close();
+        } else {
+             iter->second->raise();
+        }
+    }
+}
+
+template<class T>
+void MainWindow::createRightDock(const QString& label)
+{
+    auto iter = m_right_docks.find(label);
+    if (iter == m_right_docks.end()) {
+        T* dock = new T(this);
+        dock->setAttribute(Qt::WA_DeleteOnClose);
+        QObject::connect(dock, &QDockWidget::destroyed, this, [=]{ m_right_docks.erase(label); });
+        QObject::connect(dock, &QDockWidget::visibilityChanged, dock, &QDockWidget::setEnabled);
+        this->addDockWidget(Qt::RightDockWidgetArea, dock);
+        if (!m_right_docks.empty()) {
+            this->tabifyDockWidget(m_right_docks.rbegin()->second, dock);
+        }
+        m_right_docks.insert(std::make_pair(label, dock));
+        dock->setVisible(true);
+        dock->raise();
+    } else {
+        if (iter->second->isEnabled()) {
+            iter->second->close();
+        } else {
+            iter->second->raise();
+        }
+    }
+}
+
+template<class T>
+void MainWindow::createDialog(const QString& label)
+{
+    auto iter = std::find_if(m_dialogs.begin(), m_dialogs.end(), [=](QDialog* dialog) {
+        return dialog->objectName() == label;
+    });
+    if (iter == m_dialogs.end()) {
+        T* dock = new T(this);
+        dock->setAttribute(Qt::WA_DeleteOnClose);
+        dock->setAttribute(Qt::WA_TranslucentBackground);
+        dock->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+        dock->setObjectName(label);
+        dock->setToolTip(label);
+        QObject::connect(dock, &QDockWidget::destroyed, this, [=]{ 
+            auto iter = std::find(m_dialogs.begin(), m_dialogs.end(), dock);
+            if (iter != m_dialogs.end()) {
+                std::for_each(iter + 1, m_dialogs.end(), [=](QDialog* dialog) {
+                    dialog->move(QPoint(dialog->pos().x(), dialog->pos().y() - dock->height() - 6));
+                });
+                m_dialogs.erase(iter);
+            }   
+        });
+        QObject::connect(this, &MainWindow::posChanged, [=](const QPoint &pos){ 
+            auto iter = std::find(m_dialogs.begin(), m_dialogs.end(), dock);
+            if (iter != m_dialogs.end()) {
+                dock->move(QPoint(dock->pos() + pos));
+            }   
+        });
+        int height = 0;
+        for (auto dialog : m_dialogs) height += 6 + dialog->height();
+        m_dialogs.push_back(dock);
+        dock->show();
+        dock->move(ui->cloudview->mapToGlobal(QPoint(ui->cloudview->width() - dock->width(), height)));
+    } else {
+        (*iter)->close();
+    }
+}
+
+void MainWindow::moveEvent(QMoveEvent* event)
+{
+    emit posChanged(event->pos() - event->oldPos());
+    return QMainWindow::moveEvent(event);
 }
