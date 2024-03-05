@@ -28,6 +28,12 @@
         <file>icon/chinese.svg</file>
         <file>icon/copy.svg</file>
         <file>icon/select_all.svg</file>
+        <file>icon/apply.svg</file>
+        <file>icon/reset.svg</file>
+        <file>icon/color.svg</file>
+        <file>icon/normals.svg</file>
+        <file>icon/boundingbox.svg</file>
+        <file>icon/background.svg</file>
 
         <file>logo/logo.ico</file>
         <file>logo/logo.png</file>

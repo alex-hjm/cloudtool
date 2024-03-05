@@ -32,8 +32,12 @@ public:
     void removeCloudBBox(const QString &id);
     void removeAllClouds();
 
+    void setCloudColor(const QString &id, const RGB& rgb);
+    void setCloudColor(const Cloud::Ptr& cloud, const RGB& rgb);
+    void setShapeColor(const QString &id, const RGB& rgb);
     void setCloudSize(const QString &id, int size);
     void setCloudOpacity(const QString &id, float opacity);
+    void resetCloudColor(const Cloud::Ptr& cloud);
 
     bool contains(const QString& id);
     void resetCamera();

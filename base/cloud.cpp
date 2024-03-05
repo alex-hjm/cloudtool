@@ -14,6 +14,12 @@
 
 CT_BEGIN_NAMESPACE
 
+void Cloud::setColor(const RGB& rgb)
+{
+    std::uint32_t rgb_ =  ((std::uint32_t)rgb.r << 16 | (std::uint32_t)rgb.g << 8 | (std::uint32_t)rgb.b);
+    for (auto& i : points) i.rgb = *reinterpret_cast<float*>(&rgb_);
+}
+
 void Cloud::updateBBox() 
 {
     PointXYZRGBN min_pt, max_pt;

@@ -23,9 +23,7 @@
 #include <QDateTime>
 #include <QMoveEvent>
 
-#include "edit/transformation.h"
-#include "edit/normals.h"
-#include "edit/boundary.h"
+#include "edit/color.h"
 
 #define DEFAULT_WIN_WIDTH   1056
 #define DEFAULT_WIN_HEIGHT  720
@@ -93,11 +91,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     // action
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::open);
     connect(ui->actionClose, &QAction::triggered, this, &MainWindow::close);
-    connect(ui->actionClear, &QAction::triggered, this, [=]{ createLeftDock<Transformation>("Transformation");});
-    connect(ui->actionSave, &QAction::triggered, this, [=]{ createLeftDock<Normals>("Normals");});
-    connect(ui->actionRename, &QAction::triggered, this, [=]{ createDialog<Boundary>("A");});
-    connect(ui->actionMerge, &QAction::triggered, this, [=]{ createDialog<Boundary>("B"); });
-    connect(ui->actionClone, &QAction::triggered, this, [=]{ createDialog<Boundary>("C"); });
+    connect(ui->actionClear, &QAction::triggered, this, &MainWindow::clear);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::save);
+    connect(ui->actionRename, &QAction::triggered, this, &MainWindow::rename);
+    connect(ui->actionMerge, &QAction::triggered, this, &MainWindow::merge);
+    connect(ui->actionClone, &QAction::triggered, this, &MainWindow::clone);
+    connect(ui->actionColor, &QAction::triggered, this, [=]{ createLeftDock<Color>("Color"); });
 
 }
 
@@ -277,7 +276,7 @@ void MainWindow::handleThemeChanged(Setting::Theme theme)
 {
     switch (theme) {
     case Setting::Light:
-        ui->cloudview->setBackgroundColor(ct::Color::White);
+        ui->cloudview->setBackgroundColor(ct::Color::Light);
         break;
     case Setting::Dark:
         ui->cloudview->setBackgroundColor(ct::Color::Dark);
@@ -411,8 +410,12 @@ void MainWindow::createLeftDock(const QString& label)
     auto iter = m_left_docks.find(label);
     if (iter == m_left_docks.end()) {
         T* dock = new T(this);
+        dock->setCloudView(ui->cloudview);
+        dock->setCloudList(ui->cloudlist);
+        dock->setConsole(ui->console);
         dock->setAttribute(Qt::WA_DeleteOnClose);
         QObject::connect(dock, &QDockWidget::destroyed, this, [=]{ m_left_docks.erase(label); });
+        QObject::connect(m_setting, &Setting::changeLanguageEvent, dock, &CustomDock::handleLanguageChanged);
         QObject::connect(dock, &QDockWidget::visibilityChanged, dock, &QDockWidget::setEnabled);
         this->addDockWidget(Qt::LeftDockWidgetArea, dock);
         this->tabifyDockWidget(ui->PropertiesDock, dock);
@@ -434,9 +437,13 @@ void MainWindow::createRightDock(const QString& label)
     auto iter = m_right_docks.find(label);
     if (iter == m_right_docks.end()) {
         T* dock = new T(this);
+        dock->setCloudView(ui->cloudview);
+        dock->setCloudList(ui->cloudlist);
+        dock->setConsole(ui->console);
         dock->setAttribute(Qt::WA_DeleteOnClose);
-        QObject::connect(dock, &QDockWidget::destroyed, this, [=]{ m_right_docks.erase(label); });
-        QObject::connect(dock, &QDockWidget::visibilityChanged, dock, &QDockWidget::setEnabled);
+        QObject::connect(dock, &CustomDock::destroyed, this, [=]{ m_right_docks.erase(label); });
+        QObject::connect(m_setting, &Setting::changeLanguageEvent, dock, &CustomDock::handleLanguageChanged);
+        QObject::connect(dock, &CustomDock::visibilityChanged, dock, &CustomDock::setEnabled);
         this->addDockWidget(Qt::RightDockWidgetArea, dock);
         if (!m_right_docks.empty()) {
             this->tabifyDockWidget(m_right_docks.rbegin()->second, dock);
@@ -461,11 +468,15 @@ void MainWindow::createDialog(const QString& label)
     });
     if (iter == m_dialogs.end()) {
         T* dock = new T(this);
+        dock->setCloudView(ui->cloudview);
+        dock->setCloudList(ui->cloudlist);
+        dock->setConsole(ui->console);
         dock->setAttribute(Qt::WA_DeleteOnClose);
         dock->setAttribute(Qt::WA_TranslucentBackground);
         dock->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
         dock->setObjectName(label);
         dock->setToolTip(label);
+        QObject::connect(m_setting, &Setting::changeLanguageEvent, dock, &CustomDialog::handleLanguageChanged);
         QObject::connect(dock, &QDockWidget::destroyed, this, [=]{ 
             auto iter = std::find(m_dialogs.begin(), m_dialogs.end(), dock);
             if (iter != m_dialogs.end()) {

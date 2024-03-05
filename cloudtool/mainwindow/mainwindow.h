@@ -10,10 +10,10 @@
 #include <QMainWindow>
 #include <QMutex>
 #include <QListWidget>
-#include <QDockWidget>
-#include <QDialog>
 #include <map>
+
 #include "setting/setting.h"
+#include "common/customwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -66,8 +66,8 @@ private:
     Ui::MainWindow *ui;
     Setting* m_setting;
     QMutex m_mutex;
-    std::map<QString, QDockWidget*> m_left_docks;
-    std::map<QString, QDockWidget*> m_right_docks;
-    std::vector<QDialog*> m_dialogs;
+    std::map<QString, CustomDock*> m_left_docks;
+    std::map<QString, CustomDock*> m_right_docks;
+    std::vector<CustomDialog*> m_dialogs;
 };
 #endif // _CT_MAINWINDOW_H_

@@ -99,6 +99,7 @@
         "qspinbox": "cpp",
         "qshortcut": "cpp",
         "qdatetime": "cpp",
-        "qdialog": "cpp"
+        "qdialog": "cpp",
+        "qcolordialog": "cpp"
     }
 }

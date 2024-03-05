@@ -97,3 +97,7 @@ QInputDialog QLabel{
 QInputDialog QPushButton{
     font: 8pt "Microsoft YaHei UI";
 }
+
+QTabBar{
+    font: 9pt "Microsoft YaHei UI";
+}

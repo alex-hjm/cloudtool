@@ -112,6 +112,27 @@ void CloudView::removeAllClouds()
     m_renderwindow->Render();
 }
 
+void CloudView::setCloudColor(const QString &id, const RGB& rgb)
+{
+    m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR, 
+                                                rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
+    m_renderwindow->Render();  
+}
+
+void CloudView::setCloudColor(const Cloud::Ptr& cloud, const RGB& rgb)
+{
+    pcl::visualization::PointCloudColorHandlerCustom<PointXYZRGBN> color(cloud, rgb.r, rgb.g, rgb.b);
+    m_viewer->updatePointCloud(cloud, color, cloud->id().toStdString());
+    m_renderwindow->Render();
+}
+
+void CloudView::setShapeColor(const QString &id, const RGB& rgb)
+{
+    m_viewer->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_COLOR,
+                                            rgb.rf(), rgb.gf(), rgb.bf(), id.toStdString());
+    m_renderwindow->Render();
+}
+
 void CloudView::setCloudSize(const QString &id, int size)
 {
     m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, size, id.toStdString());
@@ -121,6 +142,13 @@ void CloudView::setCloudSize(const QString &id, int size)
 void CloudView::setCloudOpacity(const QString &id, float opacity)
 {
     m_viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_OPACITY, opacity, id.toStdString());
+    m_renderwindow->Render();
+}
+
+void CloudView::resetCloudColor(const Cloud::Ptr& cloud)
+{
+    pcl::visualization::PointCloudColorHandlerRGBField<PointXYZRGBN> rgb(cloud);
+    m_viewer->updatePointCloud(cloud, rgb, cloud->id().toStdString());
     m_renderwindow->Render();
 }
 

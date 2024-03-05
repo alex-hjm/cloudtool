@@ -54,6 +54,7 @@ public:
     void setPointSize(int size) { m_point_size = size; }
     void setOpacity(float opacity) { m_opacity = opacity; }
 
+    void setColor(const RGB& rgb);
     void updateBBox();
     void updateResolution();
 

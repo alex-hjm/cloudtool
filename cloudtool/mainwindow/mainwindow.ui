@@ -206,6 +206,7 @@
    <addaction name="actionRename"/>
    <addaction name="actionMerge"/>
    <addaction name="actionClone"/>
+   <addaction name="actionColor"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
@@ -280,6 +281,15 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionColor">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/color.svg</normaloff>:/res/icon/color.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Color</string>
    </property>
   </action>
  </widget>

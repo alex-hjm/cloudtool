@@ -10,12 +10,13 @@
 
 #include <QFile>
 
+Setting::Theme Setting::m_theme = Light;
+Setting::Language Setting::m_language = English;
+
 Setting::Setting(QWidget *parent) : QDialog(parent), 
     ui(new Ui::Setting),
     m_translator(new QTranslator(this)),
-    m_setting(new QSettings(PROJECT_NAME, PROJECT_NAME)),
-    m_theme(Light),
-    m_language(English)
+    m_setting(new QSettings(PROJECT_NAME, PROJECT_NAME))
 {
     ui->setupUi(this);
     ui->listWidget->setCurrentRow(0);

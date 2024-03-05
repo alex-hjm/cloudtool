@@ -28,7 +28,10 @@ public:
 
     void setValue(const QString& key, const QVariant& value);
     QVariant value(const QString& key, const QVariant& defaultValue);
-    
+
+    static Theme theme() { return m_theme; }
+    static Language language() { return m_language; }
+
 private:
     void setTheme(Theme theme);
     void setLanguage(Language language);
@@ -42,8 +45,8 @@ private:
     Ui::Setting *ui;
     QTranslator* m_translator;
     QSettings* m_setting;
-    Theme m_theme;
-    Language m_language;
+    static Theme m_theme;
+    static Language m_language;
 };
 
 #endif // _CT_SETTING_H_
