@@ -11,6 +11,7 @@
 
 #include <Eigen/Eigen>
 #include <pcl/point_types.h>
+#include <QString>
 
 CT_BEGIN_NAMESPACE
 
@@ -25,6 +26,13 @@ struct RGB {
     int r;
     int g;
     int b;
+};
+
+struct Coord
+{
+    QString id;
+    double scale;
+    Eigen::Affine3f pose;
 };
 
 namespace Color {
@@ -51,4 +59,5 @@ struct BBox {
 };
 
 CT_END_NAMESPACE
+
 #endif  // __BASE_TYPES_H__

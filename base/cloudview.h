@@ -27,10 +27,13 @@ public:
 
     void addCloud(const Cloud::Ptr &cloud);
     void addCloudBBox(const Cloud::Ptr &cloud);
+    void addCoord(const Coord& coord);
 
     void removeCloud(const QString &id);
     void removeCloudBBox(const QString &id);
     void removeAllClouds();
+    void removeCoord(const QString& id);
+    void removeAllCoords();
 
     void setCloudColor(const QString &id, const RGB& rgb);
     void setCloudColor(const Cloud::Ptr& cloud, const RGB& rgb);

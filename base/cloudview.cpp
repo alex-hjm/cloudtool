@@ -93,6 +93,14 @@ void CloudView::addCloudBBox(const Cloud::Ptr &cloud)
     m_renderwindow->Render();
 }
 
+void CloudView::addCoord(const Coord& coord)
+{
+    m_viewer->removeCoordinateSystem(coord.id.toStdString());
+    if (coord.scale != 0)
+        m_viewer->addCoordinateSystem(coord.scale, coord.pose, coord.id.toStdString());
+    m_renderwindow->Render();
+}
+
 
 void CloudView::removeCloud(const QString &id)
 {
@@ -110,6 +118,18 @@ void CloudView::removeAllClouds()
 {
     m_viewer->removeAllPointClouds();
     m_renderwindow->Render();
+}
+
+void CloudView::removeCoord(const QString& id)
+{
+    m_viewer->removeCoordinateSystem(id.toStdString());
+    m_renderwindow->Render();
+}
+
+void CloudView::removeAllCoords()
+{
+    m_viewer->removeAllCoordinateSystems();
+    m_renderwindow->Render(); 
 }
 
 void CloudView::setCloudColor(const QString &id, const RGB& rgb)

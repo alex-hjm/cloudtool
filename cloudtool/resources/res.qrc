@@ -34,6 +34,15 @@
         <file>icon/normals.svg</file>
         <file>icon/boundingbox.svg</file>
         <file>icon/background.svg</file>
+        <file>icon/coordinate.svg</file>
+        <file>icon/add.svg</file>
+        <file>icon/remove.svg</file>
+        <file>icon/origin.svg</file>
+        <file>icon/cloud_coordinate.svg</file>
+        <file>icon/pick_coordinate.svg</file>
+        <file>icon/start.svg</file>
+        <file>icon/stop.svg</file>
+        
 
         <file>logo/logo.ico</file>
         <file>logo/logo.png</file>

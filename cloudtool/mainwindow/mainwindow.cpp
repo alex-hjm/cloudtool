@@ -24,6 +24,7 @@
 #include <QMoveEvent>
 
 #include "edit/color.h"
+#include "edit/coordinate.h"
 
 #define DEFAULT_WIN_WIDTH   1056
 #define DEFAULT_WIN_HEIGHT  720
@@ -43,8 +44,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     QList<int> size {DEFAULT_WIN_HEIGHT * 2 / 5, DEFAULT_WIN_HEIGHT * 2 / 5, DEFAULT_WIN_HEIGHT * 1 / 5};
     resizeDocks(docks, size, Qt::Orientation::Vertical);
 
-    ui->DataDock->setMinimumWidth(DEFAULT_WIN_WIDTH / 4);
-    ui->PropertiesDock->setMinimumWidth(DEFAULT_WIN_WIDTH / 4);
+    ui->DataDock->setMinimumWidth(DEFAULT_WIN_WIDTH / 4.5);
+    ui->PropertiesDock->setMinimumWidth(DEFAULT_WIN_WIDTH / 4.5);
 
     // cloudtable
     ui->cloudtable->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeMode::Stretch);
@@ -96,7 +97,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent),
     connect(ui->actionRename, &QAction::triggered, this, &MainWindow::rename);
     connect(ui->actionMerge, &QAction::triggered, this, &MainWindow::merge);
     connect(ui->actionClone, &QAction::triggered, this, &MainWindow::clone);
+
     connect(ui->actionColor, &QAction::triggered, this, [=]{ createLeftDock<Color>("Color"); });
+    connect(ui->actionCoordinate, &QAction::triggered, this, [=]{ createLeftDock<Coordinate>("Coordinate"); });
 
 }
 

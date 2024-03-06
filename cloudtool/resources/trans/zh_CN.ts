@@ -61,6 +61,81 @@
     </message>
 </context>
 <context>
+    <name>Coordinate</name>
+    <message>
+        <source>Coordinate</source>
+        <translation>坐标系</translation>
+    </message>
+    <message>
+        <source>Origin</source>
+        <translation>原点</translation>
+    </message>
+    <message>
+        <source>PointCloud</source>
+        <translation>点云</translation>
+    </message>
+    <message>
+        <source>Manual</source>
+        <translation>手动</translation>
+    </message>
+    <message>
+        <source>Scale:</source>
+        <translation>比例:</translation>
+    </message>
+    <message>
+        <source>EulerAngle</source>
+        <translation>欧拉角</translation>
+    </message>
+    <message>
+        <source>X: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RX: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Y: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RY: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Z: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>RZ: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Matrix</source>
+        <translation>矩阵</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Microsoft YaHei UI&apos;; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;1.000 0.000 0.000 0.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;0.000 1.000 0.000 0.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;0.000 0.000 1.000 0.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;0.000 0.000 0.000 1.000&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;微软雅黑&apos;; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>coord_%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step:</source>
+        <translation>单步:</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>CloudTool</source>
@@ -265,6 +340,10 @@
     <message>
         <source>Color</source>
         <translation>颜色</translation>
+    </message>
+    <message>
+        <source>Coordinate</source>
+        <translation>坐标系</translation>
     </message>
 </context>
 <context>

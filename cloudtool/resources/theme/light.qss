@@ -101,3 +101,8 @@ QInputDialog QPushButton{
 QTabBar{
     font: 9pt "Microsoft YaHei UI";
 }
+
+QTabWidget::pane {
+	border: 0px ;
+	background:transparent;
+}

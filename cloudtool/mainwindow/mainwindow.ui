@@ -207,6 +207,7 @@
    <addaction name="actionMerge"/>
    <addaction name="actionClone"/>
    <addaction name="actionColor"/>
+   <addaction name="actionCoordinate"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
@@ -290,6 +291,18 @@
    </property>
    <property name="text">
     <string>Color</string>
+   </property>
+  </action>
+  <action name="actionCoordinate">
+   <property name="icon">
+    <iconset resource="../resources/res.qrc">
+     <normaloff>:/res/icon/coordinate.svg</normaloff>:/res/icon/coordinate.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Coordinate</string>
+   </property>
+   <property name="toolTip">
+    <string>Coordinate</string>
    </property>
   </action>
  </widget>
