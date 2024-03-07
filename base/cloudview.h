@@ -19,6 +19,13 @@
 
 CT_BEGIN_NAMESPACE
 
+struct PointPickInfo {
+    QString id;
+    double   x;
+    double   y;
+    double   z;
+};
+
 class CT_EXPORT CloudView : public QVTKOpenGLNativeWidget
 {
     Q_OBJECT
@@ -56,6 +63,12 @@ public:
     void saveScreenshot(const QString& file);
     void saveCameraParam(const QString& file);
     void loadCameraParam(const QString& file);
+
+protected:
+    void mousePressEvent(QMouseEvent* event);
+
+signals:
+    void pointPickEvent(const PointPickInfo&);
 
 private:
     struct CT_EXPORT FPSCallback : public vtkCommand {

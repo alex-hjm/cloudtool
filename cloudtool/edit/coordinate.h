@@ -23,9 +23,17 @@ public:
     void clear();
 
     void handleLanguageChanged() override;
-    
+
+private:
+    void handleCoordPoseChanged();
+    void handleCoordPoseChanged(double);
+    void handleCurrentCoordPose(int);
+    void handlePreivewPickCoord(const ct::PointPickInfo&);
+
 private:
     Ui::Coordinate* ui;
+    bool m_pick_flag;
+    ct::Coord m_coord;
 };
 
 #endif  // _CT_COORDINATE_H_

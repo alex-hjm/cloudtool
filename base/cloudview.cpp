@@ -10,6 +10,9 @@
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
 #include <vtkCaptionActor2D.h>
+#include <vtkPointPicker.h>
+
+#include <QMouseEvent>
 
 CT_BEGIN_NAMESPACE
 
@@ -232,6 +235,32 @@ void CloudView::loadCameraParam(const QString& file)
 {
     m_viewer->loadCameraParameters(file.toLocal8Bit().toStdString());
     m_renderwindow->Render();
+}
+
+void CloudView::mousePressEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton) {
+        vtkPointPicker* point_picker{vtkPointPicker::SafeDownCast(interactor()->GetPicker())};
+        if(point_picker) {
+            int mouse_x{interactor()->GetEventPosition()[0]};
+            int mouse_y{interactor()->GetEventPosition()[1]};
+            interactor()->StartPickCallback();
+            vtkRenderer* ren = interactor()->FindPokedRenderer(mouse_x, mouse_y);
+            point_picker->Pick(mouse_x, mouse_y, 0.0, ren);
+            int index = (static_cast<int>(point_picker->GetPointId()));
+            if (point_picker->GetDataSet()) {
+                const vtkActor* point_picker_actor = point_picker->GetActor();
+                pcl::visualization::CloudActorMapPtr cam_ptr = m_viewer->getInteractorStyle()->getCloudActorMap();
+                const auto actor = std::find_if(cam_ptr->cbegin(), cam_ptr->cend(), [=](const auto& cloud_actor) 
+                                    { return cloud_actor.second.actor.GetPointer() == point_picker_actor; });
+                const std::string name = (actor != cam_ptr->cend()) ? actor->first.c_str() : "";
+                double p[3];
+                point_picker->GetDataSet()->GetPoint(index, p);
+                emit pointPickEvent({name.c_str(), p[0], p[1], p[2]});
+            }
+        }
+    } 
+    return QVTKOpenGLNativeWidget::mousePressEvent(event);
 }
 
 void CloudView::FPSCallback::Execute (vtkObject* caller, unsigned long, void*)
