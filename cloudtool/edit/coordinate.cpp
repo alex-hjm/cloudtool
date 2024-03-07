@@ -51,7 +51,7 @@ Coordinate::Coordinate(QWidget* parent): CustomDock(parent),
             auto coord = ui->cbox_coordlist->currentData().value<ct::Coord>();
             coord.scale = value;
             ui->cbox_coordlist->setItemData(ui->cbox_coordlist->currentIndex(),QVariant::fromValue(coord));
-            m_cloudview->addCoord(coord);
+            m_cloudview->addCoord(coord, ui->check_showid->isChecked());
         });
 
     connect(ui->cbox_type, QOverload<int>::of(&QComboBox::currentIndexChanged), [=](int idx) {
@@ -63,6 +63,17 @@ Coordinate::Coordinate(QWidget* parent): CustomDock(parent),
                     m_coord.id = "";
                 } else {
                     ui->btn_add->setIcon(QIcon(ICON_START));
+                }
+            });
+
+    connect(ui->check_showid, &QCheckBox::clicked, [=](bool checked) {
+                for (int i{0}; i < ui->cbox_coordlist->count(); i++) {
+                    auto coord = ui->cbox_coordlist->itemData(i).value<ct::Coord>();
+                    if (checked) {
+                        m_cloudview->addCoord(coord, checked);
+                    } else {
+                        m_cloudview->removeCoordId(coord.id);
+                    }
                 }
             });
 
@@ -124,7 +135,7 @@ void Coordinate::add()
         coord.id = getCoordId();
         ui->cbox_coordlist->addItem(QIcon(ICON_COORD), coord.id, QVariant::fromValue(coord));
         ui->cbox_coordlist->setCurrentText(coord.id);
-        m_cloudview->addCoord(coord);
+        m_cloudview->addCoord(coord, ui->check_showid->isChecked());
     }
 }
 
@@ -139,8 +150,11 @@ void Coordinate::remove()
 
 void Coordinate::clear()
 {
+    for (int i{0}; i < ui->cbox_coordlist->count(); i++) {
+        auto id = ui->cbox_coordlist->itemText(i);
+        m_cloudview->removeCoord(id);
+    }
     ui->cbox_coordlist->clear();
-    m_cloudview->removeAllCoords();
     ui->dspin_tx->setValue(0);
     ui->dspin_ty->setValue(0);
     ui->dspin_tz->setValue(0);
@@ -172,7 +186,7 @@ void Coordinate::handleCoordPoseChanged()
         auto coord = ui->cbox_coordlist->currentData().value<ct::Coord>();
         coord.pose = affine;
         ui->cbox_coordlist->setItemData(ui->cbox_coordlist->currentIndex(),QVariant::fromValue(coord));
-        m_cloudview->addCoord(coord);
+        m_cloudview->addCoord(coord, ui->check_showid->isChecked());
     }
 }
 
@@ -186,7 +200,7 @@ void Coordinate::handleCoordPoseChanged(double)
     auto coord = ui->cbox_coordlist->currentData().value<ct::Coord>();
     coord.pose = affine;
     ui->cbox_coordlist->setItemData(ui->cbox_coordlist->currentIndex(),QVariant::fromValue(coord));
-    m_cloudview->addCoord(coord);
+    m_cloudview->addCoord(coord, ui->check_showid->isChecked());
 }
 
 void Coordinate::handleCurrentCoordPose(int idx)
@@ -209,6 +223,6 @@ void Coordinate::handlePreivewPickCoord(const ct::PointPickInfo& info)
         m_coord.id = MANUAL_COORD_ID;
         m_coord.pose = getTransformation(info.x, info.y, info.z, 0, 0, 0);
         m_coord.scale = ui->dspin_scale->value();
-        m_cloudview->addCoord(m_coord);
+        m_cloudview->addCoord(m_coord, ui->check_showid->isChecked());
     }
 }

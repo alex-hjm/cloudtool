@@ -14,6 +14,10 @@
 
 #include <QMouseEvent>
 
+#include <pcl/common/transforms.h>
+
+#define TEXT_3D_FLAG    "txt3d"
+
 CT_BEGIN_NAMESPACE
 
 CloudView::CloudView(QWidget *parent): QVTKOpenGLNativeWidget(parent), 
@@ -96,11 +100,18 @@ void CloudView::addCloudBBox(const Cloud::Ptr &cloud)
     m_renderwindow->Render();
 }
 
-void CloudView::addCoord(const Coord& coord)
+void CloudView::addCoord(const Coord& coord, bool showId)
 {
     m_viewer->removeCoordinateSystem(coord.id.toStdString());
-    if (coord.scale != 0)
+    m_viewer->removeText3D(coord.id.toStdString() + TEXT_3D_FLAG);
+    if (coord.scale != 0) {
+        float x, y, z, rx, ry, rz;
+        pcl::getTranslationAndEulerAngles(coord.pose, x, y, z, rx, ry, rz);
         m_viewer->addCoordinateSystem(coord.scale, coord.pose, coord.id.toStdString());
+        if (showId)
+            m_viewer->addText3D(coord.id.toStdString(), PointXYZRGBN(x, y, z), (float)(coord.scale/10), 0, 0, 0, coord.id.toStdString() + TEXT_3D_FLAG);
+    }
+        
     m_renderwindow->Render();
 }
 
@@ -126,6 +137,13 @@ void CloudView::removeAllClouds()
 void CloudView::removeCoord(const QString& id)
 {
     m_viewer->removeCoordinateSystem(id.toStdString());
+    m_viewer->removeText3D(id.toStdString() + TEXT_3D_FLAG);
+    m_renderwindow->Render();
+}
+
+void CloudView::removeCoordId(const QString& id)
+{
+    m_viewer->removeText3D(id.toStdString() + TEXT_3D_FLAG);
     m_renderwindow->Render();
 }
 

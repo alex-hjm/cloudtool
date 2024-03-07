@@ -134,6 +134,10 @@ p, li { white-space: pre-wrap; }
         <source>Step:</source>
         <translation>单步:</translation>
     </message>
+    <message>
+        <source>ShowID</source>
+        <translation>显示ID</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

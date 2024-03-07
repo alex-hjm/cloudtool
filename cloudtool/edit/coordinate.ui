@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>240</width>
+    <width>242</width>
     <height>255</height>
    </rect>
   </property>
@@ -100,6 +100,16 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="check_showid">
+           <property name="text">
+            <string>ShowID</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -273,7 +283,7 @@
                 <double>99999.000000000000000</double>
                </property>
                <property name="singleStep">
-                <double>0.001000000000000</double>
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -333,7 +343,7 @@
                 <double>99999.000000000000000</double>
                </property>
                <property name="singleStep">
-                <double>0.001000000000000</double>
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -396,7 +406,7 @@
                 <double>99999.000000000000000</double>
                </property>
                <property name="singleStep">
-                <double>0.001000000000000</double>
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
